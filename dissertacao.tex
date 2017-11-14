@@ -191,106 +191,18 @@ Key-words: ...
 \pagestyle{simple}
 
 
-\chapter{INTRODU\c{C}\~AO}  %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
+\chapter{INTRODUÇÃO}  %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
 
-No sistema num\'erico ``a indica\c{c}\~ao da fonte \'e feita por uma numera\c{c}\~ao \'unica e consecutiva,
-em algarismos ar\'abicos, remetendo \`a lista de refer\^encias ao final do trabalho,
-do cap\'itulo ou da parte, na mesma ordem em que aparecem no texto.
-N\~ao se inicia  a numera\c{c}\~ao das cita\c{c}\~oes a cada p\'agina.''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2002, p. 4).
+O \textit{code review} é considerado como uma das principais técnicas de diminuição de defeitos de software \cite{Boehm2001}. Nela, o autor de uma alteração na base de código de um projeto submete seu conteúdo ao crivo de um conjunto de pares técnicos, que irão revisar sua estrutura com base em um lista de regras e convenções previamente definida. Diferentes aspectos relacionados ao autor, ao revisor e ao processo de revisão em si estão diretamente relacionados à eficiência da prática. Autores relatam relação da diminuição da incidência de \textit{anti-patterns} \cite{Kemerer2009} com o nível de participação dos envolvidos e cobertura do código revisado \cite{Meneely201437, Morales2015171, Bavota201581}. Reputação \cite{Baysal2013122} e experiência \cite{Kononenko2015111} do revisor também parecem impactar nos efeitos do \textit{code review}
 
-``O sistema num\'erico n\~ao deve ser utilizado quando h\'a notas de rodap\'e.''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2002, p. 4).
+Intrinsecamente colaborativa, a atividade hoje é exercida com suporte de ferramentas computacionais específicas, principalmente no desenvolvimento distribuído. Dentro de workflows de trabalho descentralizado \cite{gousios2016}, a prática funciona como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal. Esta etapa do desenvolvimento se torna uma oportunidade para disseminação de conhecimento, embate de ideias e discussão de melhores práticas entre profissionais de experiência e visões diferentes.
 
-``A indica\c{c}\~ao da numera\c{c}\~ao pode ser feita entre par\^enteses, alinhada ao texto, [...],
-ap\'os a pontua\c{c}\~ao que fecha a cita\c{c}\~ao.''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2002, p. 4).
+Neste contexto, porém, os os desafios à colaboração co-localizada são potencializados e as soluções tradicionais não são suficientes para fomentar esta aspecto das atividades distribuídas \cite{nicolaci2011}.
+Casey \cite{casey2010} mostra que, com a distribuição geográfica dos times, diversos outros desafios, antes considerados colaterais ou resolvidos, emergem de forma a ameaçar a colaboração entre os membros da equipe: barreiras culturais, temporais e geográficas; reengenharia dos processos de desenvolvimento; resistência em compartilhar informações e conhecimento com os pares distribuídos; entre outros desafios.
 
-Exemplo: Diz Rui Barbosa: ``Tudo \'e viver, previvendo.''  (15)
+Estes desafios do desenvolvimento distribuído afetam o \textit{code review} de duas formas distintas. Primeiro, o processo de revisão pode se tornar menos eficiente quando a colaboração é afetada, devido aos baixos níveis de participação e cobertura. O mesmo vale para a disseminação do conhecimento, que fica prejudicada. Outro desafio que se forma é a escolha do revisor adequado para aquele \textit{patch}. Com um vasto número de opções e pouca informação disponível sobre seus aspectos técnicos e gerenciais (e.g. tempo disponível) já que não há contato co-localizado entre eles, o a natureza distribuída deste tipo de desenvolvimento dificulta o processo de escolha do revisor, o que também pode impactar a eficiência do revisor.  
 
-Um exemplo de cita\c{c}\~ao de refer\^encia \'e \cite{Ackerman1984}.
-\section{SE\c{C}\~AO SECUND\'ARIA} %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA
-
-Segundo a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 10520 (2002, p. 2)
-``as cita\c{c}\~oes diretas, de at\'e tr\^e linhas, devem estar entre aspas duplas''.
-
-A Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 10520 (2002, p. 2) determina que:
-\begin{citacao}
-As cita\c{c}\~oes diretas, no texto, com mais de tr\^es linhas, devem ser destacadas
-com recuo de 4 cm da margem esquerda, com letra menor que a do texto utilizado
-e sem aspas. No caso de documentos datilografados, deve-se observar apenas o recuo.
-\end{citacao}
-
-A UFJF disponibiliza todas as normas da Cole\c{c}\~ao ABNT atrav\'es do endere\c{c}o
-\url{www.ufjf.br/biblioteca ou www.abntcolecao.com.br}
-
-\subsection{\textbf{Se\c{c}\~ao terci\'aria}} %% O titulo da subsecao vem em negrito e caixa baixa
-
-De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 14724 (2011, p. 11)
-\begin{citacao}
- (...) qualquer que seja o tipo de ilustra\c{c}\~ao, sua identifica\c{c}\~ao aparece na parte superior,
- precedida da palavra designativa (desenho, esquema, fluxograma, fotografia, gr\'afico, mapa,
- quadro, retrato, figura, imagem, entre outros), seguida de seu n\'umero de ordem na ocorr\^encia
- no texto, em algarismos ar\'abicos, travess\~ao e do respectivo t\'itulo. Ap\'os a ilustra\c{c}\~ao,
- na parte inferior, indicar a fonte consultada (elemento obrigat\'orio, mesmo que seja produ\c{c}\~ao
- do pr\'oprio autor), legenda, notas e outras informa\c{c}\~oes necess\'arias \`a sua compreens\~ao (se houver).
- A ilustra\c{c}\~ao deve ser citada no texto e inserida o mais pr\'oximo poss\'ivel do trecho a que se refere.
-\end{citacao}
-
-As tabelas ``devem ser citadas no texto, inseridas o mais pr\'oximo poss\'ivel do trecho a que se
-referem e padronizadas conforme o Instituto Brasileiro de geografia e Estat\'istica (IBGE).''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 11).
-
-%%EXEMPLO PARA SE COLOCAR CORRETAMENTE A FIGURA DO ARQUIVO nomearquivo LOCALIZADA NA MESMA PASTA DESTE. %%Automaticamente,
-%%envia os dados para a Lista de Ilustracoes e a ficha catalografica.
-
-%\begin{figure}
-%\begin{center}
-%\caption{Informa\c{c}\~ao acima da figura}
-%\includegraphics[width=7cm]{nomearquivo} \\
-%\fonte{Aqui se escreve a fonte da figura}
-%\end{center}
-%\end{figure}
-
-\subsubsection{\textit{Se\c{c}\~ao quatern\'aria}} %% O titulo da subsubsecao vem em italico e caixa baixa
-
-Se for utilizado o sistema num\'erico no texto, a lista de refer\^encias deve
-seguir mesma ordem num\'erica crescente. O sistema num\'erico n\~ao pode ser usado
-concomitantemente para notas de refer\^encia e notas explicativas. (ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2002)
-
-Orienta\c{c}\~oes para elabora\c{c}\~ao de refer\^encias: \\
-\url{http://www.ufjf.br/biblioteca/servicos/normalizacao-2} \\
-ABNT NBR 6023:1989 - \url{http://www.abntcolecao.com.br}
-
-\subsubsubsection{Se\c{c}\~ao quin\'aria}  %% O titulo desta vem em caixa baixa
-
-De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 14724 (2011) a numera\c{c}\~ao
-progressiva deve conter seus t\'itulos destacados gradativamente e sua digita\c{c}\~ao deve
-ser id\^entica no sum\'ario e no texto. Assim, a numera\c{c}\~ao progressiva deve ser:
-\begin{citacao}
-Elaborada conforme a ABNT NBR 6024. A numera\c{c}\~ao progressiva deve ser utilizada para
-evidenciar a sistematiza\c{c}\~ao do conte\'udo do trabalho. Destacam-se gradativamente os
-t\'itulos das se\c{c}\~oes, utilizando-se os recursos de negrito, it\'alico ou sublinhado e
-outros, no sum\'ario e, de forma id\^entica, no texto. (ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS
-T\'ECNICAS, 2011, p. 11).
-\end{citacao}
-
-O CDC/UFJF padronizou o destaque gradativo da numera\c{c}\~ao progressiva da seguinte forma:
-
-$
-\begin{array}{ll}
-\textbf{2} & \mbox{ \textbf{SE\c{C}\~AO PRIM\'ARIA (CAIXA ALTA / COM NEGRITO)}}\\
-2.1 & \mbox{ SE\c{C}\~OES SECUND\'ARIAS (CAIXA ALTA / SEM NEGRITO)}\\
-2.1.1 & \mbox{ \textbf{Se\c{c}\~oes terci\'arias (Caixa baixa / com negrito)}} \\
-2.1.1.1 & \mbox{ \textit{Se\c{c}\~oes quatern\'arias (Caixa baixa / com it\'alico)}} \\
-2.1.1.1.1 & \mbox{ Se\c{c}\~oes quin\'arias (caixa baixa / sem negrito / sem it\'alico)}
-\end{array}
-$
-
-
-\chapter{NOME DO CAP\'ITULO}
-
-Texto do segundo cap\'itulo.
+% a atividade de revisão remonta da décade de 80, e desde então vem evoluindo para suportar interações mais %rápidas e constantes, com uso de ferramentas computacionais e práticas ágeis. O Modern Code Review, deu lugar %à
 
 
 %% ----------------------------------------------------------
@@ -299,8 +211,6 @@ Texto do segundo cap\'itulo.
 
 \postextual
 
-%% Referencias. LISTAR EXATAMENTE AS CITADAS NO TRABALHO.
-\medskip
 
 \bibliographystyle{abntex2-num}
 \bibliography{../bibrefs/refs.bib}
