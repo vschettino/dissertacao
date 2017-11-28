@@ -193,14 +193,70 @@ Key-words: ...
 
 \chapter{INTRODUÇÃO}  %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
 
-O \textit{code review} é considerado como uma das principais técnicas de diminuição de defeitos de software \cite{Boehm2001}. Nela, o autor de uma alteração na base de código de um projeto submete seu conteúdo ao crivo de um conjunto de pares técnicos, que irão revisar sua estrutura com base em um lista de regras e convenções previamente definida. Diferentes aspectos relacionados ao autor, ao revisor e ao processo de revisão em si estão diretamente relacionados à eficiência da prática. Autores relatam relação da diminuição da incidência de \textit{anti-patterns} \cite{Kemerer2009} com o nível de participação dos envolvidos e cobertura do código revisado \cite{Meneely201437, Morales2015171, Bavota201581}. Reputação \cite{Baysal2013122} e experiência \cite{Kononenko2015111} do revisor também parecem impactar nos efeitos do \textit{code review}
+O \textit{code review} é considerado como uma das principais técnicas de diminuição de defeitos de software \cite{Boehm2001}. Nela, o autor de uma alteração na base de código de um projeto submete tal conteúdo ao crivo de um conjunto de pares técnicos, que irão revisar sua estrutura com base em um lista de regras e convenções previamente definida. Diferentes aspectos relacionados ao autor, ao revisor e ao processo de revisão em si estão diretamente relacionados à eficiência da prática. Autores relatam relação da diminuição da incidência de \textit{anti-patterns} \cite{Kemerer2009} de acordo com o nível de participação dos envolvidos e cobertura do código revisado \cite{Meneely201437, Morales2015171, Bavota201581}. Reputação \cite{Baysal2013122} e experiência \cite{Kononenko2015111} do revisor também parecem impactar nos efeitos do \textit{code review}
 
-Intrinsecamente colaborativa, a atividade hoje é exercida com suporte de ferramentas computacionais específicas, principalmente no desenvolvimento distribuído. Dentro de workflows de trabalho descentralizado \cite{gousios2016}, a prática funciona como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal. Esta etapa do desenvolvimento se torna uma oportunidade para disseminação de conhecimento, embate de ideias e discussão de melhores práticas entre profissionais de experiência e visões diferentes.
+Intrinsecamente colaborativa, a atividade hoje é exercida com suporte de ferramentas computacionais específicas \cite{Baysal2013122}, principalmente no desenvolvimento distribuído. Dentro de workflows de trabalho descentralizados \cite{gousios2016}, a prática funciona como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal. Esta etapa do desenvolvimento se torna uma oportunidade para disseminação de conhecimento, embate de ideias e discussão de melhores práticas entre profissionais de experiência e visões diferentes.
 
 Neste contexto, porém, os os desafios à colaboração co-localizada são potencializados e as soluções tradicionais não são suficientes para fomentar esta aspecto das atividades distribuídas \cite{nicolaci2011}.
 Casey \cite{casey2010} mostra que, com a distribuição geográfica dos times, diversos outros desafios, antes considerados colaterais ou resolvidos, emergem de forma a ameaçar a colaboração entre os membros da equipe: barreiras culturais, temporais e geográficas; reengenharia dos processos de desenvolvimento; resistência em compartilhar informações e conhecimento com os pares distribuídos; entre outros desafios.
 
-Estes desafios do desenvolvimento distribuído afetam o \textit{code review} de duas formas distintas. Primeiro, o processo de revisão pode se tornar menos eficiente quando a colaboração é afetada, devido aos baixos níveis de participação e cobertura. O mesmo vale para a disseminação do conhecimento, que fica prejudicada. Outro desafio que se forma é a escolha do revisor adequado para aquele \textit{patch}. Com um vasto número de opções e pouca informação disponível sobre seus aspectos técnicos e gerenciais (e.g. tempo disponível) já que não há contato co-localizado entre eles, o a natureza distribuída deste tipo de desenvolvimento dificulta o processo de escolha do revisor, o que também pode impactar a eficiência do revisor.  
+Estes desafios do desenvolvimento distribuído afetam o \textit{code review} de duas formas distintas. Primeiro, o processo de revisão pode se tornar menos eficiente quando a colaboração é afetada, devido aos baixos níveis de participação e cobertura. O mesmo vale para a disseminação do conhecimento, que fica prejudicada. Outro desafio que se forma é a escolha do revisor adequado para aquele \textit{patch}. Com um vasto número de opções e pouca informação disponível sobre seus aspectos técnicos e gerenciais (e.g. tempo disponível) já que não há contato co-localizado entre eles, o a natureza distribuída deste tipo de desenvolvimento dificulta o processo de escolha do revisor, o que também pode impactar a eficiência do revisor.
+
+Uma possível solução, visando amparar o desafio da colaboração e evitando o \textit{overhead} da escolha do revisor, seria manter grupos bem testados e experientes exercendo as atividades de revisão. Ou ainda, fixar, dentro de cada equipe de desenvolvimento,  quem são os responsáveis por revisão e pela submissão dos \textit{patches}, evitando a diversificação das relações de trabalho.
+
+Contudo, estudos recentes demonstram que a fixação de grupos e responsabilidades pode não ser benéfica para o processo de desenvolvimento. Scott Page \cite{page2008} argumenta que a diversidade de experiências, visões e especilidades fazem com que grupos sejam mais eficientes. Já Prikladnicki et al. \cite{prikladnicki2017} apontam índicios de que a formação de grupos temporários em detrimento ou em conjunto com permanentes é um fator de eficiência em projeots de software:
+
+\begin{description}
+  ``Although old colleagues bring knowledge of the development process and prior norms from previous teams, new members bring fresh ideas that could promote project performance and creativity. Old colleagues might not do so and might not give new members a chance to implement their ideas.''
+\end{description}
+
+Expostas os desafios que o Desenvolvimento Distribuído de Software impõe sobre a escolha do revisor de código, a importância da escolha do revisor adequado do ponto de vista de colaboração e a motivação da formação de grupos heterogêneos e dinâmicos, expõe-se o objetivo deste trabalho. De acordo com a abordagem QGM (Goal/Question/Metric) proposta por Basili et al. \cite{Basili1984}: \textbf{Desenvolver} um método de recomendação de revisores \textbf{com o objetivo de} potencializar a colaboração \textbf{em relação aos aspectos} de coordenação \textbf{do ponto de vista} de revisores e autores \textbf{no contexto de} desenvolvimento distribuído de software. A principal hipótese que norteia o andamento desta proposta, e que será revisitada e discutida nos capítulos derradeiros é:
+
+\begin{itemize}
+  \item O método de recomendação apresentado pode potencializar a colaboração entre revisores e autores.
+\end{itemize}
+
+\chapter{TRABALHOS RELACIONADOS}
+
+  \section{Revisão sistemática da literatura}
+
+  \section{Outros trabalhos relevantes}
+
+\chapter{MÉTODOS E FERRAMENTAS}
+
+  \section{Ferramentas de \textit{code review}}
+  (justificar o porquê da escolha do GitHub)
+
+  \section{Métricas relevantes para recomendação do revisor}
+
+  \section{Métricas de avaliação dos resultados}
+
+\chapter{\textit{CODE REVIEW}}
+
+  \section{Histórico}
+
+  \section{Relevância}
+
+  \section{Pull Based Method}
+    (literalmente mostrar como funciona)
+
+\chapter{SOLUÇÃO DESENVOLVIDA}
+    (explicações técnicas, MER, tecnologias, etc)
+
+\chapter{RESULTADOS}
+  \section{Apresentação dos resultados}
+
+  \section{Discussão dos resultados}
+
+\chapter{CONCLUSÃO}
+
+  \section{Ameaças}
+
+  \section{Trabalhos futuros}
+
+  \section{Considerações finais}
+
+
 
 % a atividade de revisão remonta da décade de 80, e desde então vem evoluindo para suportar interações mais %rápidas e constantes, com uso de ferramentas computacionais e práticas ágeis. O Modern Code Review, deu lugar %à
 
@@ -223,50 +279,12 @@ Estes desafios do desenvolvimento distribuído afetam o \textit{code review} de 
 
 \begin{apendicesenv}
 
-\chapter{T\'itulo do Primeiro Ap\^endice}
+\chapter{Artigo Mapeamento Sistemático}
 
-``Texto ou documento elaborado pelo autor, a fim de complementar sua argumenta\c{c}\~ao,
-sem preju\'izo da unidade nuclear do trabalho''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 6).
+Colocar aqui o artigo.
 
-``Elemento opcional. Deve ser precedido da palavra \textbf{AP\^ENDICE}, identificado por letras mai\'usculas
-consecutivas, travess\~ao e pelo respectivo t\'itulo. Utilizam-se letras mai\'usculas dobradas,
-na identifica\c{c}\~ao dos ap\^endices, quando esgotadas as letras do alfabe\-to.''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 13)
-\newline
-EXEMPLO:
-\begin{center}
-\textbf{AP\^ENDICE A - Avalia\c{c}\~ao num\'erica de c\'elulas inflamat\'orias}
-\end{center}
-
-
-\chapter{Segundo Ap\^endice}
-Texto do Segundo Ap\^endice
-\end{apendicesenv}
-
-%% Anexos
 
 \begin{anexosenv}
-
-\chapter{T\'itulo do Primeiro Anexo}
-``Texto ou documento n\~ao elaborado pelo autor, que serve de fundamenta\c{c}\~ao,
-comprova\c{c}\~ao e ilustra\c{c}\~ao''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 9).
-
-``Elementos opcional. Deve ser precedido da palavra \textbf{ANEXO}, identificado por letras mai\'usculas
-consecutivas, travess\~ao e pelo respectivo t\'itulo. Utilizam-se letras mai\'usculas dobradas,
-na identifica\c{c}\~ao dos anexos, quando esgotadas as letras do alfabeto.''
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 6).
-\newline
-EXEMPLO:
-\begin{center}
-\textbf{ANEXO A - Representa\c{c}\~ao gr\'afica da contagem de c\'elulas inflamat\'orias presentes
-nas caudas em regenera\c{c}\~ao - Grupos de controle I (Temperatura)}
-\end{center}
-
-
-\chapter{T\'itulo do Segundo Anexo}
-Texto do Segundo Anexo
 
 
 \end{anexosenv}
