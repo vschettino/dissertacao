@@ -166,17 +166,9 @@ Key-words: ...
 
 %% Lista de abreviaturas e siglas. OPCIONAL
 \begin{siglas} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE
-  \item[ABNT] Associa\c{c}\~ao Brasileira de Normas T\'ecnicas
   \item[UFJF] Universidade Federal de Juiz de Fora
-  \item[IBGE] Instituto Brasileiro de Geografia e Estat\'istica
+  \item[DDS]  Desenvolvimento Distribuído de Software
 \end{siglas}
-
-%% Lista de simbolos. OPCIONAL
-\begin{simbolos} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE
-  \item[$ \forall $] Para todo
-  \item[$ \in $] Pertence
- \end{simbolos}
-
 
 %% Sumario
 \pdfbookmark[0]{\contentsname}{toc}
@@ -195,12 +187,13 @@ Key-words: ...
 
 O \textit{code review} é considerado como uma das principais técnicas de diminuição de defeitos de software \cite{Boehm2001}. Nela, o autor de uma alteração na base de código de um projeto submete tal conteúdo ao crivo de um conjunto de pares técnicos, que irão revisar sua estrutura com base em um lista de regras e convenções previamente definida. Diferentes aspectos relacionados ao autor, ao revisor e ao processo de revisão em si estão diretamente relacionados à eficiência da prática. Autores relatam relação da diminuição da incidência de \textit{anti-patterns} \cite{Kemerer2009} de acordo com o nível de participação dos envolvidos e cobertura do código revisado \cite{Meneely201437, Morales2015171, Bavota201581}. Reputação \cite{Baysal2013122} e experiência \cite{Kononenko2015111} do revisor também parecem impactar nos efeitos do \textit{code review}
 
-Intrinsecamente colaborativa, a atividade hoje é exercida com suporte de ferramentas computacionais específicas \cite{Baysal2013122}, principalmente no desenvolvimento distribuído. Dentro de workflows de trabalho descentralizados \cite{gousios2016}, a prática funciona como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal. Esta etapa do desenvolvimento se torna uma oportunidade para disseminação de conhecimento, embate de ideias e discussão de melhores práticas entre profissionais de experiência e visões diferentes.
+Intrinsecamente colaborativa, a atividade hoje é exercida com suporte de ferramentas computacionais específicas \cite{Bacchelli2013}, principalmente no desenvolvimento distribuído. Dentro de workflows de trabalho descentralizados \cite{gousios2016}, a prática funciona como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal. Esta etapa do desenvolvimento se torna uma oportunidade para disseminação de conhecimento, embate de ideias e discussão de melhores práticas entre profissionais de experiência e visões diferentes.
 
-Neste contexto, porém, os os desafios à colaboração co-localizada são potencializados e as soluções tradicionais não são suficientes para fomentar esta aspecto das atividades distribuídas \cite{nicolaci2011}.
-Casey \cite{casey2010} mostra que, com a distribuição geográfica dos times, diversos outros desafios, antes considerados colaterais ou resolvidos, emergem de forma a ameaçar a colaboração entre os membros da equipe: barreiras culturais, temporais e geográficas; reengenharia dos processos de desenvolvimento; resistência em compartilhar informações e conhecimento com os pares distribuídos; entre outros desafios.
+Tais aspectos configuram o Desenvolvimento Distribuído de Software (DDS), onde equipes de desenvolvimento se encontram espalhadas por organizações e espaços geográficos distintos. Este novo ramo da Engenharia de Software vem modificando a relação entre empresas e sistemas, principalmente em relação às estratégias de negócios \cite{audy2007}. As próprias relações de negócios fomentam a distribuição das equipes, procurando diminuição dos custos e a incorporação de mão de obra qualificada que pode estar em qualquer lugar do planeta.
 
-Estes desafios do desenvolvimento distribuído afetam o \textit{code review} de duas formas distintas. Primeiro, o processo de revisão pode se tornar menos eficiente quando a colaboração é afetada, devido aos baixos níveis de participação e cobertura. O mesmo vale para a disseminação do conhecimento, que fica prejudicada. Outro desafio que se forma é a escolha do revisor adequado para aquele \textit{patch}. Com um vasto número de opções e pouca informação disponível sobre seus aspectos técnicos e gerenciais (e.g. tempo disponível) já que não há contato co-localizado entre eles, o a natureza distribuída deste tipo de desenvolvimento dificulta o processo de escolha do revisor, o que também pode impactar a eficiência do revisor.
+Neste contexto, porém, os os desafios à colaboração co-localizada são potencializados e as soluções tradicionais não são suficientes para fomentar esta aspecto das atividades distribuídas \cite{nicolaci2011}. Casey \cite{casey2010} mostra que, com a distribuição geográfica dos times, diversos outros desafios, antes considerados colaterais ou resolvidos, emergem de forma a ameaçar a colaboração entre os membros da equipe: barreiras culturais, temporais e geográficas; reengenharia dos processos de desenvolvimento; resistência em compartilhar informações e conhecimento com os pares distribuídos; entre outros desafios.
+
+Estes desafios do Desenvolvimento Distribuído de Software (DDS) afetam o \textit{code review} de duas formas distintas. Primeiro, o processo de revisão pode se tornar menos eficiente quando a colaboração é afetada, devido aos baixos níveis de participação e cobertura. O mesmo vale para a disseminação do conhecimento, que fica prejudicada. Outro desafio que se forma é a escolha do revisor adequado para aquele \textit{patch}. Com um vasto número de opções e pouca informação disponível sobre seus aspectos técnicos e gerenciais (e.g. tempo disponível) já que não há contato co-localizado entre eles, o a natureza distribuída deste tipo de desenvolvimento dificulta o processo de escolha do revisor, o que também pode impactar a eficiência do revisor.
 
 Uma possível solução, visando amparar o desafio da colaboração e evitando o \textit{overhead} da escolha do revisor, seria manter grupos bem testados e experientes exercendo as atividades de revisão. Ou ainda, fixar, dentro de cada equipe de desenvolvimento,  quem são os responsáveis por revisão e pela submissão dos \textit{patches}, evitando a diversificação das relações de trabalho.
 
@@ -210,51 +203,76 @@ Contudo, estudos recentes demonstram que a fixação de grupos e responsabilidad
   ``Although old colleagues bring knowledge of the development process and prior norms from previous teams, new members bring fresh ideas that could promote project performance and creativity. Old colleagues might not do so and might not give new members a chance to implement their ideas.''
 \end{description}
 
-Expostas os desafios que o Desenvolvimento Distribuído de Software impõe sobre a escolha do revisor de código, a importância da escolha do revisor adequado do ponto de vista de colaboração e a motivação da formação de grupos heterogêneos e dinâmicos, expõe-se o objetivo deste trabalho. De acordo com a abordagem QGM (Goal/Question/Metric) proposta por Basili et al. \cite{Basili1984}: \textbf{Desenvolver} um método de recomendação de revisores \textbf{com o objetivo de} potencializar a colaboração \textbf{em relação aos aspectos} de coordenação \textbf{do ponto de vista} de revisores e autores \textbf{no contexto de} desenvolvimento distribuído de software. A principal hipótese que norteia o andamento desta proposta, e que será revisitada e discutida nos capítulos derradeiros é:
+Essa visão aponta que a formação  dinâmica dos grupos de trabalho em desenvolvimento de software potencializa a disseminação do conhecimento, um dos objetivos primários do \textit{code review} \cite{Bacchelli2013}.
+
+Existem alguns trabalhos congêneres que demonstram métodos de recomendação de revisores. Esses trabalhos foram estudados e levados em consideração para escrita do presente texto. Além disso, foram revisadas pesquisas que apontam caracterísitcas de revisões, revisores e autores que possivelmente potencializam a colaboração. Tais aspectos são apresentados e discutidos no capítulo~\ref{chap:trabalhos_relacionados}.
+
+As principais lacunas deixadas pelos trabalhos anteriores estão relacionadas aos objetivos e à avaliação dos métodos propostos, principalmente em DDS. Primeiramente, não há relato de método de recomendação de revisores de código com o objetivo específico de potencializar a colaboração. Por isso, métodos já propostos não utilizam métricas nem variáveis de entrada relacionadas aos aspectos de cooperação, coordenação e comunicação, como por exemplo a abordagem 3C em DDS \cite{fuks2003}. Neste modelo, proposto por Ellis et al. \cite{ellis1991} em 1991 utiliza estas três dimensões para analisar a capacidade que sistemas têm de propiciar a colaboração para trabalhos em grupo.
+
+A segunda lacuna é observável na avaliação dos modelos de avaliação. Os trabalhos encontrados se limitam a comparar seus resultados com métricas relacionadas à proximidade dos mesmos com a indicação manual do revisor. Ou seja, a eficência é tida de acordo com a interseção entre o recomendado automaticamente e por decisão de um especialista, geralmente um desenvolvedor. Este modelo assume que o responsável pela indicação manual tem os subsídios naturais para fazer uma boa escolha. Em DDS isso pode não ser verdade, uma vez que fatores como diferenças culturais, de horário, geográficas e de maturidade podem diminuir a compreensão do indicador e propiciar a escolha inadequada do revisor. Por isso, no contexto apresentado, outras formas de avaliação podem ser mais apropriadas. Tais discussão são extendidas no capítulo~\ref{chap:metodos}}.
+
+Expostos os desafios que o Desenvolvimento Distribuído de Software impõe sobre a escolha do revisor de código, a importância da indicação do revisor adequado do ponto de vista de colaboração e a motivação da formação de grupos heterogêneos e dinâmicos, sumariza-se o intuito do presente texto. De acordo com a abordagem QGM (Goal/Question/Metric) proposta por Basili et al. \cite{Basili1984}, postula-se o objetivo do trabalho como:  \textbf{Implementar} um método de recomendação de revisores \textbf{com o objetivo de} potencializar a colaboração \textbf{em relação aos aspectos} de coordenação \textbf{do ponto de vista} de revisores e autores \textbf{no contexto de} desenvolvimento distribuído de software.
+
+A principal hipótese que norteia o andamento desta proposta, e que será revisitada e discutida nos capítulos derradeiros é:
 
 \begin{itemize}
   \item O método de recomendação apresentado pode potencializar a colaboração entre revisores e autores.
 \end{itemize}
 
-\chapter{TRABALHOS RELACIONADOS}
+O uso de ferramentas computacionais para o processo de revisão de código se tornou prática comum nos últimos anos \cite{Bacchelli2013}. O GitHub, possivelmente a maior plataforma de código do planeta, é uma plataforma rica em repositórios de projetos de software. Muitos são de código aberto, disponíveis para mineração. Discussões sobre o \textit{workflow} de trabalho na ferramenta em contraponto à métodos tradicionais de revisão podem ser vistas na seção~\ref{sec:code_review}. São 24 milhões de usuários, 67 milhões de projetos e 47 milhões de revisões\footnote{https://octoverse.github.com/}, também chamadas de \textit{pull requests} no modelo de desenvolvimento ``\textit{pull based}'' \cite{gousios2014}. Essa abordagem é explorada em pormenores na seção~\ref{sec:pull_based}.
 
-  \section{Revisão sistemática da literatura}
+Esta característica permitiu a extração e análise automatizadas das informações sobre as revisões em projetos de código aberto, através de APIs disponibilizadas para este fim. Foram as extraídas métricas apontadas como relevantes para nossos objetivos pela literatura relacionada. A arquitetura que embasa a extração e análise destes dados com objetivo de recomendação é explicada no capítulo~\ref{chap:solucao}.
 
-  \section{Outros trabalhos relevantes}
+A avaliação da eficiência do método proposto apresenta particularidades em relação à trabalhos relacionados, devido ao enfoque em colaboração no contexto de DDS. O método de avaliação é devidamente discutido e aplicado no capítulo~\ref{chap:resultados}, incluindo a apresentação dos experimentos e a revisitação da hipótese levantada neste capítulo. Por fim, o capítulo~\ref{chap:conclusao} é dedicado ao fechamento do trabalho, assim como à sugestação de trabalhos futuros e à discussão de ameaças a validade e generalização dos resultados apresentados.
 
-\chapter{MÉTODOS E FERRAMENTAS}
 
-  \section{Ferramentas de \textit{code review}}
+\chapter{PRESSUPOSTOS TEÓRICOS}\label{chap:metodos}
+
+  \section{\textit{Code review}}\label{sec:code_review}
   (justificar o porquê da escolha do GitHub)
 
-  \section{Métricas relevantes para recomendação do revisor}
+    \subsection{Relevância}\label{sec:relevancia}
 
-  \section{Métricas de avaliação dos resultados}
+    \subsection{Histórico}\label{sec:historico}
 
-\chapter{\textit{CODE REVIEW}}
-
-  \section{Histórico}
-
-  \section{Relevância}
-
-  \section{Pull Based Method}
+    \subsection{Pull Based Method}\label{sec:pull_based}
     (literalmente mostrar como funciona)
 
-\chapter{SOLUÇÃO DESENVOLVIDA}
+  \section{Modelo 3c}\label{sec:modelo_3c}
+
+  \section{Desenvolvimento Distribuído de Software}\label{sec:dds}
+
+
+\chapter{REFERENCIAL TEÓRICO}\label{chap:trabalhos_relacionados}
+
+  \section{Revisão sistemática da literatura}\label{sec:revisao_sistematica}
+
+  \section{Métricas relevantes para recomendação do revisor}\label{sec:metricas_revisor}
+
+  \section{Métricas de avaliação dos resultados}\label{sec:metricas_resultados}
+
+  \section{Outros trabalhos relevantes}\label{sec:outros_trabalhos}
+
+
+
+\chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
     (explicações técnicas, MER, tecnologias, etc)
 
-\chapter{RESULTADOS}
-  \section{Apresentação dos resultados}
+\chapter{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
 
-  \section{Discussão dos resultados}
+  \section{Processo de Avaliação}
 
-\chapter{CONCLUSÃO}
+  \section{Apresentação dos resultados}\label{section:apresentacao}
 
-  \section{Ameaças}
+  \section{Discussão dos resultados}\label{section:discussao}
 
-  \section{Trabalhos futuros}
+\chapter{CONCLUSÃO}\label{chap:conclusao}
 
-  \section{Considerações finais}
+  \section{Ameaças}\label{section:ameacas}
+
+  \section{Trabalhos futuros}\label{section:trabalhos_futuros}
+
+  \section{Considerações finais}\label{section:consideracoes_finais}
 
 
 
