@@ -1,13 +1,5 @@
-\documentclass[
-        12pt,
-        openany, %openright,
-        oneside, %twoside,			%% twoside: para frente e verso ao imprimir
-        a4paper,
-        english,
-%	french,				%% Idioma adicional
-%	spanish,			%% Idioma adicional
-        brazil			        %% Idioma principal
-        ]{abntbibufjf}
+%\documentclass[12pt,openany,oneside,a4paper,english,brazil]{abntbibufjf}
+\documentclass[preprint,12pt]{elsarticle}
 
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
@@ -24,82 +16,92 @@
 
 %% Obs.: Alguns acentos foram omitidos.
 
-\titulo{Uma ferramenta para recomendação de revisores de código para apoiar a colaboração em Desenvolvimento Distribuído de Software} %%Por exemplo, Titulo da tese
+%\titulo{Uma ferramenta para recomendação de revisores de código para apoiar a colaboração em Desenvolvimento Distribuído de Software} %%Por exemplo, Titulo da tese
+\title{Uma ferramenta para recomendação de revisores de código para apoiar a colaboração em Desenvolvimento Distribuído de Software}
+\journal{None}
+
 % \subtitulo{: subt\'itulo do trabalho}  %% Retirar o primeiro ``%'' desta linha se for utilizar subtitulo. Deixar os dois pontos antes, em ``: subt\'itulo'' .
-\autor{Vinicius Junqueira Schettino}
-\autorR{Junqueira Schettino, Vinicius} %%Colocar o sobrenome do autor antes do primeiro nome do autor, separados por ,
-\local{Juiz de Fora}
-\data{2018} %%Alterar o ano se precisar
-\orientador[Orientador:]{Marco Antônio Pereira Araújo} %%Se precisar, troque [Orientador:] por [Orientadora:]
+%\autor{Vinicius Junqueira Schettino}
+%\autorR{Junqueira Schettino, Vinicius} %%Colocar o sobrenome do autor antes do primeiro nome do autor, separados por ,
+
+\author{Vinicius Schettino}
+\address{Federal University of Juiz de Fora - Brazil }
+
+
+
+%\local{Juiz de Fora}
+%\data{2018} %%Alterar o ano se precisar
+%\orientador[Orientador:]{Marco Antônio Pereira Araújo} %%Se precisar, troque [Orientador:] por [Orientadora:]
 % \coorientador[Coorientador:]{Nome do coorientador } %% Retirar o primeiro ``%'' desta linha se tiver coorientador. Se precisar, troque por [Cooorientadora:].
-\instituicao{Universidade Federal de Juiz de Fora}
-\faculdade{Instituto de Ciências Exatas} %%Alterar, dentro de chaves {}, se precisar.
-\programa{Programa de Pós-graduação em Ciência da Computação} %%Alterar, dentro de chaves {}, se precisar.
-\objeto{Dissertação (Mestrado)}  %%Tese (Doutorado)
-\natureza{Dissertação apresentada ao \insereprograma ~da Universidade Federal de Juiz de Fora, como requisito parcial para obtenção do título de Mestre em Ciência da Computação.}
+%\instituicao{Universidade Federal de Juiz de Fora}
+%\faculdade{Instituto de Ciências Exatas} %%Alterar, dentro de chaves {}, se precisar.
+%\programa{Programa de Pós-graduação em Ciência da Computação} %%Alterar, dentro de chaves {}, se precisar.
+%\objeto{Dissertação (Mestrado)}  %%Tese (Doutorado)
+%\natureza{Dissertação apresentada ao \insereprograma ~da Universidade Federal de Juiz de Fora, como requisito parcial para obtenção do título de Mestre em Ciência da Computação.}
 
 
 %% Abaixo, prencher com os dados da parte final da ficha catalografica
 
-\finalcatalog{1. Palavra-chave. 2. Palavra-chave. 3. Palavra-chave. I. Pereira Araújo, Marco Antônio, orient. II. T\'itulo.} %% Aqui fica
+%\finalcatalog{1. Palavra-chave. 2. Palavra-chave. 3. Palavra-chave. I. Pereira Araújo, Marco Antônio, orient. II. T\'itulo.} %% Aqui fica
 % escrito a palavra ``T\'itulo'' mesmo, nao o do trabalho. Se tiver coorientador, os dados ficam depois dos dados
 %% do orientador (II. Sobrenome, Nome do coorientador, coorient.) e antes de ``II. T\'itulo'', o qual passa a ``III. T\'itulo''.
 
 %% ---
 
-\setlength{\parindent}{1.3cm}
+%\setlength{\parindent}{1.3cm}
 
-\setlength{\parskip}{0.2cm}
+%\setlength{\parskip}{0.2cm}
 
-\setlength\afterchapskip{12pt}
+%\setlength\afterchapskip{12pt}
 
 
 %% Iniciar o documento
 \begin{document}
+\begin{frontmatter}
 
 %% ELEMENTOS PRE-TEXTUAIS
 
 %% Capa
-\inserecapa
+%\inserecapa
 
 %% Folha de rosto
-\inserefolhaderosto
+%\inserefolhaderosto
 
 
 %% Ficha catalografica. AO IMPRIMIR, DEIXAR NO VERSO DA FOLHA DE ROSTO.
-\inserecatalog
+%\inserecatalog
 
 
 %% Folha de aprovacao
-\begin{folhadeaprovacao}
+%\begin{folhadeaprovacao}
 
-  \begin{center}
-    {\chapterfont \bfseries \insereautor}
+%  \begin{center}
+%    {\chapterfont \bfseries \insereautor}
 
-    \vfill
-    \begin{center}
-      {\chapterfont\bfseries\inseretitulo \inseresubtitulo}
-    \end{center}
-    \vfill
+%    \vfill
+%    \begin{center}
+%      {\chapterfont\bfseries\inseretitulo \inseresubtitulo}
+%    \end{center}
+%    \vfill
 
-    \hspace{.45\textwidth}
-    \begin{minipage}{.5\textwidth}
-        \inserenatureza
-    \end{minipage}%
-    \vfill
-   \end{center}
+%    \hspace{.45\textwidth}
+%    \begin{minipage}{.5\textwidth}
+%        \inserenatureza
+%    \end{minipage}%
+%    \vfill
+%   \end{center}
 
-   Aprovada em: %%COLOCAR A DATA
+%   Aprovada em: %%COLOCAR A DATA
 
-   \begin{center} BANCA EXAMINADORA \end{center}
-   \assinatura{Prof. Dr. \insereorientador \ - Orientador \\ Universidade Federal de Juiz de Fora}
+%   \begin{center} BANCA EXAMINADORA \end{center}
+%   \assinatura{Prof. Dr. \insereorientador \ - Orientador \\ Universidade Federal de Juiz de Fora}
 %  \assinatura{Professor Dr. \inserecoorientador \ - Coorientador \\ Universidade Federal de Juiz de Fora}
-   \assinatura{Professor Dr. ?? \\ Universidade ???}
-   \assinatura{Professor Dr. ?? \\ Universidade ??}
+%   \assinatura{Professor Dr. ?? \\ Universidade ???}
+%   \assinatura{Professor Dr. ?? \\ Universidade ??}
 %  \assinatura{...} %%RETIRE O % E PREENCHA SE PRECISAR
 %  \assinatura{...}
 %  \assinatura{...}
-\end{folhadeaprovacao}
+%\end{folhadeaprovacao}
 
 
 %% Dedicatoria. OPCIONAL. Retirar o ``%'' de cada das 4 linhas abaixo, caso queira.
@@ -110,21 +112,21 @@
 
 
 %% Agradecimentos. OPCIONAL. CASO SEJA BOLSISTA, INSERIR OS DEVIDOS AGRADECIMENTOS.
-\begin{agradecimentos}
+%\begin{agradecimentos}
 
-De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 14724 (2011, p. 1) Agradecimentos
-\'e o ``texto em que o autor faz agradecimentos dirigidos \`aqueles que contribu\'iram de maneira relevante \`a elabora\c{c}\~ao do trabalho.''
+%De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 14724 (2011, p. 1) Agradecimentos
+%\'e o ``texto em que o autor faz agradecimentos dirigidos \`aqueles que contribu\'iram de maneira relevante \`a elabora\c{c}\~ao %do trabalho.''
 
-\end{agradecimentos}
+%\end{agradecimentos}
 
 %% Epigrafe. OPCIONAL
-\begin{epigrafe}
-    \vspace*{\fill}
-	\begin{flushright}
-		``Texto em que o autor apresenta uma cita\c{c}\~ao, seguida de autoria, relacionada com a
-  mat\'eria tratada no corpo do trabalho'' \\
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 2) \\
-  A ep\'igrafe elaborada conforme NBR 10520 (Ep\'igrafe - Opcional)
+%\begin{epigrafe}
+%    \vspace*{\fill}
+%	\begin{flushright}
+%		``Texto em que o autor apresenta uma cita\c{c}\~ao, seguida de autoria, relacionada com a
+%mat\'eria tratada no corpo do trabalho'' \\
+%(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 2) \\
+%A ep\'igrafe elaborada conforme NBR 10520 (Ep\'igrafe - Opcional)
 	\end{flushright}
 \end{epigrafe}
 
@@ -132,33 +134,37 @@ De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 14724 (2011, 
 %% RESUMOS
 
 %% Resumo em Portugu^es. OBRIGATORIO.
-\setlength{\absparsep}{18pt}
-\begin{resumo}
-De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 6028 (2003, p. 2) ``o resumo deve ressaltar
-o objetivo, m\'etodo e as conclus\~oes do documento (...) Deve ser composto de uma sequ\^encia de frases
-concisas, afirmativas e n\~ao de enumera\c{c}\~ao de t\'opicos. Recomenda-se o uso de par\'agrafo \'unico.''
-O resumo deve ter de 150 a 500 palavras.
+%\setlength{\absparsep}{18pt}
+%\begin{resumo}
+%De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 6028 (2003, p. 2) ``o resumo deve ressaltar
+%o objetivo, m\'etodo e as conclus\~oes do documento (...) Deve ser composto de uma sequ\^encia de frases
+%concisas, afirmativas e n\~ao de enumera\c{c}\~ao de t\'opicos. Recomenda-se o uso de par\'agrafo \'unico.''
+%O resumo deve ter de 150 a 500 palavras.
 
-Palavras-chave: Palavra-chave. Palavra-chave. Palavra-chave. %finalizadas por ponto e inicializadas por letra maiuscula.
+%Palavras-chave: Palavra-chave. Palavra-chave. Palavra-chave. %finalizadas por ponto e inicializadas por letra maiuscula.
 
-\end{resumo}
+%\end{resumo}
 
+\begin{abstract}
+
+\end{abstract}
 
 %% Resumo em Ingle^s
-\begin{resumo}[ABSTRACT]
- \begin{otherlanguage*}{english}
-   ...
+%\begin{resumo}[ABSTRACT]
+% \begin{otherlanguage*}{english}
+% ...
+\end{frontmatter}
 
-Key-words: ...
- \end{otherlanguage*}
-\end{resumo}
+%Key-words: ...
+% \end{otherlanguage*}
+%\end{resumo}
 
 %% Seguindo o mesmo modelo acima, pode-se inserir resumos em outras linguas.
 
 %% Lista de ilustracoes. OPCIONAL.
-\pdfbookmark[0]{\listfigurename}{lof}
-\listoffigures*
-\cleardoublepage
+%\pdfbookmark[0]{\listfigurename}{lof}
+%\listoffigures*
+%\cleardoublepage
 
 
 %% Lista de tabelas. OPCIONAL. Retire o ``%'' de cada das 3 linhas seguintes, caso queira.
@@ -167,22 +173,22 @@ Key-words: ...
 % \cleardoublepage
 
 %% Lista de abreviaturas e siglas. OPCIONAL
-\begin{siglas} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE
-  \item[UFJF] Universidade Federal de Juiz de Fora
-  \item[DDS]  Desenvolvimento Distribuído de Software
-\end{siglas}
+%\begin{siglas} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE%
+%  \item[UFJF] Universidade Federal de Juiz de Fora
+%  \item[DDS]  Desenvolvimento Distribuído de Software
+%\end{siglas}
 
 %% Sumario
-\pdfbookmark[0]{\contentsname}{toc}
-\tableofcontents*
-\cleardoublepage
+%\pdfbookmark[0]{\contentsname}{toc}
+%\tableofcontents*
+%\cleardoublepage
 
 %% ----------------------------------------------------------
 
 %% ELEMENTOS TEXTUAIS
 
-\textual
-\pagestyle{simple}
+%\textual
+%\pagestyle{simple}
 
 
 \chapter{INTRODUÇÃO}  %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
@@ -251,7 +257,7 @@ Key-words: ...
 
     O contribuidor cria para si uma cópia do projeto através de um \textit{fork}. Esta ação cria em seu diretório de trabalho um projeto idêntico ao original, mas onde ele tem acesso total de submissão e modificação. Nessa cópia, ele executa as modificações desejadas, geralmente em uma \textit{branch} dedicada para tal \cite{gousios2016}. Ao terminar, ele solicita a integração da \texit{branch} do \textit{fork} de volta ao projeto original. Essa solitação é chamada de \textit{pull-request}, que será analisada por um desenvolvedor com as devidas permissões. Durante esta revisão, o autor pode gerar novas modificações, geralmente atreladas aos pedidos do revisor. Ao final, a mudança é rejeitada (\textit{closed}) ou aceita \textit{merged}.
 
-    Os membros do core também tem suas \textit{branches} revisadas por um processo análogo \cite{6385140,Bosu2014}. A principal diferença é que não há necessidade do \texit{fork}, já que eles tem as permissões necessárias para criar uma nova \textit{branch} no projeto-alvo. 
+    Os membros do core também tem suas \textit{branches} revisadas por um processo análogo \cite{6385140,Bosu2014}. A principal diferença é que não há necessidade do \texit{fork}, já que eles tem as permissões necessárias para criar uma nova \textit{branch} no projeto-alvo.
 
   \section{Modelo 3c}\label{sec:modelo_3c}
 
@@ -298,10 +304,8 @@ Key-words: ...
 
 \postextual
 
-
-\bibliographystyle{abntex2-num}
+\bibliographystyle{elsarticle-num}
 \bibliography{../bibrefs/refs.bib}
-
 
 
 
@@ -322,3 +326,4 @@ Colocar aqui o artigo.
 
 %%% ---
 \end{document}
+\endinput
