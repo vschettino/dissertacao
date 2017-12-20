@@ -12,6 +12,30 @@
 \usepackage{microtype}
 \usepackage{floatrow}
 
+\usepackage{listings}
+\usepackage{color}
+\newcommand{\inlinecode}{\texttt}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
 %% -----------------------------------------------------------------------------
 
 %% Obs.: Alguns acentos foram omitidos.
@@ -248,7 +272,7 @@
   \subsection{Pull Based Method}\label{sec:pull_based}
     O conceito de \textit{branches} é a base para sistemas de controle de versão descentralizados, como o  Git\footnote{https://git-scm.com/} e o Mercurial\footnote{https://www.mercurial-scm.org/}. Com as \textit{branches} é possível desenvolver paralelamente, submtendo e mesclando as alteraçoẽs no código em momentos oportunos. Esta característica é interessante para o DDS, uma vez que o isolamento e a atomicidade do trabalho de cada um até o momento de submissão é fundamental para a coordenação dos esforços \cite{barr2012}.
 
-    Estas tecnologias permitiram o surgimento de um paradigma de desenvolvimento baseado em pulls, ou \textit{pull-based method} \cite{gousios2014}. O processo de revisão de código evolui neste novo paradigma, servindo como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal \cite{gousios2015}. A figura~\ref{fig:pull-request-flow} ilustra tal modelo de trabalho instanciado no GitHub\footnote{https://github.com}, principal expoente que oferece este paradigma. Nele é representado um modelo comum em desenvolvimento OpenSource \cite{6385140}, onde há um \textit{core team} responsável por revisar os \textit{pulls} de seus colegas e da comunidade no geral. Neste modelo, a mudança chega à codebase principal somente se houver o aval de um membro do \textit{core team}.
+    Estas tecnologias permitiram o surgimento de um paradigma de desenvolvimento baseado em pulls, ou \textit{pull-based method} \cite{gousios2014}. O processo de revisão de código evolui neste novo paradigma, servindo como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal \cite{gousios2015}. A figura 1 ilustra tal modelo de trabalho instanciado no GitHub\footnote{https://github.com}, principal expoente que oferece este paradigma. Nele é representado um modelo comum em desenvolvimento OpenSource \cite{6385140}, onde há um \textit{core team} responsável por revisar os \textit{pulls} de seus colegas e da comunidade no geral. Neste modelo, a mudança chega à codebase principal somente se houver o aval de um membro do \textit{core team}.
 
      \begin{figure}[!htbp]
       \includegraphics[width=\textwidth]{pull-request-flow}\label{fig:pull-request-flow}
@@ -277,8 +301,42 @@
 
 
 \chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
-    (explicações técnicas, MER, tecnologias, etc)
+    Dadas as variáveis relevantes do revisor que potencializam a colaboração discutidas na seção~\ref{sec:metricas_revisor}, este capítulo apresenta a ferramenta de recomendação para o desenvolvimento distribuído de software (DDS). Levando em consideração os modelos atuais de revisão de código exploradas na seção~\ref{sec:code_review} são propostos os seguintes requisitos funcionais da ferramenta:
+		\begin{itemize}
+			\item Dada uma revisão de código, a ferramenta deve apresentar sugestões de pares técnicos para o o papel de revisor;
+			\item a lista de revisores deve ser estar ordenada por ordem de relevância da indicação;
+			\item os perfis dos indicados deve estar acessível (via link)
+		\end{itemize}
 
+		A ferramenta proposta integra com repositórios de código Git, extrair informações de histórico de desenvolvimento e proximidade do \textit{changeset} em análise com a memória do projeto em relação ao canditado a revisor O acesso a esses metadados é efitivado através da biblioteca GitPython\footnote{http://gitpython.readthedocs.io/en/stable/tutorial.html} que fornece uma interface objeto-relacional para a base de dados interna do Git. Os históricos de revisão encontram-se no Github, e são extraídos através das APIs\footnote{https://api.github.com} disponibilizadas para este fim. A figura 2 representa os componentes e suas comunicações.
+
+		\begin{figure}[!htbp]
+		 \includegraphics[width=\textwidth]{diagrama_componentes}\label{fig:diagrama_componentes}
+		 \caption{Diagrama de Componentes da ferramenta}
+	 \end{figure}
+
+			Os requisitos não funcionais estão relacionados às caracterísitcas técnicas da ferramenta que suportam os requisitos funcionais, como por exemplo disponibilidade, portabilidade e manutenibilidade. Dentre tais aspectos, pode-se destacar como mais relevantes:
+		\begin{itemize}
+			\item Interoperabilidade
+			\begin{itemize}
+				\item A ferramenta proposta deve-se comunicar o repositório de código fonte e à ferramenta de apoio a revisão de forma automática.
+			\end{itemize}
+			\item Manutenibilidade
+			\begin{itemize}
+				\item Existem diversas ferramentas de mercado para revisão, além de ferramentas de repositório de código fonte. Por isso a ferramenta deve ser modelada para permitir evoluções futuras que permitam a agregação de novas integrações que sejam importantes em outros domínios, como por exemplo software proprietário.
+			\end{itemize}
+		\end{itemize}
+		Para manter o padrão Git e possibilitar a integração futura com diversas IDEs de desenvolvimento, a ferramenta desenvolvida possui interface via linha de comando. através do utilitário \inlinecode{gitrec} é possível acessar todas as funcionalidades previstas. A sintaxe do comando é \inlinecode{gitrec [PULL REQUEST ID]} onde o utilizador fornece o identificador númerico único da revisão para a qual deseja a indicação do revisor. Outros parâmetos são:
+
+		\begin{lstlisting}
+		--top=n | -t # Indica n potenciais revisores. O padrao e 3.
+		--exclude=username | -u # Exclui um usuario da busca por revisores.
+		--version | -v # Mostra a versao do utilitario.
+		--help | -h # Imprime esta lista de parametros.
+		--verbose | -vv[v] # Modo de debug, imprime todos os logs.
+		\end{lstlisting}
+
+		O utilitário deve ser executado dentro da pasta do projeto. São utilizadas as credenciais de clone/merge do projeto para acesso à API do Github, enquanto o histórico de evolução do código é acessado localmente através da base do Git.
 \chapter{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
 
   \section{Processo de Avaliação}
