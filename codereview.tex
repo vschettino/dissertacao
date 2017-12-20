@@ -1,5 +1,5 @@
 %\documentclass[12pt,openany,oneside,a4paper,english,brazil]{abntbibufjf}
-\documentclass[preprint,12pt]{elsarticle}
+\documentclass[preprint,review, 12pt]{elsarticle}
 
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
@@ -300,12 +300,12 @@
 
 
 
-\chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
+\section{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
     Dadas as variáveis relevantes do revisor que potencializam a colaboração discutidas na seção~\ref{sec:metricas_revisor}, este capítulo apresenta a ferramenta de recomendação para o desenvolvimento distribuído de software (DDS). Levando em consideração os modelos atuais de revisão de código exploradas na seção~\ref{sec:code_review} são propostos os seguintes requisitos funcionais da ferramenta:
 		\begin{itemize}
 			\item Dada uma revisão de código, a ferramenta deve apresentar sugestões de pares técnicos para o o papel de revisor;
 			\item a lista de revisores deve ser estar ordenada por ordem de relevância da indicação;
-			\item os perfis dos indicados deve estar acessível (via link)
+			\item os perfis dos indicados deve estar acessível (via link).
 		\end{itemize}
 
 		A ferramenta proposta integra com repositórios de código Git, extrair informações de histórico de desenvolvimento e proximidade do \textit{changeset} em análise com a memória do projeto em relação ao canditado a revisor O acesso a esses metadados é efitivado através da biblioteca GitPython\footnote{http://gitpython.readthedocs.io/en/stable/tutorial.html} que fornece uma interface objeto-relacional para a base de dados interna do Git. Os históricos de revisão encontram-se no Github, e são extraídos através das APIs\footnote{https://api.github.com} disponibilizadas para este fim. A figura 2 representa os componentes e suas comunicações.
@@ -314,6 +314,15 @@
 		 \includegraphics[width=\textwidth]{diagrama_componentes}\label{fig:diagrama_componentes}
 		 \caption{Diagrama de Componentes da ferramenta}
 	 \end{figure}
+
+   O fluxo de operação da ferramenta foi projetado visando compatibilidade com o processo de revisão, especialmente no modelo \textit{pull based} \cite{gousios2014} introduzido na seção~\ref{sec:pull_based}. A figura 3 representa a comunicação entre o autor do \textit{changeset} (responsável pela escolha dos revisores), o GitHub e o utilitário de recomendação.
+
+   \begin{figure}[!htbp]
+    \includegraphics[width=\textwidth]{diagrama_sequencia}\label{fig:diagrama_sequencia}
+    \caption{Diagrama de Sequência da ferramenta}
+  \end{figure}
+
+  O primeiro passo consiste no autor criar a revisão com os dados relevantes, como por exemplo descrição, link com issues solucionadas, dúvidas e possíveis discussões que estejam relacionadas ao código submetido. A partir daí ele já está em posse do identificador único da revisão, que será utilizada para encontrar o revisor adequado. Ao executar o utilitário, este irá acessar os metadados do Github para encontrar outras revisões de contexto semelhante e extrair informações de revisores que estiveram envolvidos nelas. A partir daí a recomendação é feita e disponibilizada para o revisor, que poderá convidar um subconjunto da lista apresentada para o papel de revisor.
 
 			Os requisitos não funcionais estão relacionados às caracterísitcas técnicas da ferramenta que suportam os requisitos funcionais, como por exemplo disponibilidade, portabilidade e manutenibilidade. Dentre tais aspectos, pode-se destacar como mais relevantes:
 		\begin{itemize}
@@ -337,7 +346,7 @@
 		\end{lstlisting}
 
 		O utilitário deve ser executado dentro da pasta do projeto. São utilizadas as credenciais de clone/merge do projeto para acesso à API do Github, enquanto o histórico de evolução do código é acessado localmente através da base do Git.
-\chapter{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
+\section{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
 
   \subsection{Processo de Avaliação}
 
