@@ -1,5 +1,5 @@
-%\documentclass[12pt,openany,oneside,a4paper,english,brazil]{abntbibufjf}
-\documentclass[preprint,review, 12pt]{elsarticle}
+\documentclass[12pt,openany,oneside,a4paper,english,brazil]{abntbibufjf}
+%\documentclass[preprint,review, 12pt]{elsarticle}
 
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
@@ -40,43 +40,38 @@
 
 %% Obs.: Alguns acentos foram omitidos.
 
-%\titulo{Uma ferramenta para recomendação de revisores de código para apoiar a colaboração em Desenvolvimento Distribuído de Software} %%Por exemplo, Titulo da tese
-\title{Uma ferramenta para recomendação de revisores de código para apoiar a colaboração em Desenvolvimento Distribuído de Software}
-\journal{None}
+\titulo{Uma ferramenta para recomendação de revisores de código para apoiar a colaboração em Desenvolvimento Distribuído de Software} %%Por exemplo, Titulo da tese
 
-% \subtitulo{: subt\'itulo do trabalho}  %% Retirar o primeiro ``%'' desta linha se for utilizar subtitulo. Deixar os dois pontos antes, em ``: subt\'itulo'' .
-%\autor{Vinicius Junqueira Schettino}
-%\autorR{Junqueira Schettino, Vinicius} %%Colocar o sobrenome do autor antes do primeiro nome do autor, separados por ,
-
-\author{Vinicius Schettino}
-\address{Federal University of Juiz de Fora - Brazil }
+%\subtitulo{: subt\'itulo do trabalho}  %% Retirar o primeiro ``%'' desta linha se for utilizar subtitulo. Deixar os dois pontos antes, em ``: subt\'itulo'' .
+\autor{Vinicius Junqueira Schettino}
+\autorR{Junqueira Schettino, Vinicius} %%Colocar o sobrenome do autor antes do primeiro nome do autor, separados por ,
 
 
 
-%\local{Juiz de Fora}
-%\data{2018} %%Alterar o ano se precisar
-%\orientador[Orientador:]{Marco Antônio Pereira Araújo} %%Se precisar, troque [Orientador:] por [Orientadora:]
+
+\local{Juiz de Fora}
+\data{2018} %%Alterar o ano se precisar
+\orientador[Orientador:]{Marco Antônio Pereira Araújo} %%Se precisar, troque [Orientador:] por [Orientadora:]
 % \coorientador[Coorientador:]{Nome do coorientador } %% Retirar o primeiro ``%'' desta linha se tiver coorientador. Se precisar, troque por [Cooorientadora:].
-%\instituicao{Universidade Federal de Juiz de Fora}
-%\faculdade{Instituto de Ciências Exatas} %%Alterar, dentro de chaves {}, se precisar.
-%\programa{Programa de Pós-graduação em Ciência da Computação} %%Alterar, dentro de chaves {}, se precisar.
-%\objeto{Dissertação (Mestrado)}  %%Tese (Doutorado)
-%\natureza{Dissertação apresentada ao \insereprograma ~da Universidade Federal de Juiz de Fora, como requisito parcial para obtenção do título de Mestre em Ciência da Computação.}
+\instituicao{Universidade Federal de Juiz de Fora}
+\faculdade{Instituto de Ciências Exatas} %%Alterar, dentro de chaves {}, se precisar.
+\programa{Programa de Pós-graduação em Ciência da Computação} %%Alterar, dentro de chaves {}, se precisar.
+\objeto{Dissertação (Mestrado)}  %%Tese (Doutorado)
+\natureza{Dissertação apresentada ao \insereprograma ~da Universidade Federal de Juiz de Fora, como requisito parcial para obtenção do título de Mestre em Ciência da Computação.}
 
 
 %% Abaixo, prencher com os dados da parte final da ficha catalografica
 
-%\finalcatalog{1. Palavra-chave. 2. Palavra-chave. 3. Palavra-chave. I. Pereira Araújo, Marco Antônio, orient. II. T\'itulo.} %% Aqui fica
-% escrito a palavra ``T\'itulo'' mesmo, nao o do trabalho. Se tiver coorientador, os dados ficam depois dos dados
-%% do orientador (II. Sobrenome, Nome do coorientador, coorient.) e antes de ``II. T\'itulo'', o qual passa a ``III. T\'itulo''.
+\finalcatalog{1. Palavra-chave. 2. Palavra-chave. 3. Palavra-chave. I. Pereira Araújo, Marco Antônio, orient. II. T\'itulo.} %% Aqui fica escrito a palavra ``T\'itulo'' mesmo, nao o do trabalho. Se tiver coorientador, os dados ficam depois dos dados
+% do orientador (II. Sobrenome, Nome do coorientador, coorient.) e antes de ``II. T\'itulo'', o qual passa a ``III. T\'itulo''.
 
 %% ---
 
-%\setlength{\parindent}{1.3cm}
+\setlength{\parindent}{1.3cm}
 
-%\setlength{\parskip}{0.2cm}
+\setlength{\parskip}{0.2cm}
 
-%\setlength\afterchapskip{12pt}
+\setlength\afterchapskip{12pt}
 
 
 %% Iniciar o documento
@@ -86,34 +81,34 @@
 %% ELEMENTOS PRE-TEXTUAIS
 
 %% Capa
-%\inserecapa
+\inserecapa
 
 %% Folha de rosto
-%\inserefolhaderosto
+\inserefolhaderosto
 
 
 %% Ficha catalografica. AO IMPRIMIR, DEIXAR NO VERSO DA FOLHA DE ROSTO.
-%\inserecatalog
+\inserecatalog
 
 
 %% Folha de aprovacao
-%\begin{folhadeaprovacao}
+\begin{folhadeaprovacao}
 
-%  \begin{center}
-%    {\chapterfont \bfseries \insereautor}
+  \begin{center}
+    {\chapterfont \bfseries \insereautor}
 
-%    \vfill
-%    \begin{center}
-%      {\chapterfont\bfseries\inseretitulo \inseresubtitulo}
-%    \end{center}
-%    \vfill
+    \vfill
+    \begin{center}
+      {\chapterfont\bfseries\inseretitulo \inseresubtitulo}
+    \end{center}
+    \vfill
 
-%    \hspace{.45\textwidth}
-%    \begin{minipage}{.5\textwidth}
-%        \inserenatureza
-%    \end{minipage}%
-%    \vfill
-%   \end{center}
+    \hspace{.45\textwidth}
+    \begin{minipage}{.5\textwidth}
+        \inserenatureza
+    \end{minipage}%
+    \vfill
+   \end{center}
 
 %   Aprovada em: %%COLOCAR A DATA
 
@@ -136,86 +131,83 @@
 
 
 %% Agradecimentos. OPCIONAL. CASO SEJA BOLSISTA, INSERIR OS DEVIDOS AGRADECIMENTOS.
-%\begin{agradecimentos}
+\begin{agradecimentos}
 
 %De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 14724 (2011, p. 1) Agradecimentos
 %\'e o ``texto em que o autor faz agradecimentos dirigidos \`aqueles que contribu\'iram de maneira relevante \`a elabora\c{c}\~ao %do trabalho.''
 
-%\end{agradecimentos}
+\end{agradecimentos}
 
 %% Epigrafe. OPCIONAL
-%\begin{epigrafe}
-%    \vspace*{\fill}
-%	\begin{flushright}
-%		``Texto em que o autor apresenta uma cita\c{c}\~ao, seguida de autoria, relacionada com a
-%mat\'eria tratada no corpo do trabalho'' \\
-%(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 2) \\
-%A ep\'igrafe elaborada conforme NBR 10520 (Ep\'igrafe - Opcional)
+\begin{epigrafe}
+    \vspace*{\fill}
+	\begin{flushright}
+		``Texto em que o autor apresenta uma cita\c{c}\~ao, seguida de autoria, relacionada com a
+mat\'eria tratada no corpo do trabalho'' \\
+(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 2) \\
+A ep\'igrafe elaborada conforme NBR 10520 (Ep\'igrafe - Opcional)
 	\end{flushright}
 \end{epigrafe}
 
+\end{frontmatter}
 
 %% RESUMOS
 
 %% Resumo em Portugu^es. OBRIGATORIO.
-%\setlength{\absparsep}{18pt}
-%\begin{resumo}
-%De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 6028 (2003, p. 2) ``o resumo deve ressaltar
-%o objetivo, m\'etodo e as conclus\~oes do documento (...) Deve ser composto de uma sequ\^encia de frases
-%concisas, afirmativas e n\~ao de enumera\c{c}\~ao de t\'opicos. Recomenda-se o uso de par\'agrafo \'unico.''
-%O resumo deve ter de 150 a 500 palavras.
+\setlength{\absparsep}{18pt}
+\begin{resumo}
+De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 6028 (2003, p. 2) ``o resumo deve ressaltar
+o objetivo, m\'etodo e as conclus\~oes do documento (...) Deve ser composto de uma sequ\^encia de frases
+concisas, afirmativas e n\~ao de enumera\c{c}\~ao de t\'opicos. Recomenda-se o uso de par\'agrafo \'unico.''
+O resumo deve ter de 150 a 500 palavras.
 
-%Palavras-chave: Palavra-chave. Palavra-chave. Palavra-chave. %finalizadas por ponto e inicializadas por letra maiuscula.
+Palavras-chave: Palavra-chave. Palavra-chave. Palavra-chave. %finalizadas por ponto e inicializadas por letra maiuscula.
 
-%\end{resumo}
+\end{resumo}
 
-\begin{abstract}
-
-\end{abstract}
 
 %% Resumo em Ingle^s
-%\begin{resumo}[ABSTRACT]
-% \begin{otherlanguage*}{english}
-% ...
-\end{frontmatter}
+\begin{resumo}[ABSTRACT]
+ \begin{otherlanguage*}{english}
+ ...
 
-%Key-words: ...
-% \end{otherlanguage*}
-%\end{resumo}
+Key-words: ...
+ \end{otherlanguage*}
+\end{resumo}
 
 %% Seguindo o mesmo modelo acima, pode-se inserir resumos em outras linguas.
 
 %% Lista de ilustracoes. OPCIONAL.
-%\pdfbookmark[0]{\listfigurename}{lof}
-%\listoffigures*
-%\cleardoublepage
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
 
 
 %% Lista de tabelas. OPCIONAL. Retire o ``%'' de cada das 3 linhas seguintes, caso queira.
-% \pdfbookmark[0]{\listtablename}{lot}
-% \listoftables*
-% \cleardoublepage
+ \pdfbookmark[0]{\listtablename}{lot}
+ \listoftables*
+ \cleardoublepage
 
 %% Lista de abreviaturas e siglas. OPCIONAL
-%\begin{siglas} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE%
-%  \item[UFJF] Universidade Federal de Juiz de Fora
-%  \item[DDS]  Desenvolvimento Distribuído de Software
-%\end{siglas}
+\begin{siglas} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE%
+  \item[UFJF] Universidade Federal de Juiz de Fora
+  \item[DDS]  Desenvolvimento Distribuído de Software
+\end{siglas}
 
 %% Sumario
-%\pdfbookmark[0]{\contentsname}{toc}
-%\tableofcontents*
-%\cleardoublepage
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
 
 %% ----------------------------------------------------------
 
 %% ELEMENTOS TEXTUAIS
 
-%\textual
-%\pagestyle{simple}
+\textual
+\pagestyle{simple}
 
 
-\section{INTRODUÇÃO}  %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
+\chapter{INTRODUÇÃO}  %%Nesta linha, dentro de { }, digita-se em CAIXA ALTA, como apresentado aqui
 
   O \textit{code review} é considerado uma das principais técnicas para diminuição de defeitos de software \cite{Boehm2001}. Nela, o autor de uma alteração na base de código de um projeto submete tal conteúdo ao crivo de um conjunto de pares técnicos, que irão revisar sua estrutura com base em um lista de regras e convenções previamente definida. Diferentes aspectos relacionados ao autor, ao revisor e ao processo de revisão em si estão diretamente relacionados à eficiência da prática. Autores relatam a diminuição da incidência de \textit{anti-patterns} \cite{Kemerer2009} de acordo com o nível de participação dos envolvidos e cobertura do código revisado \cite{Meneely201437, Morales2015171, Bavota201581}. Reputação \cite{Baysal2013122, Bosu2014} e experiência \cite{Kononenko2015111} do revisor também parecem impactar nos efeitos do \textit{code review}
 
@@ -258,18 +250,18 @@
   A avaliação da eficiência do método proposto apresenta particularidades em relação à trabalhos relacionados, devido ao enfoque em colaboração no contexto de DDS. O método de avaliação é devidamente discutido e aplicado no capítulo~\ref{chap:resultados}, incluindo a apresentação dos experimentos e a revisitação da hipótese levantada neste capítulo. Por fim, o capítulo~\ref{chap:conclusao} é dedicado ao fechamento do trabalho, inclusindo a sugestação de trabalhos futuros e a discussão de ameaças a validade e generalização dos resultados apresentados.
 
 
-\section{PRESSUPOSTOS TEÓRICOS}\label{chap:metodos}
+\chapter{PRESSUPOSTOS TEÓRICOS}\label{chap:metodos}
 
-  \subsection{\textit{Code review}}\label{sec:code_review}
+  \section{\textit{Code review}}\label{sec:code_review}
     O \textit{code review} é uma prática consolidada e difundida em diversas organizações, contemplando diferentes portes e segmentos de mercado. A técnica constitui da análise técnica de uma mudança a ser submetida à base principal de código (repositório-mestre) por parte de um revisor técnico, tendo como base uma lista de diretrizes e padrões a serem observados. As nuances do processo variam em cada contexto levando em consideração, por exemplo, tolerância a defeitos, modelo de desenvolvimento e os objetivos almejados.
 
-  \subsubsection{Relevância}\label{sec:relevancia}
+  \subsection{Relevância}\label{sec:relevancia}
     O \textit{code review} está associada diretamente à detecção precoce de defeitos em produtos de software \cite{schettino2014,Kemerer2009}, sendo reconhecida como uma das principais técnicas com este fim \cite{Boehm2001}. Mais especificamente, é relatada maior eficiência quanto aos defeitos não-funcionais, enquanto os defeitos funcionais são menos afetados no processo \cite{Beller2014202}. Outros autores reportam a diminuição de defeitos através de estudos de caso \cite{McIntosh2014192,Bavota201581,Morales2015171}.
 
-  \subsubsection{Histórico}\label{sec:historico}
+  \subsection{Histórico}\label{sec:historico}
     A atividade de revisão remonta da décade de 80 \cite{Fagan1976}, e desde então vem evoluindo para suportar interações mais rápidas e constantes, com uso de ferramentas computacionais e práticas ágeis. O Modern Code Review (MCR) surge em sinergia com os modelos ágeis e distribuídos de desenvolvimento, valorizando mais a comunicação e troca de experiências entre autor e revisor \cite{Bacchelli2013}.
 
-  \subsubsection{Pull Based Method}\label{sec:pull_based}
+  \subsection{Pull Based Method}\label{sec:pull_based}
     O conceito de \textit{branches} é a base para sistemas de controle de versão descentralizados, como o  Git\footnote{https://git-scm.com/} e o Mercurial\footnote{https://www.mercurial-scm.org/}. Com as \textit{branches} é possível desenvolver paralelamente, submtendo e mesclando as alterações no código em momentos oportunos. Esta característica é interessante para o DDS, uma vez que o isolamento e a atomicidade do trabalho de cada um até o momento de submissão é fundamental para a coordenação dos esforços \cite{barr2012}.
 
     Estas tecnologias permitiram o surgimento de um paradigma de desenvolvimento baseado em pulls, ou \textit{pull-based method} \cite{gousios2014}. O processo de revisão de código evolui neste novo paradigma, servindo como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal \cite{gousios2015}. A figura 1 ilustra tal modelo de trabalho instanciado no GitHub\footnote{https://github.com}, principal expoente que oferece este paradigma. Nele é representado um modelo comum em desenvolvimento OpenSource \cite{6385140}, onde há um \textit{core team} responsável por revisar os \textit{pulls} de seus colegas e da comunidade no geral. Neste modelo, a mudança chega à codebase principal somente se houver o aval de um membro do \textit{core team}.
@@ -283,24 +275,24 @@
 
     Os membros do core também têm suas \textit{branches} revisadas por um processo análogo \cite{6385140,Bosu2014}. A principal diferença é que não há necessidade do \texit{fork}, já que eles tem as permissões necessárias para criar uma nova \textit{branch} no projeto-alvo.
 
-  \subsection{Modelo 3c}\label{sec:modelo_3c}
+  \section{Modelo 3c}\label{sec:modelo_3c}
 
-  \subsection{Desenvolvimento Distribuído de Software}\label{sec:dds}
-
-
-\section{REFERENCIAL TEÓRICO}\label{chap:trabalhos_relacionados}
-
-  \subsection{Revisão sistemática da literatura}\label{sec:revisao_sistematica}
-
-  \subsection{Métricas para recomendação do revisor}\label{sec:metricas_revisor}
-
-  \subsection{Métricas de avaliação dos resultados}\label{sec:metricas_resultados}
-
-  \subsection{Outros trabalhos relevantes}\label{sec:outros_trabalhos}
+  \section{Desenvolvimento Distribuído de Software}\label{sec:dds}
 
 
+\chapter{REFERENCIAL TEÓRICO}\label{chap:trabalhos_relacionados}
 
-\section{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
+  \section{Revisão sistemática da literatura}\label{sec:revisao_sistematica}
+
+  \section{Métricas para recomendação do revisor}\label{sec:metricas_revisor}
+
+  \section{Métricas de avaliação dos resultados}\label{sec:metricas_resultados}
+
+  \section{Outros trabalhos relevantes}\label{sec:outros_trabalhos}
+
+
+
+\chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
     Dadas as variáveis relevantes do revisor que potencializam a colaboração discutidas na seção~\ref{sec:metricas_revisor}, este capítulo apresenta a ferramenta de recomendação para o desenvolvimento distribuído de software (DDS). Levando em consideração os modelos atuais de revisão de código exploradas na seção~\ref{sec:code_review} são propostos os seguintes requisitos funcionais da ferramenta:
 		\begin{itemize}
 			\item Dada uma revisão de código, a ferramenta deve apresentar sugestões de pares técnicos para o o papel de revisor;
@@ -346,21 +338,21 @@
 		\end{lstlisting}
 
 		O utilitário deve ser executado dentro da pasta do projeto. São utilizadas as credenciais de clone/merge do projeto para acesso à API do Github, enquanto o histórico de evolução do código é acessado localmente através da base do Git.
-\section{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
+\chapter{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
 
-  \subsection{Processo de Avaliação}
+  \section{Processo de Avaliação}
 
-  \subsection{Apresentação dos resultados}\label{section:apresentacao}
+  \section{Apresentação dos resultados}\label{section:apresentacao}
 
-  \subsection{Discussão dos resultados}\label{section:discussao}
+  \section{Discussão dos resultados}\label{section:discussao}
 
-\section{CONCLUSÃO}\label{chap:conclusao}
+\chapter{CONCLUSÃO}\label{chap:conclusao}
 
-  \subsection{Ameaças}\label{section:ameacas}
+  \section{Ameaças}\label{section:ameacas}
 
-  \subsection{Trabalhos futuros}\label{section:trabalhos_futuros}
+  \section{Trabalhos futuros}\label{section:trabalhos_futuros}
 
-  \subsection{Considerações finais}\label{section:consideracoes_finais}
+  \section{Considerações finais}\label{section:consideracoes_finais}
 
 
 
@@ -371,7 +363,7 @@
 
 \postextual
 
-\bibliographystyle{elsarticle-num}
+\bibliographystyle{abntex2-num}
 \bibliography{../bibrefs/refs.bib}
 
 
