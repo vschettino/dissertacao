@@ -275,12 +275,22 @@ Key-words: ...
 
     Os membros do core também têm suas \textit{branches} revisadas por um processo análogo \cite{6385140,Bosu2014}. A principal diferença é que não há necessidade do \texit{fork}, já que eles tem as permissões necessárias para criar uma nova \textit{branch} no projeto-alvo.
 
-  \section{Modelo 3c}\label{sec:modelo_3c}
-
   \section{Desenvolvimento Distribuído de Software}\label{sec:dds}
 
+  O Desenvolvimento Distribuído de Software é uma abordagem em crescente utilização no cenário atual \cite{mens2019}. Este \textit{workflow} descentralizado é caracterizado por membros das equipes de trabalho localizadas em lugares distintos espalhados pelo globo. Modalidades de \textit{home office} e \textit{freelancer} são comuns nestes contextos, mas basta que um membro de uma equipe esteja geograficamente disperso para caracterizar este fenômeno \cite{stadler2019}.  Esta mudança no paradigma tradicional de desenvolviemento colocalizado é patrocinada pelas organizações com o objetivo de reduzir custos, ter acesso a mão de obra mais qualificada e especialmente se manter competitivos num mercado cada vez mais concorrido \cite{herbsleb2001}.
+
+  Assim, os aspectos técnicos do processo produtivo devem se alinhar aos objetivos globais das organizações para dar suporte ao desenvolvimento distribuído e encarar os diversos desafios que permeiam esta mudança. Entre eles, é possível destacar o embate de aspectos socio-culturais, geográficos e de fuso horários. Em suma, estas caracterísitcas inerentes ao desenvolvimento distribuído ameçam a produtividade ao dificultar os processos que envolvem coodernação, comunicação e cooperação \cite{carmel2001}.
 
 \chapter{REFERENCIAL TEÓRICO}\label{chap:trabalhos_relacionados}
+
+Levando em consideração a complexidade e a importância da recomendação de revisores de código, associados com a grande variedade de métodos já propostos para tal fim, foram conduzidas uma revisão e mapeamento da literatura relacionada \cite{kitchenham2004}. O objetivo é apresentar o estado da arte das ferramentas, métodos e potenciais funcionalidades que suportem a escolha de revisores de código. Conhecendo o comportamento histórico do campo, podemos nutrir o desenvolvimento de novas soluções embasadas nas contribuições mais recentes com foco nas lacunas existentes e capazes de contribuir com a evolução das pesquisas relacionadas.
+
+De acordo com estes objetivos, buscamos apresentar em quais contextos a técnica de recomendação automatizada é mais relevante, e quais são as métricas que os pesquisadores utilizam para avaliar e comparar as abordagens propostas. Estas análises podem auxiliar a criar uma estrutura sólida para que novos métodos possam ter sua eficiência avaliada de maneira direta e reprodutível.
+
+Existem tentativas anteriores de reunir e avaliar diferentes métodos de recomendação de revisores, apesar de nenhuma delas envolver um processo sistemático de revisão da literatura relevante. Por isso, não há uma clara classificação dos modelos e os aspectos de reprodutibilidade e replicação dos estudos foram negativamente afetados. Yang et al. \cite{yang2017} apresentam diversos estudos e aplicam um método conhecido numa grande base de dados, tirando conclusões sobre como a eficência dos revisores ativos é muito maior do que aqueles que não participam do processo de forma contundente. Os autores também apresentam uma análise detalhada da base de dados utilizada, possibilitando entender melhor o contexto e a importância do comportamento dos envolvidos nos resultados do processo.
+
+Hannebauer et al. \cite{hannebauer2016} reconhecem que encontrar revisores adequados é um desafio e focam em comparar empiricamente oito diferentes abordagens em quatro conhecidos projetos \textit{open source}. Já Consentino et al. \cite{cosentino2017} apresentam uma revisão sistemática ampla, sobre o processo de desenvolvimento baseado em \textit{pull requests} do GitHub, citando alguns pontos da revisão de código. Apesar de importantes para compreensão da área de pesquisa, as contribuições anteriores não contam com o rigor de uma revisão sistemática da literatura, prejudicando aspectos de reprodutibilidade, adaptabilidade, replicabilidade. Assim, justificamos a necessidade de conduzir uma revisão sistemática para dar suporte teórico à este trabalho, evitando ainda viés por parte dos autores e nutrindo conclusões baseadas em evidências \cite{wholin2012}. 
+
 
   \section{Revisão sistemática da literatura}\label{sec:revisao_sistematica}
 
@@ -297,7 +307,7 @@ Key-words: ...
 		\begin{itemize}
 			\item Dada uma revisão de código, a ferramenta deve apresentar sugestões de pares técnicos para o o papel de revisor;
 			\item a lista de revisores deve ser estar ordenada por ordem de relevância da indicação;
-			\item os perfis dos indicados deve estar acessível (via link).
+			\item os perfis dos indicados devem estar acessíveis (via link).
 		\end{itemize}
 
 		A ferramenta proposta integra com repositórios de código Git, extrair informações de histórico de desenvolvimento e proximidade do \textit{changeset} em análise com a memória do projeto em relação ao canditado a revisor O acesso a esses metadados é efitivado através da biblioteca GitPython\footnote{http://gitpython.readthedocs.io/en/stable/tutorial.html} que fornece uma interface objeto-relacional para a base de dados interna do Git. Os históricos de revisão encontram-se no Github, e são extraídos através das APIs\footnote{https://api.github.com} disponibilizadas para este fim. A figura 2 representa os componentes e suas comunicações.
