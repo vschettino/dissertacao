@@ -411,10 +411,22 @@ Bosu et al. \cite{bosu2015} conduziram um estudo empírico na Microsoft onde ava
   \item interatividade (respostas, comentários, etc);
   \item sentimento positivo;
   \item tamanho dos comentários.
+  \item capacidade de gerar mudanças
 \end{itemize}
 
+Através de métricas como tempo de resposta e interatividade, é possível avaliar se os revisores indicados potencializam a colaboração e a produção de conhecimento através da discussão, reflexos da revisão de código que devem ser fomentados \cite{Meneely201437, Morales2015171, Bavota201581}. Aspectos como sentimento positivo, baixo índice de ``stop words'' e tamanho dos comentários e a capacidade de gerar mudanças podem indicar que o revisor escolhido foi capaz de interagir positivamente com o processo, gerando valor agregado em soluções melhores e teve perfil e experiências compatíveis para contribuir com código em discussão \cite{bosu2015}.
 
+Tendo como base os resultados da revisão sistemática, da leitura dos trabalhos relacionados, as análises contidas nos capítulos anteriores e o direcionamento aos principais desafios da pesquisa em recomendação de revisores de código, foi possível definir os seguintes tópicos basilares para o trabalho:
 
+\begin{itemize}
+  \item O método proposto é direcionado ao contexto de desenvolvimento distribuído, com particularidades para aplicação e avaliação no desenvolvimento \textit{Open Source};
+  \item o método proposto utiliza aspectos e análises de redes sociais e relacionamentos entre os desenvolvedores para realizar as recomendações;
+  \item o processo de avaliação é pautado na performance dos indicados e de suas interações no processo de revisão.
+\end{itemize}
+
+Com estes direcionamentos, o capítulo~\ref{chap:metodos} apresenta a análise exploratória dos datasets escolhidos e embasamento empírico dos métodos propostos.
+
+\chapter{METODOS DE RECOMENDAÇÃO}\label{chap:metodos}
 
 \chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
     Dadas as variáveis relevantes do revisor que potencializam a colaboração discutidas na seção~\ref{sec:metricas_revisor}, este capítulo apresenta a ferramenta de recomendação para o desenvolvimento distribuído de software (DDS). Levando em consideração os modelos atuais de revisão de código exploradas na seção~\ref{sec:code_review} são propostos os seguintes requisitos funcionais da ferramenta:
@@ -494,18 +506,6 @@ Bosu et al. \cite{bosu2015} conduziram um estudo empírico na Microsoft onde ava
 
 
 %% Apendices
-
-\begin{apendicesenv}
-
-\chapter{Artigo Mapeamento Sistemático}
-
-Colocar aqui o artigo.
-
-
-\begin{anexosenv}
-
-
-\end{anexosenv}
 
 %%% ---
 \end{document}
