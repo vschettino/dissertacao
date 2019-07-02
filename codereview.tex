@@ -328,15 +328,91 @@ A busca foi executada, com pequenas modificações de sintaxe para aderir aos pa
  \caption{Condução do protocolo sistemático}\label{fig:workflow}
 \end{figure}
 
-Ao todo, 106 trabalhos foram encontrados. Destes, 29 foram considerados duplicados, enquanto 60 foram rejeitados de acordo com os critérios de exclusão. A principal razão foi não apresentar um método de recomendação com evidências empíricas de eficiência. Os 17 trabalhos restantes passaram pela leitura completa, constatando-se que todos cumpriam os critérios para inclusão na análise.
+Ao todo, 106 trabalhos foram encontrados. Destes, 29 foram considerados duplicados, enquanto 60 foram rejeitados de acordo com os critérios de exclusão. A principal razão foi não apresentar um método de recomendação com evidências empíricas de eficiência. Os 17 trabalhos restantes passaram pela leitura completa, constatando-se que todos cumpriam os critérios para inclusão na análise. Respondendo a \textbf{MQ2}, a tabela~\ref{tab:papersperchannel} indica os trabalhos selecionados separados por meio de publicação. o \textit{h5-index} indica o fator de citação da de cada veículo nos últimos 5 anos.
+
+
+\begin{table}[!htbp]
+  \tiny
+  \begin{center}
+  \caption{Publicações por veículos }
+  \label{tab:papersperchannel}
+    \begin{tabularx}{\textwidth}{cXc}
+    \hline\noalign{\smallskip}
+    Reference         & \multicolumn{1}{c}{Channel} & h5-index \\
+    \noalign{\smallskip}
+    \hline
+    \noalign{\smallskip}
+    \cite{rahman2016}\cite{balachandran2013}  & ICSE - IEEE/ACM International Conference on Software Engineering & 68                                  \\
+    \cite{zanjani2016} & IEEE Transactions on Software Engineering & 52 \\
+    \cite{liao2017} & GLOBECOM - IEEE Global Communications Conference & 48 \\
+    \cite{costa2016} & SIGSOFT - ACM International Symposium on Foundations of Software Engineering & 43 \\
+    \cite{fejzer2017} & Journal of Intelligent Information Systems  & 22 \\
+    \cite{jiang2015} & Journal of Computer Science and Technology & 22\\
+    \cite{yang2016} &  IEICE Transactions on Information and Systems & 17 \\
+    \cite{Thongtanunam2015-1}  & SANER - IEEE International Conference on Software Analysis, Evolution and Reengineering & 13                                 \\
+    \cite{yu2014,lee2013} & APSEC Asia-Pacific Software Engineering Conference & 12  \\
+    \cite{xia2017} & IEEE/ACM International Workshop on Software Mining & * \\
+    \cite{ying2016} &  International Workshop on CrowdSourcing in Software Engineering & *\\
+    \cite{yu2014-2}\cite{xia2015}\cite{ouni2016} & ICSME -  IEEE International Conference on Software Maintenance and Evolution  & *\\
+    \cite{fu2017} & IWCSN - International Workshop on Complex Systems and Networks & * \\
+    \hline
+  \end{tabularx}
+  \end{center}
+\end{table}
+
+Os resultados obtidos através da análise da \textbf{MQ3} servem para direcionar ferramentas de recomendação em contextos onde este tipo de técnica se faz mais relevante. É possível observar que a recomendação de revisores etá relacionada ao desenvolvimento destribuído e ao desenvolvimento ``pull-based''. Esta associação parece ser embasada aos desafios interentes do desenvolvimento global. Ying et al. \cite{ying2016} justificam este fenômeno através do maior número de revisões e revisores, o que dificulta a seleção manual dos envolvidos. Yu et al. \cite{yu2014} mostram que encontrar o melhor revisor para um ``pull request'' é um trabalho tipicamente de ``crowdsourcing''. Assim, para a escolha manual é necessário validar a opinião de muitas pessoas, o que dificulta o processo. Neste contexto também é comum contar com uma riqueza maior de informações graças ao emprego massivo de ferramentas de suporte ao desenvolvimento, onde é a agregação e utilização destes dados ainda é um desafio \cite{rahman2016}.
+
+A maior parte dos trabalhos listados utilizou repositórios de dados \textit{``Open Source''} para testar os métodos propostos, enquanto alguns foram além de utilizaram mecanismos e informações específicas deste tipo de desenvolvimento para criar ferramentas especializadas neste contexto. Devido ao ambiente de rápida interação e grande quantidade de contribuidores esporádicos, as revisões adequadas (muitas vezes movidas pela escolha dos revisores adequados) podem aumentar a retenção de desenvolvedores e influenciar no sucesso do projeto \cite{fu2017}. Neste tipo de processo produtivo é comum existir um grupo seleto de desenvolvedores experientes que agem como guardiões da qualidade, padronização e objetivos dos projetos durante o processo de revisão. Como estes são responsáveis por um conjunto muito grande de revisões \cite{lee2013}, o atraso no assimilação do código proposto à codebase principal pode atrasar as entregas e desencorajar novas contribuições \cite{jiang2015}. Assim, recomendaçoẽs automáticas podem distribuir melhor a carga de revisão e aproveitar melhor as especialidades de cada membro da equipe.
+
+Diante do exposto, os métodos de recomendação deste trabalho levam em consideração aspectos do desenvolvimento distribuído em sua concepção. O desenvolvimento \textit{``Open Source''} é um dos contextos mais maduros e carantes deste tipo de abordagem, e por isso são o principal alvo da ferramenta e campo para avaliação do proposto. Além disso, este tipo de repositório é mais acessível, o que auxilia na realização de experimentos auditáveis e reprodutíveis.
 
 
 
-\section{Métricas para recomendação do revisor}\label{sec:metricas_revisor}
 
-\section{Métricas de avaliação dos resultados}\label{sec:metricas_resultados}
+\section{Categorização dos principais trabalhos}\label{sec:metricas_resultados}
 
-\section{Outros trabalhos relevantes}\label{sec:outros_trabalhos}
+Com o objetivo de responder à \textbf{RQ2}, a revisão sistemática separou os trabalhos selecionados em quatro categorias distintas, de acordo com os dados nos quais cada um dos métodos apresentados utiliza.
+
+\subsection{Experiência dos revisores}
+
+Os métodos classificados nesta categoria utilizam a experiência de um revisor como principal informação para recomendá-lo. A lógica é que se ele atuou em revisões parecidas (tanto em região do código quanto em outros aspectos), ele será adequado para a revisão atual.Enquanto Fejzer et al. \cite{fejzer2017} propõem utilizar a similradidade do código submetido com o perfil do revisor, Liao et al. \cite{liao2017} definem um conjunto de tópicos que descrevem a experiência e que pode ser comparado com a necessidade da revisão atual. Thongtanunam et al. \cite{Thongtanunam2015-1} apresenta um abordagem onde o caminho dos arquivos revisados são comparados com o histórico de revisão dos potenciais indicados.
+
+\subsection{Experiência do Desenvolvedor}
+Alguns métodos inferem que a experiência do desenvolvedor em contribuições no passado podem indicar na sua capacidade em revisar modificações parecidas. Costa et al. \cite{costa2016} analisam quais foram os responsáveis por mudanças desta região para encontrar candidatos. Rahman et al. \cite{rahman2016} apresentam o CORRECT, um método que analisa a experiência dos desenvolvedores em projetos diferentes mas que contam com tecnologias compartilhadas para recomendar.
+
+\subsection{Redes Sociais}
+Uma das abordagens compartilhada entre os métodos mais novos é utilizar os relacionamentos entre desenvolvedores para encontrar os revisores adequados. Ou seja, a partir do histórico de interação (revisão, colaboração, comentários, respostas) é possível inferir quais seriam os melhores revisores para uma nova mudança. Estes relacionamentos são geralmente representados como grafos, construídos com ajuda de análises textuais, proximidade semântica e tópicos das interações passadas. Fu et al. \cite{fu2017} propõe utilzar um grafo baseado nas relações sociais dos desenvolvedores. Xia et al. \cite{xia2017} captura relações implícitas e valoriza interaçoẽs mais recentes. Yu et al. \cite{yu2014,yu2014-2} estende métodos tradicionais em classificação de ocorrências (defeitos, solicitações e etc) para aplicação em recomendação revisores, extraindo informaçoẽs de discussões e comentários em desenvolvimento global. Yang et al. \cite{yang2016} emprega análise de redes sociais para encontrar revisores baseado na intensidade dos relacionamentos.
+
+
+\subsection{Abordagens Híbridas}
+Alguns métodos reúnem diferentes classes de informação para tentar assimilar as melhores características de cada uma delas. Através da análise de um grafo, Ying et al. \cite{ying2016} consideram tanto a experiência dos desenvolvedores quanto a autoridade no processo de desenvolvimento. Através da ferramenta CoreDevRec, Jiang et al. \cite{jiang2015} utilizam o caminho dos arquivos modificados, a relação pregressa e a atividade dos envolvidos.
+
+Ainda de acordo com a revisão sistemática conduzida, as abordagens baseadas em redes sociais são mais novas e alvo dos trabalhos com mais repercussão na área. Assim, para o escopo deste trabalho foi decidido explorar este tipo de abordagem, que está intimamente relacionado com o desenvolvimento distribuído.
+
+
+
+\section{Métricas de avaliação}\label{sec:metricas_revisor}
+
+Respondendo a \textbf{RQ1}, o trabalho de revisão sistemática identifica que a maior parte dos trabalhos utiliza métricas clássicas de sistemas de recomendação para avaliar os métodos, como Top-k \textit{Precision}, \textit{Recall} e \textit{Hit}. Ou seja, é avaliada a proximidade do conjunto de tamanho $k$ que foi recomendado pelo método em relação ao conjunto que um especialista escolheu. Assim, é uma avaliação que compara a capacidade do algoritmo proposto em relação ao que um ser humano especialista faria. a métrica de precisão (\textit{Precision}) mostra o quão parecidos são os conjuntos, enquanto o \textit{recall} aponta quantos items do conjunto do especialista foram ``esquecidos'' pelo método proposto. Já o \textit{hit} indica se pelo menos um membro do conjunto apontado pelo especialista foi considerado pelo algoritmo.
+
+Em contraponto, a revisão sistemática mostrou que alguns autores propõem métodos mais sofisticados para avaliação dos métodos. Esta necessidade se justifica ao considerar que os humanos que indicam revisores não necessariamente são especialistas nesta tarefa. Isso acontece especialmente no desenvolvimento distribuído, onde não é fácil reunir informações sobre todos os envolvidos para embasar estas decisões. Além disso, aspectos de disponibilidade, especialidade, horários e questões culturais deixam ainda mais improvável que os grupos de revisão definidos possam ser considerados como os ideais. Assim, a proximidade do conjunto sugerido com o conjunto efetivamente formado não é suficiente para avaliar os métodos.
+
+Diversas avaliações alternativas são citadas. Yang et al. \cite{yang2016} leva em consideração qual o impacto das recomendações na interatividade das revisões. Outros trabalhos também discutem o impacto positivo dos seus métodos na efiência do processo de revisão \cite{xia2017, liao2017}. A análise focada na eficência e impacto dos métodos de revisão é motivação do presente trabalho, e fomenta aspectos que são detalhados na seção~\ref{sec:avaliacao_review}
+
+\section{Métricas para avaliação do Code Review}\label{sec:avaliacao_review}
+
+Para propor modelos de avaliação voltados para o impacto dos métodos em relação à eficiência do processo de revisão, é necessário estabelecer parâmetros de comparação que embasem tais análises. Além dos aspectos como número de comentários e respostas e tempo de resposta discutidos por Yang et al. \cite{yang2016}. Trabalhos prévios apresentam outras métricas relacionadas à avaliação do processo de revisão, que podem ser aplicadas no contexto da recomendação ao comparar o desempenho de dois grupos distintos de participações em revisões: os sugeridos pelo método e aqueles que não foram. Assim é possível medir se os revisores recomendados tiveram um desempenho melhor durante o processo.
+
+Bosu et al. \cite{bosu2015} conduziram um estudo empírico na Microsoft onde avaliaram manualmente a pertinência de milhares de comentários de revisões. Assim, buscaram descobrir quais características das revisões, revisores e comentários que levaram às interações mais positivas no processo: mais mudanças (frutos de discussões relvantes), adesão aos padrões de desenvolvimento e receptividade por parte dos autores. Já Rahman et al. \cite{rahman2017} analisaM os textos das discussões e encontra correlação da pertinência do revisor com comentários mais úteis. As principais métricas que podem ser objetivamente avaliadas são:
+
+\begin{itemize}
+  \item Tempo curto de respostas;
+  \item baixo índice de ``stop words'';
+  \item interatividade (respostas, comentários, etc);
+  \item sentimento positivo;
+  \item tamanho dos comentários.
+\end{itemize}
+
 
 
 
