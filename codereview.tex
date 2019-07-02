@@ -264,11 +264,11 @@ Key-words: ...
   \subsection{Pull Based Method}\label{sec:pull_based}
     O conceito de \textit{branches} é a base para sistemas de controle de versão descentralizados, como o  Git\footnote{https://git-scm.com/} e o Mercurial\footnote{https://www.mercurial-scm.org/}. Com as \textit{branches} é possível desenvolver paralelamente, submtendo e mesclando as alterações no código em momentos oportunos. Esta característica é interessante para o DDS, uma vez que o isolamento e a atomicidade do trabalho de cada um até o momento de submissão é fundamental para a coordenação dos esforços \cite{barr2012}.
 
-    Estas tecnologias permitiram o surgimento de um paradigma de desenvolvimento baseado em pulls, ou \textit{pull-based method} \cite{gousios2014}. O processo de revisão de código evolui neste novo paradigma, servindo como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal \cite{gousios2015}. A figura 1 ilustra tal modelo de trabalho instanciado no GitHub\footnote{https://github.com}, principal expoente que oferece este paradigma. Nele é representado um modelo comum em desenvolvimento OpenSource \cite{6385140}, onde há um \textit{core team} responsável por revisar os \textit{pulls} de seus colegas e da comunidade no geral. Neste modelo, a mudança chega à codebase principal somente se houver o aval de um membro do \textit{core team}.
+    Estas tecnologias permitiram o surgimento de um paradigma de desenvolvimento baseado em pulls, ou \textit{pull-based method} \cite{gousios2014}. O processo de revisão de código evolui neste novo paradigma, servindo como um \textit{gateway} de qualidade que busca garantir que apenas alterações aderentes aos padrões de qualidade do projeto serão incorporados à codebase principal \cite{gousios2015}. A figura \ref{fig:pull-request-flow} ilustra tal modelo de trabalho instanciado no GitHub\footnote{https://github.com}, principal expoente que oferece este paradigma. Nele é representado um modelo comum em desenvolvimento OpenSource \cite{6385140}, onde há um \textit{core team} responsável por revisar os \textit{pulls} de seus colegas e da comunidade no geral. Neste modelo, a mudança chega à codebase principal somente se houver o aval de um membro do \textit{core team}.
 
      \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{pull-request-flow}\label{fig:pull-request-flow}
-      \caption{Pull Request Process \cite{gousios2014}}
+      \includegraphics[width=\textwidth]{pull-request-flow}
+      \caption{Pull Request Process \cite{gousios2014}}\label{fig:pull-request-flow}
     \end{figure}
 
     Aquele que deseja contribuir cria para si uma cópia do projeto através de um \textit{fork}. Esta ação cria em seu diretório de trabalho um projeto idêntico ao original, mas ao qual ele tem acesso total de submissão e modificação. Nessa cópia, ele executa as modificações desejadas, geralmente em uma \textit{branch} dedicada para tal \cite{gousios2016}. Ao terminar, ele solicita a integração da \texit{branch} do \textit{fork} de volta ao projeto original. Essa solitação é chamada de \textit{pull-request}, que será analisada por um desenvolvedor com as devidas permissões. Durante esta revisão, o autor pode gerar novas modificações, geralmente atreladas aos pedidos do revisor. Ao final, a mudança é rejeitada (\textit{closed}) ou aceita \textit{merged}.
@@ -283,22 +283,60 @@ Key-words: ...
 
 \chapter{REFERENCIAL TEÓRICO}\label{chap:trabalhos_relacionados}
 
-Levando em consideração a complexidade e a importância da recomendação de revisores de código, associados com a grande variedade de métodos já propostos para tal fim, foram conduzidas uma revisão e mapeamento da literatura relacionada \cite{kitchenham2004}. O objetivo é apresentar o estado da arte das ferramentas, métodos e potenciais funcionalidades que suportem a escolha de revisores de código. Conhecendo o comportamento histórico do campo, podemos nutrir o desenvolvimento de novas soluções embasadas nas contribuições mais recentes com foco nas lacunas existentes e capazes de contribuir com a evolução das pesquisas relacionadas.
+Levando em consideração a complexidade e a importância da recomendação de revisores de código, associados com a grande variedade de métodos já propostos para tal fim, foram conduzidas uma revisão e um mapeamento da literatura relacionada <<citar aqui>>. No presente trabalho os principais aspectos e resultados deste estudo serão apresentados, com ênfase naqueles particularmente relevantes aqui. De acordo com parâmetros e diretrizes estabelecidos, \cite{kitchenham2004} o objetivo é apresentar o estado da arte das ferramentas, métodos e potenciais funcionalidades que suportem a escolha de revisores de código. Conhecendo o comportamento histórico do campo, podemos nutrir o desenvolvimento de novas soluções embasadas nas contribuições mais recentes com foco nas lacunas existentes e capazes de contribuir com a evolução das pesquisas relacionadas.
 
 De acordo com estes objetivos, buscamos apresentar em quais contextos a técnica de recomendação automatizada é mais relevante, e quais são as métricas que os pesquisadores utilizam para avaliar e comparar as abordagens propostas. Estas análises podem auxiliar a criar uma estrutura sólida para que novos métodos possam ter sua eficiência avaliada de maneira direta e reprodutível.
 
 Existem tentativas anteriores de reunir e avaliar diferentes métodos de recomendação de revisores, apesar de nenhuma delas envolver um processo sistemático de revisão da literatura relevante. Por isso, não há uma clara classificação dos modelos e os aspectos de reprodutibilidade e replicação dos estudos foram negativamente afetados. Yang et al. \cite{yang2017} apresentam diversos estudos e aplicam um método conhecido numa grande base de dados, tirando conclusões sobre como a eficência dos revisores ativos é muito maior do que aqueles que não participam do processo de forma contundente. Os autores também apresentam uma análise detalhada da base de dados utilizada, possibilitando entender melhor o contexto e a importância do comportamento dos envolvidos nos resultados do processo.
 
-Hannebauer et al. \cite{hannebauer2016} reconhecem que encontrar revisores adequados é um desafio e focam em comparar empiricamente oito diferentes abordagens em quatro conhecidos projetos \textit{open source}. Já Consentino et al. \cite{cosentino2017} apresentam uma revisão sistemática ampla, sobre o processo de desenvolvimento baseado em \textit{pull requests} do GitHub, citando alguns pontos da revisão de código. Apesar de importantes para compreensão da área de pesquisa, as contribuições anteriores não contam com o rigor de uma revisão sistemática da literatura, prejudicando aspectos de reprodutibilidade, adaptabilidade, replicabilidade. Assim, justificamos a necessidade de conduzir uma revisão sistemática para dar suporte teórico à este trabalho, evitando ainda viés por parte dos autores e nutrindo conclusões baseadas em evidências \cite{wholin2012}. 
+Hannebauer et al. \cite{hannebauer2016} reconhecem que encontrar revisores adequados é um desafio e focam em comparar empiricamente oito diferentes abordagens em quatro conhecidos projetos \textit{open source}. Já Consentino et al. \cite{cosentino2017} apresentam uma revisão sistemática ampla, sobre o processo de desenvolvimento baseado em \textit{pull requests} do GitHub, citando alguns pontos da revisão de código. Apesar de importantes para compreensão da área de pesquisa, as contribuições anteriores não contam com o rigor de uma revisão sistemática da literatura, prejudicando aspectos de reprodutibilidade, adaptabilidade, replicabilidade. Assim, justificamos a necessidade de conduzir uma revisão sistemática para dar suporte teórico à este trabalho, evitando ainda viés por parte dos autores e nutrindo conclusões baseadas em evidências \cite{wohlin2012}.
 
 
-  \section{Revisão sistemática da literatura}\label{sec:revisao_sistematica}
+\section{Revisão sistemática da literatura}\label{sec:revisao_sistematica}
 
-  \section{Métricas para recomendação do revisor}\label{sec:metricas_revisor}
+As diretrizes para embasar pesquisas sistemáticas em Ciência da Computação foram propostas por Kitchenham~\cite{kitchenham2004}, ao adaptar abordagens e outras áreas, especialmente das Ciências Méticas. Enquanto o mapeamento traz um panorama geral do desenvolvimento de uma área, a revisão sistemática foca em questões mais específicas e objetivas, muitas vezes relacionadas aos resultados dos estudos. \cite{wohlin2012}. Apesar de geralmente seguir o mesmo protocolo, o escopo, critérios e questões de pesquisa são distintos. Levando em consideração os objetivos deste trabalho a configuração atual da área de pesquisa, ambas as abordagens podem ser úteis. Todas etapas do estudo foram concretizadas por quatro diferentes especialistas, em análises distintas. Todos os critério de inclusão e exclusão dos trabalhos e eventuais divergências foram discutidos em profunidade antes da definição dos resultados.
 
-  \section{Métricas de avaliação dos resultados}\label{sec:metricas_resultados}
+\subsection{Questões de Pesquisa}
 
-  \section{Outros trabalhos relevantes}\label{sec:outros_trabalhos}
+No trabalho conduzido, as seguintes questões foram escolhidas para caracterizar a área de recomendação de revisores de código:;
+
+\subsubsection{\textbf{MQ1: Quem são os principais autores na área?}} Ao identificar os principais autores, embasamos os futuros pesquisadores da área com um ponto de partida para leitura e acompanhamento.
+
+\subsubsection{\textbf{MQ2: Quais são os principais meios de publicação na área?}} O tipo de publicação e conceituação do meio podem ser evidências da maturidade do campo de pesquisa e atenção direcionada pela comunidade acadêmica.
+
+\subsubsection{\textbf{MQ3: Em quais contextos a recomendação de revisores de código é utilizada? (Desenvolvimento global de sofware, indústria, Código Livre)}} O objetivo é endender quais contextos potencializam a necessidade de métodos automatizados de recomendação.
+
+Buscando por um panorama mais espeífico e objetivo, foram propostas as seguintes questões de pesquisa para serem analisadas através da revisão sistemática:
+
+\subsubsection{\textbf{RQ1: Como a eficiência da recomendação dos revisroes é mensurada?}} Para propor novos métodos de recomendação é importante conhecer as métricas de avaliação empregadas nos trabalhos anteriores de forma a fundamentar a comparação dos resultados.
+
+\subsubsection{\textbf{RQ2: Quais informações dos repositórios de software são utilizadas para recomendar os revisores?}} Para propor novos métodos de recomendação é importante entender quais informações foram utilizadas em propostas anteriores, sendo assim possível estendê-las e discutir novas abordagens e aplicações.
+
+Levando em consideração objetivos da abordagem sistemáticas (definidas pelo processo GQM \cite{Basili1984}) e os termos definidos pelo PICOC \cite{Petticrew2008} a \textit{string} de busca foi construída. Termos similares e sinônimos foram incluídos para obter um espectro maior de pulicações. Termos como \textit{``pull-request''} foram adicionados para garantir que trabalhos sobre ``pull-based software development'' (como ilustrado na seção ~\ref{sec:pull_based}) fossem encontrados. Assim, a seguinte \textit{string} foi gerada:
+
+\begin{quote}
+  \textit{("software developer" AND developer)  AND  ("reviewer recommendation" OR "commenter recommendation")  AND  (method  OR  tool  OR  solution  OR  framework )  AND  ( "code review" OR "pull-request" OR "pull request" )}
+\end{quote}
+
+A \textit{string} de busca proposta foi revisada pelos autores do trabalho anterior separadamente, assim como por um pesquisador externo com o objetivo de validar a sua composição, relevância e emprego e termos correlatos. Buscas \textit{ad-hoc} foram conduzidas para validar o uso dos termos na área e foram encontradas em trabalhos relevantes.
+
+
+A busca foi executada, com pequenas modificações de sintaxe para aderir aos padrões das diferentes bases de dados. Os resultados foram explorados com o auxílio da ferramenta Parsifal \footnote{http://parsif.al}, muito útil para acompanhar o processo sistemático proposto por Kitchenham~\cite{kitchenham2004}. Na ferramenta foi possível remover trabalhos duplicados, classificar os restantes de acordo com o critério de exclusão e categorizar os restantes de acordo com a relevância para o trabalho. A figura~\ref{fig:workflow} descreve este processo.
+
+\begin{figure}[!htbp]
+ \includegraphics[width=.5\textwidth]{workflow.png}
+ \caption{Condução do protocolo sistemático}\label{fig:workflow}
+\end{figure}
+
+Ao todo, 106 trabalhos foram encontrados. Destes, 29 foram considerados duplicados, enquanto 60 foram rejeitados de acordo com os critérios de exclusão. A principal razão foi não apresentar um método de recomendação com evidências empíricas de eficiência. Os 17 trabalhos restantes passaram pela leitura completa, constatando-se que todos cumpriam os critérios para inclusão na análise.
+
+
+
+\section{Métricas para recomendação do revisor}\label{sec:metricas_revisor}
+
+\section{Métricas de avaliação dos resultados}\label{sec:metricas_resultados}
+
+\section{Outros trabalhos relevantes}\label{sec:outros_trabalhos}
 
 
 
