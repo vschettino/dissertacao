@@ -381,7 +381,7 @@ Os métodos classificados nesta categoria utilizam a experiência de um revisor 
 Alguns métodos inferem que a experiência do desenvolvedor em contribuições no passado podem indicar na sua capacidade em revisar modificações parecidas. Costa et al. \cite{costa2016} analisam quais foram os responsáveis por mudanças desta região para encontrar candidatos. Rahman et al. \cite{rahman2016} apresentam o CORRECT, um método que analisa a experiência dos desenvolvedores em projetos diferentes mas que contam com tecnologias compartilhadas para recomendar.
 
 \subsection{Redes Sociais}
-Uma das abordagens compartilhada entre os métodos mais novos é utilizar os relacionamentos entre desenvolvedores para encontrar os revisores adequados. Ou seja, a partir do histórico de interação (revisão, colaboração, comentários, respostas) é possível inferir quais seriam os melhores revisores para uma nova mudança. Estes relacionamentos são geralmente representados como grafos, construídos com ajuda de análises textuais, proximidade semântica e tópicos das interações passadas. Fu et al. \cite{fu2017} propõe utilzar um grafo baseado nas relações sociais dos desenvolvedores. Xia et al. \cite{xia2017} captura relações implícitas e valoriza interaçoẽs mais recentes. Yu et al. \cite{yu2014,yu2014-2} estende métodos tradicionais em classificação de ocorrências (defeitos, solicitações e etc) para aplicação em recomendação revisores, extraindo informaçoẽs de discussões e comentários em desenvolvimento global. Yang et al. \cite{yang2016} emprega análise de redes sociais para encontrar revisores baseado na intensidade dos relacionamentos.
+Uma das abordagens compartilhada entre os métodos mais novos é utilizar os relacionamentos entre desenvolvedores para encontrar os revisores adequados. Ou seja, a partir do histórico de interação (revisão, colaboração, comentários, respostas) é possível inferir quais seriam os melhores revisores para uma nova mudança. Estes relacionamentos são geralmente representados como grafos, construídos com ajuda de análises textuais, proximidade semântica e tópicos das interações passadas. Fu et al. \cite{fu2017} propõe utilzar um grafo baseado nas relações sociais dos desenvolvedores. Xia et al. \cite{xia2017} captura relações implícitas e valoriza interaçoẽs mais recentes. Yu et al. \cite{yu2014,yu2014-2} estende métodos tradicionais em classificação de ocorrências (defeitos, solicitações e etc) para aplicação em recomendação revisores, extraindo informações de discussões e comentários em desenvolvimento global. Yang et al. \cite{yang2016} emprega análise de redes sociais para encontrar revisores baseado na intensidade dos relacionamentos.
 
 
 \subsection{Abordagens Híbridas}
@@ -427,6 +427,54 @@ Tendo como base os resultados da revisão sistemática, da leitura dos trabalhos
 Com estes direcionamentos, o capítulo~\ref{chap:metodos} apresenta a análise exploratória dos datasets escolhidos e embasamento empírico dos métodos propostos.
 
 \chapter{METODOS DE RECOMENDAÇÃO}\label{chap:metodos}
+
+Em convergência com as diretrizes basilares lançadas nos capítulos anteriores, esta seção descreve as análises da colaboração entre desenvolvedores em repositórios ``OpenSource'' que culminaram na proposta de métodos de reomendação para revisão de código. Além da compreensão das características das redes de interação formadas nos repositórios, foram definidos mecanismos para evitar enviesamento dos resultados e excesso de restrição da validade das propostas a determinadas tecnologias ou projetos.
+
+\section{Redes de desenvolvedores}
+
+Interações durante do desenvolvimento de software caracterizam o surgimento de redes sociais de desenvolvedores, denominadas \textit{``social networks''} ou \textit{``developer networks''} \cite{lopez2004}. Observar tais estruturas como grafos é o ponto de partida de diversas aplicações deste tipo de análise, como previsão de defeitos \cite{meneely2008}, triagem de tarefas de manutenção \cite{zhang2012} e encontrar os melhores profissionais para responder determinada dúvida \cite{li2010}. Diversas informações estão disponíveis para a modelagem de tais redes, tanto diretamente das ferramentas de controle versão quanto em ambientes de desenvolvimento mais sofisticados, como o GitHub\footnote{https://github.com} e o GitLab\footnote{https://gitlab.com}. Assim, de acordo com o contexto de cada pesquisa, é possível selecionar quais tipos de interação e seus atributos serão utilizados como vértices, arestas e pesos das representações.
+
+\section{Modelagem da rede}
+Uma rede social pode ser representada como um conjunto de nós conectados entre si. O objetivo é refletir nesta estrtura a relação entre os indivíduos e a forma que eles interagem. Dentre os dados disponíveis, existem diferentes óticas nas quais os dados podem ser modelados e analisados, de acordo com as conclusões esperadas. No caso deste trabalho, o interesse recai nas interações entre desenvolvedores no processo de \textit{``pull request''} e de revisão de código. Durante esta etapa do desenvolvimento, o revisor interage com o autor comentando em partes específicas do código buscando sanar dúvidas, melhorar a implementação ou evitar que mudanças fora do padrão de codificação sejam admitidas no repositório. A figura~\ref{fig:comment-codereview} representa tal interação.
+
+\begin{figure}[htbp]
+ \includegraphics[width=\textwidth]{comment-codereview}
+ \caption{Interação entre autor e revisor durante a revisão}\label{fig:comment-codereview}
+\end{figure}
+
+Através da API RESTful\footnote{https://developer.github.com/v3/} do GitHub é possível interagir com o repositório e obter estas informações automaticamente, possibilitando a modelagem da rede.
+
+\subsection{Principais características}
+No modelo proposto, os desenvolvedores são os nós e as arestas direcionadas entre eles representam os comentários de revisão durante o \textit{``pull request''}. Quando um desenvolvedor cria um comentário em uma revisão, um relacionamento entre ele e o autor é criado ou atualizado. Assim, o modelo é um grafo direcionado $ G = (V, E) $ onde $ V ={v_0, v_1, ... , v_n} $ representa o conjunto de $n$ desenvolvedores e $E$ o conjunto de triplas (arestas) $e_i_j = (v_i, v_j, w)$ entre indivíduos $v_i$ e $v_j$. O peso $w$ é formulado para representar como determinado desenvolvedor influencia outro na perspectiva da revisão. Este valor representa o quão influente é um desenvolvedor sob outros em detrimento do conjunto todo. Ele é calculado considerando cada contribuição $k$ do desenvolvedor $v_i$ para o $v_j$ onde $contrib(v_i,v_j,v_k)$. Valores mais altos de $w$ indicam maior influência de $v_i$ em $v_j$.
+
+
+Para evitar que interações antigas de desenvolvedores que podem nem estar ativos mais no projeto enviesem as análises, tais ocorrências são penalizadas de modo a valer menos do que interações mais novas. Assim, o valor de cada comentário $k$ de $v_i$ para $v_j$ decai exponencialmente dquanto mais antigo ele se torna. O valor total $P(v_i,v_j)$ ~\eqref{eq:penalization} é a soma de todas as contribuições de  $v_i$ para $v_j$. A função $inter(v_i,v_j, k)$ retorna cada interação $k$ entre os indivíduos $v_i$ e $v_j$.
+
+Com os valores agregados definidos por $P(v_i,v_j)$, o peso $w_i_j$ é então calculado~\eqref{eq:weight}. $W(v_i,v_j)$ representa qual a participação das interações em direção à $v_j$ vieram de $v_i$. Assim, $w_i_j$ é sempre um número entre $(0,1]$. Quanto mais próximo $w_i_j$ é de 1, maior a influencia de $v_i$ sobre $v_j$. Desta forma, $w_i_j = 1$ significa que $v_i$ é responsável por todas as interações que $v_j$ recebeu.
+
+
+\begin{equation}
+P(v_i,v_j)=\sum\limits_{k=1}^{n}\frac{1}{\exp{days(inter(v_i,v_j, k))}}\label{eq:penalization}
+\end{equation}
+
+\begin{equation}
+W(v_i,v_j)=\frac{P(v_i,v_j)}{\sum\limits_{k=1}^{n}{P(v_j,v_k)}}\label{eq:weight}
+\end{equation}
+
+
+\section{Análise exploratória da rede proposta}
+  Para avaliar a topologia da rede proposta, é necessário instanciar o modelo utilizando dados de projetos de software reais. Assim é possível compreender se as distribuições, cararacterísticas e comportamentos do grafo são compatíveis com o descrito na literatura e se tal contexto permite conclusões relevantes para os objetivos deste trabalho.
+  \subsection{Escolha dos repositórios}
+  \subsection{Resultados}
+\section{Clusterização}
+  \subsection{NetSCAN}
+  \subsection{Execução}
+  \subsection{Avaliação doa clusterização}
+\section{Métodos de recomendação}
+  \subsection{RandomCore}
+  \subsection{CoreSameCluster}
+  \subsection{LabelPartners}
+
 
 \chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
     Dadas as variáveis relevantes do revisor que potencializam a colaboração discutidas na seção~\ref{sec:metricas_revisor}, este capítulo apresenta a ferramenta de recomendação para o desenvolvimento distribuído de software (DDS). Levando em consideração os modelos atuais de revisão de código exploradas na seção~\ref{sec:code_review} são propostos os seguintes requisitos funcionais da ferramenta:
