@@ -482,14 +482,14 @@ W(v_i,v_j)=\frac{P(v_i,v_j)}{\sum\limits_{k=1}^{n}{P(v_j,v_k)}}\label{eq:weight}
     \item os projetos devem estar disponíveis publicamente no GitHub
   \end{enumerate}
 
-  A diretriz 1 auxilia a diminuir o viés a determinada linguagem, propósito, topologia e outros fatores técnicos. A diretriz 2 possibilita a verificação dos resultados com mais naturalidade e leva à potencialização da diretriz 3, que evita que os resultados sejam enviesados para projetos muito pequenos. A diretriz 4 possibilita que diferentes análises possam ser avaliadas de acordo com particularidades do processo de trabalho de cada repositório. Ao seguir a diretriz 4, é possível garantir que os dados serão acessíveis através da interface homogênea disponível para este fim.  Os projetos selecionados constam no top-10 ``projetos mais revisados''\footnote{https://octoverse.github.com/2017/} do GitHub em 2017. A lista é  sumarizada na tabela~\ref{tab:sizemetrics} e apresentada com mais detalhes nas subseções posteriores.
+  A diretriz 1 auxilia a diminuir o viés a determinada linguagem, propósito, topologia e outros fatores técnicos. A diretriz 2 possibilita a verificação dos resultados com mais naturalidade e leva à potencialização da diretriz 3, que evita que os resultados sejam enviesados para projetos muito pequenos. A diretriz 4 possibilita que diferentes análises possam ser avaliadas de acordo com particularidades do processo de trabalho de cada repositório. Ao seguir a diretriz 4, é possível garantir que os dados serão acessíveis através da interface homogênea disponível para este fim.  Os projetos selecionados constam no top-10 ``projetos mais revisados''\footnote{https://octoverse.github.com/2017/} do GitHub em 2017. A lista é  sumarizada na tabela 4 e apresentada com mais detalhes nas subseções posteriores.
 
   \begin{table}[htbp]
   \caption{Projetos e principais características}
   \begin{center}
   \begin{tabular}{|c|c|c|c|c|}
   \hline
-  \textbf{Projeto} & \textbf{Linguagem Principal} & \textbf{``Pull requests''}& \textbf{Estrelas}& \textbf{Contribuidores} \\
+  \textbf{Projeto} & \textbf{Linguagem Principal} & \textbf{\textit{``Pull requests''}}& \textbf{Estrelas}& \textbf{Contribuidores} \\
   \hline
   Node.js & JavaScript & 18.106 & 62.521 & 2.490 \\
   Kubernetes & Go & 49.946 & 54.849 & 2.186 \\
@@ -503,12 +503,49 @@ W(v_i,v_j)=\frac{P(v_i,v_j)}{\sum\limits_{k=1}^{n}{P(v_j,v_k)}}\label{eq:weight}
 
   \subsubsection{Node.js}
 
-  Node.js é um framework JavaScript construído sobre o motor V8 do Google Chrome\footnote{https://v8.dev/}. É um projeto ativo no GitHub, sendo o décimo projeto JavaScript com mais estrelas e o 24º global\footnote{https://github.com/search?q=stars\%3A\%3E1\&s=stars\&type=Repositories}. Além disso possui uma estrutura bem definida de governança\footnote{https://github.com/nodejs/node/blob/master/GOVERNANCE.md} que dispõe da tomada de decisões importantes, contribuições da comnunidade e organização de trabalho. Estas características fazem com que as análises das interações de seus participantes possa ser avaliada de acordo com critério objetivos e respaldados pelos responsáveis pelos projetos.
+  Node.js\footnote{https://github.com/nodejs} é um framework JavaScript construído sobre o motor V8 do Google Chrome\footnote{https://v8.dev/}. Entre suas principais aplicações está a construção de aplicações ``server-side'' assíncronas e não bloqueantes, voltadas para atender um grande número de clientes simultaneamente. É um projeto ativo no GitHub, sendo o décimo projeto JavaScript com mais estrelas e o 24º global\footnote{https://github.com/search?q=stars\%3A\%3E1\&s=stars\&type=Repositories}. Além disso possui uma estrutura bem definida de governança\footnote{https://github.com/nodejs/node/blob/master/GOVERNANCE.md} que dispõe da tomada de decisões importantes, contribuições da comnunidade e organização de trabalho. Estas características fazem com que as análises das interações de seus participantes possa ser avaliada de acordo com critério objetivos e respaldados pelos responsáveis pelo projeto.
 
+  \subsubsection{Kubernetes}
 
+  Kubernetes\footnote{https://github.com/kubernetes/kubernetes} é um projeto \textit{``Open Source''} escrito em Go voltado para gerenciar softwares em \textit{containers} distribuídos. O projeto provê mecanismos básicos para implantação, manutenção e escalabilidade destas aplicações. Apresenta políticas de segurança bem definidas e documentação das fases do processo de revisão\footnote{https://github.com/kubernetes/community/blob/master/contributors/guide/owners.md} que ajudam a avaliar as hipóteses levantadas durante este trabalho. Contém praticamente 50.000 \textit{``pull requests''}, maior número entre os projetos avaliados. É também o campeão em discussões de toda a plataforma GitHub.
 
+\subsubsection{Symfony}
+Symfony\footnote{https://github.com/symfony/symfony/} é um dos mais populares e antigos frameworks PHP, com extensa utilização em aplicações web. Possui políticas claras de contribuição em casos de vulnerabilidades\footnote{https://symfony.com/doc/master/contributing/code/security.html} e é a base de diversos  \textit{Content management system} (CMS) famosos, como o Drupal e o Joomla.
+
+\subsubsection{Tensorflow}
+
+Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter o maior número de \textit{forks} do GitHub e ser o quinto com mais contribuidores. A tecnologia é desenvolvida em C++ com interface em Python com o objetivo de dar suporte para técnicas de aprendizado de máquina. O processo de revisão é bem documentado e a participação da comunidade são encorajadas diretrizes claras de contribuição, como mostra a figura~\ref{fig:community-profile}.
+
+\begin{figure}[htbp]
+ \includegraphics[width=\textwidth]{community-profile}
+ \caption{Documentação para dar suporte à contribuição no Tensorflow}\label{fig:community-profile}
+\end{figure}
 
   \subsection{Resultados}
+
+  Os dados foram extraídos através da API do GitHub e carregados em uma instância do Neo4j\footnote{https://neo4j.com/}, um sistema gerenciador de banco de dados orientado a grafos. Para entender como os indivíduos interagem nas redes propostas, algumas análises foram feitas e os principais resultados são detalhados nesta seção.
+
+  Ao calcular a distribuição de grau da rede, é possível entender como os indivíduos partilham a responsabilidade das revisões entre eles. No grafo direcionado, esse valor representa com quantos indivíduos um revisor atuou. Por exemplo no Node.js, como mostra a figura~\ref{fig:outdegree}, é possível observar que um pequeno grupo é responsável pela maior parte das revisões. Este cenário se acentua ainda mais quando a distribuição leva em consideração o peso de cada uma das arestas, como retrata a figura~\ref{fig:outdegree-weighted}. Estas redes são frequentemente classificadas como aleatórias, livres de escala, modulares, entre outras, de acordo com a distribuição do grau~\cite{cross2004}. A distribuição é próxima da lei de potência, o que caracterizaria esta rede como livre de escala.
+
+
+  \begin{figure}[tbp]
+  \centerline{\includegraphics[width=\linewidth]{outdegree}}
+  \caption{Distribuição do grau de saída do Node.js}
+  \label{fig:outdegree}
+  \end{figure}
+
+  \begin{figure}[tbp]
+  \centerline{\includegraphics[width=\linewidth]{outdegree-weighted}}
+  \caption{Distribuição do grau de saída ponderado do Node.js}
+  \label{fig:outdegree-weighted}
+  \end{figure}
+
+  Essa tendência acompanha todos os projetos analisados. 
+  The edges are weighted, meaning the magnitude of each relationship regarding others author’s interaction, as calculated by \eqref{eq:weight}. Considering recent contributions are more important to point out someone’s ability to collaborate in actual matters, the influence gap grows even more. Further analysis shows that more than 94.6\% of the contributors have weighted out degree lower than 1\% of the highest weighted out degree. Only slightly more than 4.5\% of all edges are between those individuals. This reinforces the fact that the vast majority of interactions are made between core members or between regular contributors and core members.
+
+  These distributions show that few individuals are responsible for most of the discussion over contributions in this open source project. This structure seems to match earlier reported open source project organisation \cite{bergquist2001}. These experts can have knowledge and responsibility over the project in general, or be specialised in some modules \cite{firefox2018}, technologies or attributions \cite{debian2018}. Node.js has a formal governance policy\cite{node2018}, but it is limited to defining how contributions are analysed and impasses resolved. There is no formal division of core member responsibility, but rather an informal distribution of tasks based on their availability and expertise. Thus, it is important to identify them as they might be helpful for contributors on specific topics such as modules or technologies. This distribution is revealed on community detection, as described in the following sections.
+
+
 \section{Clusterização}
   \subsection{NetSCAN}
   \subsection{Execução}
