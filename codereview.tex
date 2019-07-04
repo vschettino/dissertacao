@@ -448,7 +448,14 @@ Através da API RESTful\footnote{https://developer.github.com/v3/} do GitHub é 
 No modelo proposto, os desenvolvedores são os nós e as arestas direcionadas entre eles representam os comentários de revisão durante o \textit{``pull request''}. Quando um desenvolvedor cria um comentário em uma revisão, um relacionamento entre ele e o autor é criado ou atualizado. Assim, o modelo é um grafo direcionado $ G = (V, E) $ onde $ V ={v_0, v_1, ... , v_n} $ representa o conjunto de $n$ desenvolvedores e $E$ o conjunto de triplas (arestas) $e_i_j = (v_i, v_j, w)$ entre indivíduos $v_i$ e $v_j$. O peso $w$ é formulado para representar como determinado desenvolvedor influencia outro na perspectiva da revisão. Este valor representa o quão influente é um desenvolvedor sob outros em detrimento do conjunto todo. Ele é calculado considerando cada contribuição $k$ do desenvolvedor $v_i$ para o $v_j$ onde $contrib(v_i,v_j,v_k)$. Valores mais altos de $w$ indicam maior influência de $v_i$ em $v_j$.
 
 
-Para evitar que interações antigas de desenvolvedores que podem nem estar ativos mais no projeto enviesem as análises, tais ocorrências são penalizadas de modo a valer menos do que interações mais novas. Assim, o valor de cada comentário $k$ de $v_i$ para $v_j$ decai exponencialmente dquanto mais antigo ele se torna. O valor total $P(v_i,v_j)$ ~\eqref{eq:penalization} é a soma de todas as contribuições de  $v_i$ para $v_j$. A função $inter(v_i,v_j, k)$ retorna cada interação $k$ entre os indivíduos $v_i$ e $v_j$.
+Para evitar que interações antigas de desenvolvedores que podem nem estar ativos mais no projeto enviesem as análises, tais ocorrências são penalizadas de modo a valer menos do que interações mais novas. Essa situação é comum em projetos \textit{``Open Source''}~\cite{fogel2005}, além dos casos onde novos desenvolvedores chegam para ocupar as lacunas deixadas neste processo. A figura mostra como esta situação se dá com o tempo, nos gráficos de contribuições (número de \textit{commits}). Enquanto o maior contribuidor (e criador) do Node.js deixa o projeto em 2014, o segundo maior contribuidor chega e continua até os dias de hoje. O \#3 chegou começa seu interação com o projeto mais tarde, enquanto o \#4 foi conteporâneo do idealizador do projeto mas se desligou pouco tempo após sua saída.
+
+\begin{figure}[htbp]
+ \includegraphics[width=\textwidth]{abandon-nodejs}
+ \caption{Troca de participação entre os principais membros do projeto}\label{fig:abandon-nodejs}
+\end{figure}
+
+ Assim, o valor de cada comentário $k$ de $v_i$ para $v_j$ decai exponencialmente dquanto mais antigo ele se torna. O valor total $P(v_i,v_j)$ ~\eqref{eq:penalization} é a soma de todas as contribuições de  $v_i$ para $v_j$. A função $inter(v_i,v_j, k)$ retorna cada interação $k$ entre os indivíduos $v_i$ e $v_j$.
 
 Com os valores agregados definidos por $P(v_i,v_j)$, o peso $w_i_j$ é então calculado~\eqref{eq:weight}. $W(v_i,v_j)$ representa qual a participação das interações em direção à $v_j$ vieram de $v_i$. Assim, $w_i_j$ é sempre um número entre $(0,1]$. Quanto mais próximo $w_i_j$ é de 1, maior a influencia de $v_i$ sobre $v_j$. Desta forma, $w_i_j = 1$ significa que $v_i$ é responsável por todas as interações que $v_j$ recebeu.
 
@@ -465,6 +472,42 @@ W(v_i,v_j)=\frac{P(v_i,v_j)}{\sum\limits_{k=1}^{n}{P(v_j,v_k)}}\label{eq:weight}
 \section{Análise exploratória da rede proposta}
   Para avaliar a topologia da rede proposta, é necessário instanciar o modelo utilizando dados de projetos de software reais. Assim é possível compreender se as distribuições, cararacterísticas e comportamentos do grafo são compatíveis com o descrito na literatura e se tal contexto permite conclusões relevantes para os objetivos deste trabalho.
   \subsection{Escolha dos repositórios}
+  A escolha dos repositórios influencia na validade das conclusões no contexto estudado e na relevância dos métodos propostos. Por consequência, as seguintes diretrizes foram traçadas para guiar a busca e avaliação dos projetos cujos dados serão território de avaliação e análise desta pesquisa. São elas:
+
+  \begin{enumerate}
+    \item O conjunto de repositórios deve ser composto por projetos diversos em tecnologia;
+    \item os projetos escolhidos devem ser conhecidos e de popularidade verificável em seus respectivos nichos;
+    \item cada projeto deve conter quantidades razoáveis de \textit{``pull requests''} e colaboradores ativos;
+    \item os projetos escolhidos devem fornecer regras claras de contribuição, responsabilidade e governança.
+    \item os projetos devem estar disponíveis publicamente no GitHub
+  \end{enumerate}
+
+  A diretriz 1 auxilia a diminuir o viés a determinada linguagem, propósito, topologia e outros fatores técnicos. A diretriz 2 possibilita a verificação dos resultados com mais naturalidade e leva à potencialização da diretriz 3, que evita que os resultados sejam enviesados para projetos muito pequenos. A diretriz 4 possibilita que diferentes análises possam ser avaliadas de acordo com particularidades do processo de trabalho de cada repositório. Ao seguir a diretriz 4, é possível garantir que os dados serão acessíveis através da interface homogênea disponível para este fim.  Os projetos selecionados constam no top-10 ``projetos mais revisados''\footnote{https://octoverse.github.com/2017/} do GitHub em 2017. A lista é  sumarizada na tabela~\ref{tab:sizemetrics} e apresentada com mais detalhes nas subseções posteriores.
+
+  \begin{table}[htbp]
+  \caption{Projetos e principais características}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|c|}
+  \hline
+  \textbf{Projeto} & \textbf{Linguagem Principal} & \textbf{``Pull requests''}& \textbf{Estrelas}& \textbf{Contribuidores} \\
+  \hline
+  Node.js & JavaScript & 18.106 & 62.521 & 2.490 \\
+  Kubernetes & Go & 49.946 & 54.849 & 2.186 \\
+  Symfony & PHP & 20.002 & 21.088 & 1.891 \\
+  Tensorflow & C++ & 11.258 & 130.341 & 2.055 \\
+  \hline
+  \end{tabular}
+  \label{tab:sizemetrics}
+  \end{center}
+  \end{table}
+
+  \subsubsection{Node.js}
+
+  Node.js é um framework JavaScript construído sobre o motor V8 do Google Chrome\footnote{https://v8.dev/}. É um projeto ativo no GitHub, sendo o décimo projeto JavaScript com mais estrelas e o 24º global\footnote{https://github.com/search?q=stars\%3A\%3E1\&s=stars\&type=Repositories}. Além disso possui uma estrutura bem definida de governança\footnote{https://github.com/nodejs/node/blob/master/GOVERNANCE.md} que dispõe da tomada de decisões importantes, contribuições da comnunidade e organização de trabalho. Estas características fazem com que as análises das interações de seus participantes possa ser avaliada de acordo com critério objetivos e respaldados pelos responsáveis pelos projetos.
+
+
+
+
   \subsection{Resultados}
 \section{Clusterização}
   \subsection{NetSCAN}
