@@ -11,7 +11,7 @@
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{floatrow}
-
+\usepackage[portuguese,algoruled,longend, linesnumbered]{algorithm2e}
 \usepackage{listings}
 \usepackage{color}
 \newcommand{\inlinecode}{\texttt}
@@ -540,12 +540,20 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
   \label{fig:outdegree-weighted}
   \end{figure}
 
-  Essa tendência acompanha todos os projetos analisados. Apenas 60\% dos usuários revisados no Symfony revisaram outro \textit{``pull request''}, enquanto apenas 4.5\% deles interagiram com mais de 10 outros indivíduos. Os 95\% que menos interagiram são responsáveis por apenas 6\% das interações entre eles.
+  Essa tendência acompanha todos os projetos analisados. Apenas 60\% dos usuários revisados no Symfony revisaram outro \textit{``pull request''}, enquanto apenas 4.5\% deles interagiram com mais de 10 outros indivíduos. Os 95\% que menos interagiram são responsáveis por apenas 6\% das interações entre eles. É possível observar essa tendência na figura~\ref{fig:graph-tensorflow}, representação da rede do projeto Tensorflow. O tamanho dos nós é dado pelo seu grau de saída.
+
+  \begin{figure}[tbp]
+  \centerline{\includegraphics[width=.6\linewidth]{graph-tensorflow}}
+  \caption{Representação gráfica da rede do Tensorflow}
+  \label{fig:graph-tensorflow}
+  \end{figure}
+
+
   As distribuições encontradas mostram que poucos indivíduos são responsáveis pela maior parte das interações em revisões dos projetos selecionados. Esta estrutura converge com reportado por trabalhos anteriores \cite{bergquist2001}. Estes especialistas que conduzem a maior parte do processo são podem ser responsáveis pelo projeto como um todo, módulos específicos \cite{firefox2018}, ou tecnologias/atribuições mais específicas \cite{debian2018}. A identificação automatizada da semântica que fundamenta tais distribuições pode levar aos melhores revisores em situações específicas, aumentando a colaboração na revisão. É com esse objetivo que foi aplicada uma abordagem de clusterização nos grafos instanciados, que será detalhada na próxima seção e utilizada como base para alguns dos métodos de recomendação propostos.
 
 \section{Clusterização}
 
-  Uma das formas de entender melhor a estrutura de uma rede social é através de métodos de clusterização.  Neste caso a proximidade dos indivíduos é calculada pelas suas interações, com um método de agrupamento \cite{empirical_study}. No perfil de projetos-alvo deste estudo é importante que o método escolhido leve em considerações duas particularidades pertinentes:
+  Uma das formas de entender melhor a estrutura de uma rede social é através de métodos de clusterização.  Neste caso a proximidade dos indivíduos é calculada pelas suas interações, com um método de agrupamento \cite{meng2014}. No perfil de projetos-alvo deste estudo é importante que o método escolhido leve em considerações duas particularidades pertinentes:
 
   \begin{enumerate}
     \item É preciso que os indivíduos possam se enquadrar em mais de um grupo;
@@ -562,7 +570,7 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
 
   NetSCAN espera dois parâmetros, \textit{eps} e \textit{minPts}. O primeiro indica o peso mínimo de uma aresta para ser considerada no processo de agrupamento, enquanto a segunda é o \textit{threshold} que indica a pontuação para um indivíduo ser considerado como \textit{core}. O primeiro permite evitar que nós de baixa relevância influenciem na formação dos grupos, enquanto o segundo permite que apenas indivíduos de alta participação sejam considerados como peças centrais dos silos.
 
-  Para proporcionar a melhor escolha de parâmetros, foram testas diferentes combinações em busca de otimizar a silhueta dos grupos~\cite{tan2005}. Essta métrica usa a distância entre os nós contidos em um \textit{cluster} para comparar a similaridade entre eles. A ideia é que a proximidade deles seja maior que em relação a membros externos dos grupos. O índice varia entre -1 e 1 onde valores mais altos indicam grupos mais coesos.~\cite{almeida2011}. Na figura~\ref{fig:silhouette_boxplot} é possível ver a distribuições de silhuetas na clusterização otimizada do Node.js. O número de \textit{clusters} é inferido automaticamente pelo NetSCAN tendo como referência as características da rede.
+  Para proporcionar a melhor escolha de parâmetros, foram testadas diferentes combinações em busca de otimizar a silhueta dos grupos~\cite{tan2005}. Essta métrica usa a distância entre os nós contidos em um \textit{cluster} para comparar a similaridade entre eles. A ideia é que a proximidade deles seja maior que em relação a membros externos dos grupos. O índice varia entre -1 e 1 onde valores mais altos indicam grupos mais coesos.~\cite{almeida2011}. Na figura~\ref{fig:silhouette_boxplot} é possível ver a distribuições de silhuetas na clusterização otimizada do Node.js. O número de \textit{clusters} é inferido automaticamente pelo NetSCAN tendo como referência as características da rede.
 
   \begin{figure}[tbp]
   \centerline{\includegraphics[width=.8\linewidth]{silhouette_boxplot}}
@@ -602,12 +610,92 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
 
   O os nós em azul são os participantes do \textit{cluster}, todos tiveram uma contribuição revisada pelo indivíduo \textit{core} representado em vermelho. A entidade caracterizada em verde é o \textit{cluster} em si, que pode ser utilizado para identificar os seus participantes através da relação do tipo \textit{CONTAINS}.
 
+  Idealmente, os grupos encontrados devem corresponder à grupos reais de trabalho dentro de um projeto. Ou seja, deve existir uma corroboração semântica do que foi encontrado: equipes que frequentemente trabalham em conjunto, grupos focais em tecnologias ou áreas específicas, times que se destacam em módulos ou funcionalidades, entre outras divisões. A próxima seção propõe métodos objetivos para avaliar tais caracetísticas que podem indicar maior efetividade da clusterização como base para algoritmos de detcção de especialistas e recomendação para revisão.
 
-  \subsection{Avaliação doa clusterização}
+  \subsection{Avaliação da clusterização}
+
+  Duas formas de avaliação semântica foram aplicadas neste trabalho. A primeira diz respeito à pertinência dos \textit{cores} encontrados enquanto desenvolvedores influentes e responsáveis pelo projeto. A segunda verifica a diferença entre as atividades e os principais focos dos grupos destacados.
+
+  Na primeira abordagem, podemos utilizar duas informações dos repositórios como base: as reações positivas e negativas que os comentários dos \textit{cores} geram e se eles são oficialmente listados como responsáveis/membros do projeto, com poder formal sobre as decisões e revisões.
+
+  É possível verificar que os \textit{cores} são alvos da maior parte das reações durante o processo. Esta proporção no Symfony é visualizada em escala logarítmica na figura~\ref{fig:chart-reactions-symfony}.  Enquanto as maiores diferenças em relação aos indivíduos comuns é observada nas reações positivas como ``+1'' (conhecida também como \textit{``thumbs up''}), a diferença é pequena para expressão de sentimentos negativos. Esse é um comportamento que se repete em todos os projetos. No node.js, 81\% dos \textit{cores} indicados estão presentes no conjunto que recebeu mais reações positivas. A lista tem 27 elementos, o mesmo número de \textit{cores} encontrados. No Symfony esse valor é de 75\%, enquanto no Kubernetes chega a 78\%.
+
+
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[width=\linewidth]{chart-reactions-symfony}}
+    \caption{Comparação das reactions recebidas por usuários \textit{cores} e comuns no Symfony}
+    \label{fig:chart-reactions-symfony}
+  \end{figure}
+
+
+  Quanto à responsabilidade dos desenvolvedores \textit{core} no projeto, é possível analisar se eles possuem permissões de aprovar \textit{``pull requests''} e de outras tarefas administrativas no projeto. A tabela~\ref{tab:prop-core-users} mostra os resultados da proporção de \textit{cores} detectados que efetivamente são dotados desse nível de permissão. É possível que participantes não possuem tal concessão hoje já tenham tido em um passado recente, mas a informação histórica não está disponível para consulta.
+
+  \begin{table}[htbp]
+  \caption{Proporções de \textit{cores} detectados com direitos administrativos}
+  \begin{center}
+  \begin{tabular}{|c|c|}
+  \hline
+  \textbf{Projeto} & \textbf{Proporção} \\
+  \hline
+  Node.js    & 78\%      \\
+  Kubernetes & 77\%      \\
+  Symfony    & 69\%      \\
+  Tensorflow & 69\%      \\ \hline
+  \end{tabular}
+  \label{tab:prop-core-users}
+  \end{center}
+  \end{table}
+
+Observar distinções entre os grupos do ponto de vista da natureza das tarefas executadas é uma das formas de analisar se os silos detectados são de fato pertinentes no mundo real. No caso dos projetos analisados, as categorias nas quais os \textit{``pull requests''} foram enquadrados formam uma indicação para tal avaliação. No GitHub essas categorias são dadas como forma de \textit{Tags} ou \textit{Labels}, que são associadas aos \textit{``pull requests''} no momento de sua criação, como exemplifica a figura~\ref{fig:labels}.
+
+
+  \begin{figure}[htbp]
+    \centerline{\fbox{\includegraphics[width=.3\linewidth]{labels}}}
+    \caption{\textit{Labels} associadas a um \textit{``pull request''} no Node.js}
+    \label{fig:labels}
+  \end{figure}
+
+Para avaliar tal distinção, foram comparados quais \textit{clusters} trabalham com quais \textit{Labels}. Foram selecionadas as 20 \textit{Labels} mais utilizadas de cada projeto e quais clusters trabalham com tais categorias entre suas 20 mais utilizadas. O resultado pode ser representado como u grafo na figura~\ref{fig:graph-labels-kubernetes}. Em todos os projetos analisados, foi possível observar a tendência de determinados tópicos de trabalho serem conduzidos principalmente por um conjunto reduzido de grupos.
+
+\begin{figure}[htbp]
+  \centerline{\includegraphics[width=.7\linewidth]{graph-labels-kubernetes}}
+  \caption{\textit{Clusters} associados a cada \textit{``Label''} no Kubernetes}
+  \label{fig:graph-labels-kubernetes}
+\end{figure}
+
+No grafo da figura \ref{fig:graph-labels-kubernetes}, os grupos são representados na cor verde e as \textit{Labels} em rosa. O tamanho da representação de cada \textit{Label} se dá pelo seu grau de entrada. Assim, as categorias maiores estão associadas à mais grupos. É o caso das categorias que representam aspectos de documentação, processo de trabalho e testes, como o caso de \textit{``kind/feature''} e \textit{``kind/design''}, que são divisões mais genéricas. Já as tarefas de àreas específicas, como \textit{``area/kubectl''} e \textit{``area/api''} são conduzidas por menos grupos, mostrando uma especialização das atribuições.
+
+As avaliações conduzidas apontam que os grupos e \textit{cores} encontrados podem ser reflexos das divisões de trabalho, influência e responsabilidade dentro dos projetos selecionados. Tal asserção fundamenta a utilização da rede modelada e da técnica de clusterização escolhida nos métodos de recomendação de revisores escolhidas, uma vez que a capacidade técnica e experiência dos especialistas pode aumentar a colaboração durante o processo~\cite{Bosu2014, kovalenko2018}.
+
+
 \section{Métodos de recomendação}
+  Os métodos propostos utilizam características observadas na rede modelada e nos \textit{clusters} detectados para recomendar revisores que possam potencializar a colaboração durante o processo de revisão de código, de acordo com os objetivos definidos deste trabalho. A proposição de três métodos distintos e complementares se fundamenta em aproveitar as diferentes particularidades dentro do contexto de pequisa para que os utilizadores das abordagens possam escolher os resultados que mais se encaixem com os objetivos da organização. Todos os métodos recebem apenas um parâmetro $k$, que representa quantas recomendações deverão ser executadas.
+
   \subsection{RandomCore}
+    Este método emprega os \textit{cores} encontrados durante a clusterização como referências não só dos grupos de trabalho, mas do projeto como um todo. Esse raciocínio se aplica especialmente a tarefas que não dedicam conhecimento em tecnologias muito específicas, mas sim àquelas aplicadas ao projeto como um todo e atividades ligadas aos processos de desenvolvimento, como documentação e testes. A utilização de \textit{cores} aleatórios, sem especificação de ordem ou prioridade dentro do conjunto de tamanho $k$ se dá para evitar que os principais desenvolvedores sejam indicados muitas vezes e não tenham o tempo para se dedicar à revisão. Fatores como grau de saída e grau de saída ponderado poderiam ser utilizados para tal ordenação, bem como a distância entre os nós.
+
+
+\begin{algorithm}
+\label{alg:exemplo}
+ \caption{Ler n\'umero e imprimir se \'e par ou n\~ao.}
+
+     \Entrada{n\'umero, ($numero$).}
+     \Saida{Se o n\'umero \'e par ou n\~ao}
+     \Inicio{
+         \textbf{ler} $numero$\;
+         \eSe {$numero \% 2 = 0$} {
+             \textbf{imprimir} $numero$, " par"\;
+         } {
+         \textbf{imprimir} $numero$, " impar"\;
+         }
+        }
+\end{algorithm}
+
   \subsection{CoreSameCluster}
   \subsection{LabelPartners}
+  \subsection{Extensão dos Métodos propostos}
+
+
 
 
 \chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
