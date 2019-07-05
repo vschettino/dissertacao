@@ -549,7 +549,7 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
   \end{figure}
 
 
-  As distribuições encontradas mostram que poucos indivíduos são responsáveis pela maior parte das interações em revisões dos projetos selecionados. Esta estrutura converge com reportado por trabalhos anteriores \cite{bergquist2001}. Estes especialistas que conduzem a maior parte do processo são podem ser responsáveis pelo projeto como um todo, módulos específicos \cite{firefox2018}, ou tecnologias/atribuições mais específicas \cite{debian2018}. A identificação automatizada da semântica que fundamenta tais distribuições pode levar aos melhores revisores em situações específicas, aumentando a colaboração na revisão. É com esse objetivo que foi aplicada uma abordagem de clusterização nos grafos instanciados, que será detalhada na próxima seção e utilizada como base para alguns dos métodos de recomendação propostos.
+  As distribuições encontradas mostram que poucos indivíduos são responsáveis pela maior parte das interações em revisões dos projetos selecionados. Praticamente toda interação ocorre de alguma forma associada aos principais nós da rede. Por exemplo, no Symfony e no Node.js, existem apenas quatro componentes conexas em toda o grafo. Esta estrutura converge com reportado por trabalhos anteriores \cite{bergquist2001}. Estes especialistas que conduzem a maior parte do processo são podem ser responsáveis pelo projeto como um todo, módulos específicos \cite{firefox2018}, ou tecnologias/atribuições mais específicas \cite{debian2018}. A identificação automatizada da semântica que fundamenta tais distribuições pode levar aos melhores revisores em situações específicas, aumentando a colaboração na revisão. É com esse objetivo que foi aplicada uma abordagem de clusterização nos grafos instanciados, que será detalhada na próxima seção e utilizada como base para alguns dos métodos de recomendação propostos.
 
 \section{Clusterização}
 
@@ -672,30 +672,105 @@ As avaliações conduzidas apontam que os grupos e \textit{cores} encontrados po
   Os métodos propostos utilizam características observadas na rede modelada e nos \textit{clusters} detectados para recomendar revisores que possam potencializar a colaboração durante o processo de revisão de código, de acordo com os objetivos definidos deste trabalho. A proposição de três métodos distintos e complementares se fundamenta em aproveitar as diferentes particularidades dentro do contexto de pequisa para que os utilizadores das abordagens possam escolher os resultados que mais se encaixem com os objetivos da organização. Todos os métodos recebem apenas um parâmetro $k$, que representa quantas recomendações deverão ser executadas.
 
   \subsection{RandomCore}
-    Este método emprega os \textit{cores} encontrados durante a clusterização como referências não só dos grupos de trabalho, mas do projeto como um todo. Esse raciocínio se aplica especialmente a tarefas que não dedicam conhecimento em tecnologias muito específicas, mas sim àquelas aplicadas ao projeto como um todo e atividades ligadas aos processos de desenvolvimento, como documentação e testes. A utilização de \textit{cores} aleatórios, sem especificação de ordem ou prioridade dentro do conjunto de tamanho $k$ se dá para evitar que os principais desenvolvedores sejam indicados muitas vezes e não tenham o tempo para se dedicar à revisão. Fatores como grau de saída e grau de saída ponderado poderiam ser utilizados para tal ordenação, bem como a distância entre os nós.
+    Este método emprega os \textit{cores} encontrados durante a clusterização como referências não só dos grupos de trabalho, mas do projeto como um todo. Esse raciocínio se aplica especialmente a tarefas que não dedicam conhecimento em tecnologias muito específicas, mas sim àquelas aplicadas ao projeto como um todo e atividades ligadas aos processos de desenvolvimento, como documentação e testes. A utilização de \textit{cores} aleatórios, sem especificação de ordem ou prioridade dentro do conjunto de tamanho $k$ se dá para evitar que os principais desenvolvedores sejam indicados muitas vezes e não tenham o tempo para se dedicar à revisão. Fatores como grau de saída e grau de saída ponderado poderiam ser utilizados para tal ordenação, bem como a distância entre os nós. O algoritmo~\ref{alg:randomcore} demonstra o comportamento deste método.
 
 
 \begin{algorithm}
-\label{alg:exemplo}
- \caption{Ler n\'umero e imprimir se \'e par ou n\~ao.}
+\label{alg:randomcore}
+ \caption{Recomendação de revisores através do método RandomCore}
 
-     \Entrada{n\'umero, ($numero$).}
-     \Saida{Se o n\'umero \'e par ou n\~ao}
+     \Entrada{int $k$}
+     \Saida{$set_k$ de revisores recomendados}
      \Inicio{
-         \textbf{ler} $numero$\;
-         \eSe {$numero \% 2 = 0$} {
-             \textbf{imprimir} $numero$, " par"\;
-         } {
-         \textbf{imprimir} $numero$, " impar"\;
+         set $cores$ = get\_cores()\;
+         \Se {$k > size(cores)$} {
+             $k = size(cores)$\;
          }
-        }
+         \textbf{return} $random\_sample$($cores, k$)\;
+         }
 \end{algorithm}
 
+A única restrição do método é que $k$ não deve ser maior que o número total de \textit{cores}; nesse caso o método limita o tamanho do conjunto de recomendação ao tamanho do conjunto destes indivíduos. A função $get_cores()$ varre o grafo buscando estes nós, enquanto a função $random_sample(set, k)$ retorna $k$ elementos aleatórios e não repetidos do conjunto.
+
+ A utilização da estrutura $set$ neste e em outros algortimos indica que não existe repetições dentro da coleção. Em caso da tentativa de inserir itens duplicados, a estrutura de dados $set$ mantém seu conteúdo inalterado.
+
   \subsection{CoreSameCluster}
+  Com intuito de aumentar a relevância dos resultados do algortimo RandomCore, o método \textit{CoreSameCluster} busca recomendar \textit{cores} que são referência dentro do grupo de trabalho do autor do \textit{``pull request''} submetido. O raciocínio se baseia em duas premissas: a) Ao estarem no mesmo grupo, tais desenvolvedores já colaboram e têm mais probabilidade de continuar colaborando na atual atividade, e b) O \textit{core} do mesmo cluster é um especialista no conjunto de tópicos que aquele grupo já trabalha, e por isso poderá ser mais eficiente durante o processo.  O algoritmo~\ref{alg:coresamecluster} mostra como é feita a seleção dos recomendados neste método. Diferentemente do método anterior, esta abordagem depende de quem está realizando o \textit{``pull request''}.
+
+
+  \begin{algorithm}
+  \label{alg:coresamecluster}
+   \caption{Recomendação de revisores através do método CoreSameCluster}
+
+       \Entrada{int $k$}
+       \Entrada{string $login$}
+       \Saida{$set_k$ de revisores recomendados}
+       \Inicio{
+           set $clusters$ = get\_clusters($k$)\;
+           set $sameCluster$ = ()\;
+
+           \Para {$cores$ \textbf{in} $clusters$} {
+              \Para {$core$ \textbf{in} $cores$} {
+                $sameCluster.append(core)$
+              }
+           }
+           \eSe{$size(sameCluster) < k$}{
+              int $j = k - size(sameCluster)$\;
+              $cores = get\_cores() $\;
+              $notSameCluster = cores - sameCluster$\;
+              $randomCores = (random\_sample$($notSameCluster, j))$\;
+           }
+           {$sameCluster = random\_sample(sameCluster, k$)}
+           \textbf{return} $sameCluster + randomCores$\;
+          }
+  \end{algorithm}
+
+  O principal objetivo deste algoritmo é retornar $k$ indivíduos para revisão, que sejam \textit{cores} de clusters que o autor do \textit{``pull request''}. Como muitas vezes o universo destes nós é pequeno, para dar suporte à valores de $k$ mais altos o algoritmo complementa a lista com cores aleatórios, assim como o método \textit{RandomCore} do algoritmo~\ref{alg:randomcore}. Ou seja, o ganho de performance dele é em relação ao método anterior para $k$s menores. Na linha $12$ do algoritmo é excluída a insterseção entre os sets de \textit{cores} e os já indicados. Isso faz com que os nós aleatórios não incluam os já selecionados, evitando que o conjunto final seja menor que o esperado.
+
+   Nos casos que o autor nunca submeteu um \textit{``pull request''} antes, ou que não tenha sido influente (ou influenciado) suficiente para ser agrupado, não existem \textit{cores} relacionados a ele para serem indicados. Nesta condição de ``partida fria'', o desempenho deste método é o mesmo do algoritmo~\ref{alg:randomcore}.
+
   \subsection{LabelPartners}
-  \subsection{Extensão dos Métodos propostos}
+  Enquanto o \textit{RandomCore} não garante recomendações de pessoas próximas do autor e do escopo de trabalho e o \textit{CoreSameCluster} só diferencia a abordagem para valores de $k$ mais baixos e tem uma severa condição de partida fria, a concepção do \textit{LabelPartners} pretende equilibrar as duas abordagens. Ao invés de indicar apenas os \textit{cores}, este método indica invíduos na seguinte ordem de prioridade:
 
+\begin{enumerate}
+  \item Aqueles com maior influência sobre o autor nas \textit{labels} do \textit{``pull request''};
+  \item os principais influenciadores nas \textit{labels} do \textit{``pull request''} de maneira global no projeto.
+\end{enumerate}
 
+  Ou seja, se $k$ for menor que o tamanho do conjunto dos revisores regidos pelo item 1, apenas desenvolvedores com histórico de interação com o autor e conhecimento nos tópicos necessários serão indicados. Nos casos dos revisados pela primeira vez, os indicados ao menos serão especialistas na categoria na qual o \textit{``pull request''} se insere. A única restrição é que o autor escolha as \textit{labels} antes de solicitar pelos revisores, o que pode ser facilmente adotado como uma política de contribuição dos projetos. O método é descrito através do algoritmo~\ref{alg:labelpartners}. A verificação de influência em determinadas tags utiliza a mesma equação~\ref{eq:penalization} de instanciação da rede, só que retorna pesos distintos para cada uma das \textit{labels} que compõe a relação entre dois nós.
+
+  \begin{algorithm}
+  \label{alg:labelpartners}
+   \caption{Recomendação de revisores através do método LabelPartners}
+
+       \Entrada{int $k$}
+       \Entrada{string $login$}
+       \Entrada{int $pr_id$}
+       \Saida{$set_k$ de revisores recomendados}
+       \Inicio{
+           set $labels$ = get\_labels($pr\_id$)\;
+           set $partners$ = $get\_partners(login, labels)$\;
+           \eSe{$size(partners) < k$}{
+           int $j$ = $k - size(partners)$\;
+           set $extra = () $\;
+             \Para {$label$ \textbf{in} $labels$} {
+                  $extra.append(get\_experts(label)$)\;
+             }
+              $extraNotPartner = extra - partners$\;
+              \Se{$extraNotPartner > j$}
+              {
+                $extra = (random\_sample$($extra, j))$\;
+              }
+           }
+           {$partners = random\_sample(partners, k)$}
+           \textbf{return} $partners + extra$\;
+          }
+  \end{algorithm}
+
+Além de evitar os casos negativos dos algoritmos anteriores, o LabelPartners permite a ordenação das recomendações na saída. Ou seja, é possível que o conjunto que atende o primeiro caso (com interação direta com o autor no passado) seja ordenado por exemplo pela média do peso destas interações. O segundo conjunto também pode ser ordenado, onde o maior especialista nas \textit{labels} viria primeiro. Na linha $14$, o valor retornado corresponde a união dos conjuntos selecionados, sempre de tamanho $k$. Para evitar que indivíduos já indicados o sejam novamente, na linha $10$ é excluída a interção entre os grupos da análise de especialsitas, de maneira análoga ao executado no algoritmo~\ref{alg:coresamecluster}.
+
+\subsection{Resumo dos métodos}
+Os métodos foram propostos de acordo com recomendações de trabalhos pregressos em relação ao uso de dados de colaboração e análises de redes sociais (SNA) \cite{fu2017, xia2017} <<citar revisão sistemática>>. Tais diretrizes condizem com os objetivos do trabalho de indicar revisores que aumentem a colaboração no contexto alvo. As abordagens foram concebidas não com a meta de se tornarem concorrentes, mas sim de se complementarem para cobrir particularidades dos projetos, mesmo que inseridos no mesmo contexto. Para avaliação dos métodos, foi desenvolvido um framework para aferir as métricas clássicas da área e especialmente os aspectos que tratam sobre a qualidade da revisão de código, cobertos na seção~\ref{sec:avaliacao_review}. Detalhes da implementação da ferramenta de avaliação e de recomendação são o tema do próximo capítulo.
 
 
 \chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
