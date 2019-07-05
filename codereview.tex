@@ -540,15 +540,69 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
   \label{fig:outdegree-weighted}
   \end{figure}
 
-  Essa tendência acompanha todos os projetos analisados. 
-  The edges are weighted, meaning the magnitude of each relationship regarding others author’s interaction, as calculated by \eqref{eq:weight}. Considering recent contributions are more important to point out someone’s ability to collaborate in actual matters, the influence gap grows even more. Further analysis shows that more than 94.6\% of the contributors have weighted out degree lower than 1\% of the highest weighted out degree. Only slightly more than 4.5\% of all edges are between those individuals. This reinforces the fact that the vast majority of interactions are made between core members or between regular contributors and core members.
-
-  These distributions show that few individuals are responsible for most of the discussion over contributions in this open source project. This structure seems to match earlier reported open source project organisation \cite{bergquist2001}. These experts can have knowledge and responsibility over the project in general, or be specialised in some modules \cite{firefox2018}, technologies or attributions \cite{debian2018}. Node.js has a formal governance policy\cite{node2018}, but it is limited to defining how contributions are analysed and impasses resolved. There is no formal division of core member responsibility, but rather an informal distribution of tasks based on their availability and expertise. Thus, it is important to identify them as they might be helpful for contributors on specific topics such as modules or technologies. This distribution is revealed on community detection, as described in the following sections.
-
+  Essa tendência acompanha todos os projetos analisados. Apenas 60\% dos usuários revisados no Symfony revisaram outro \textit{``pull request''}, enquanto apenas 4.5\% deles interagiram com mais de 10 outros indivíduos. Os 95\% que menos interagiram são responsáveis por apenas 6\% das interações entre eles.
+  As distribuições encontradas mostram que poucos indivíduos são responsáveis pela maior parte das interações em revisões dos projetos selecionados. Esta estrutura converge com reportado por trabalhos anteriores \cite{bergquist2001}. Estes especialistas que conduzem a maior parte do processo são podem ser responsáveis pelo projeto como um todo, módulos específicos \cite{firefox2018}, ou tecnologias/atribuições mais específicas \cite{debian2018}. A identificação automatizada da semântica que fundamenta tais distribuições pode levar aos melhores revisores em situações específicas, aumentando a colaboração na revisão. É com esse objetivo que foi aplicada uma abordagem de clusterização nos grafos instanciados, que será detalhada na próxima seção e utilizada como base para alguns dos métodos de recomendação propostos.
 
 \section{Clusterização}
+
+  Uma das formas de entender melhor a estrutura de uma rede social é através de métodos de clusterização.  Neste caso a proximidade dos indivíduos é calculada pelas suas interações, com um método de agrupamento \cite{empirical_study}. No perfil de projetos-alvo deste estudo é importante que o método escolhido leve em considerações duas particularidades pertinentes:
+
+  \begin{enumerate}
+    \item É preciso que os indivíduos possam se enquadrar em mais de um grupo;
+    \item o número de grupos (ou \textit{clusters}) deve ser inferido automaticamente.
+  \end{enumerate}
+
+  Estas exigências se dão devido a natureza da organização e forma de trabalho dos projetos \textit{open source}. Especialmente os experts acabam por participar de diversas frentes de trabalho, devido à mão de obra reduzida. Além disso, a quantidade de grupos pode variar drásticamente de um projeto para outro, inclusve dentro do mesmo projeto mas em momentos diferentes do ciclo de vida de desenvolvimento. A próxima seção detalha o algorimo escolhido e como ele trata as questões levantadas.
+
   \subsection{NetSCAN}
+
+  NetSCAN~\cite{horta2018} é um algoritmo de clusterização baseado em densidade, que estende o conhecido DBSCAN \cite{ester1996}. As principais diferenças são que o NetSCAN considera o direcionamento das arestas e a possibilidade de um indivíduo participar de mais de um grupo. Como é esperado encontrar grupos tênues, informais e com divisões de responsabilidades sutis, NetSCAN atende os objetivos. Os indíviduos \textit{core} de cada cluster são identificados, podendo estes também estarem sobrepostos em outros silos.
+
+
+
+  NetSCAN espera dois parâmetros, \textit{eps} e \textit{minPts}. O primeiro indica o peso mínimo de uma aresta para ser considerada no processo de agrupamento, enquanto a segunda é o \textit{threshold} que indica a pontuação para um indivíduo ser considerado como \textit{core}. O primeiro permite evitar que nós de baixa relevância influenciem na formação dos grupos, enquanto o segundo permite que apenas indivíduos de alta participação sejam considerados como peças centrais dos silos.
+
+  Para proporcionar a melhor escolha de parâmetros, foram testas diferentes combinações em busca de otimizar a silhueta dos grupos~\cite{tan2005}. Essta métrica usa a distância entre os nós contidos em um \textit{cluster} para comparar a similaridade entre eles. A ideia é que a proximidade deles seja maior que em relação a membros externos dos grupos. O índice varia entre -1 e 1 onde valores mais altos indicam grupos mais coesos.~\cite{almeida2011}. Na figura~\ref{fig:silhouette_boxplot} é possível ver a distribuições de silhuetas na clusterização otimizada do Node.js. O número de \textit{clusters} é inferido automaticamente pelo NetSCAN tendo como referência as características da rede.
+
+  \begin{figure}[tbp]
+  \centerline{\includegraphics[width=.8\linewidth]{silhouette_boxplot}}
+  \caption{Silhuetas do Node.js}
+  \label{fig:silhouette_boxplot}
+  \end{figure}
+
+  A processo de otimização foi conduzido para todas os projetos, como apresenta a tabela~\ref{tab:netscan_optimize}. Estes são os valores utilizados todas as análises descritas posteriormente neste trabalho.
+  \begin{table}[htbp]
+  \caption{Valores otimizados pela silhueta de cada projeto}
+  \begin{center}
+  \begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{Projeto} & \textbf{\textit{eps}} & \textbf{\textit{minPts}} \\
+  \hline
+    Node.js    & 0.45 & 10     \\
+    Kubernetes & 0.45 & 12     \\
+    Symfony    & 0.38 & 14     \\
+    Tensorflow & 0.3  & 10    \\
+  \hline
+  \end{tabular}
+  \label{tab:netscan_optimize}
+  \end{center}
+  \end{table}
+
+  NetSCAN é encapsulado em um plugin para o Neo4j\footnote{https://github.com/vitorhorta/netscan-neo4j}, e pode ser executado diretamente através do Cypher com parâmetros dinamicamente definidos. Este processo é detalhado na seção seguinte.
+
   \subsection{Execução}
+
+  A execução dos métodos de clusterização é contida, junto com outras funcionalidades, na ferramenta cuja arquitetura é detalhada na seção~\ref{chap:solucao}. Os dados são automaticamente carregados para uma instância Neo4j e o algoritmo aje com os parâmetros debatidos nas seções anteriores. A figura~\ref{fig:cluster} ilustra um dos \textit{clusters} encontrados.
+
+  \begin{figure}[tbp]
+  \centerline{\includegraphics[width=\linewidth]{cluster}}
+  \caption{Representação de um dos \textit{clusters} do Kubernetes}
+  \label{fig:cluster}
+  \end{figure}
+
+  O os nós em azul são os participantes do \textit{cluster}, todos tiveram uma contribuição revisada pelo indivíduo \textit{core} representado em vermelho. A entidade caracterizada em verde é o \textit{cluster} em si, que pode ser utilizado para identificar os seus participantes através da relação do tipo \textit{CONTAINS}.
+
+
   \subsection{Avaliação doa clusterização}
 \section{Métodos de recomendação}
   \subsection{RandomCore}
