@@ -14,6 +14,7 @@
 \usepackage[portuguese,algoruled,longend, linesnumbered]{algorithm2e}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{pstricks}
 \newcommand{\inlinecode}{\texttt}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -268,7 +269,7 @@ Key-words: ...
 
      \begin{figure}[!htbp]
       \includegraphics[width=\textwidth]{pull-request-flow}
-      \caption{Pull Request Process \cite{gousios2014}}\label{fig:pull-request-flow}
+      \caption{processo do \textit{``pull request''} \cite{gousios2014}}\label{fig:pull-request-flow}
     \end{figure}
 
     Aquele que deseja contribuir cria para si uma cópia do projeto através de um \textit{fork}. Esta ação cria em seu diretório de trabalho um projeto idêntico ao original, mas ao qual ele tem acesso total de submissão e modificação. Nessa cópia, ele executa as modificações desejadas, geralmente em uma \textit{branch} dedicada para tal \cite{gousios2016}. Ao terminar, ele solicita a integração da \texit{branch} do \textit{fork} de volta ao projeto original. Essa solitação é chamada de \textit{pull-request}, que será analisada por um desenvolvedor com as devidas permissões. Durante esta revisão, o autor pode gerar novas modificações, geralmente atreladas aos pedidos do revisor. Ao final, a mudança é rejeitada (\textit{closed}) ou aceita \textit{merged}.
@@ -434,7 +435,7 @@ Em convergência com as diretrizes basilares lançadas nos capítulos anteriores
 
 Interações durante do desenvolvimento de software caracterizam o surgimento de redes sociais de desenvolvedores, denominadas \textit{``social networks''} ou \textit{``developer networks''} \cite{lopez2004}. Observar tais estruturas como grafos é o ponto de partida de diversas aplicações deste tipo de análise, como previsão de defeitos \cite{meneely2008}, triagem de tarefas de manutenção \cite{zhang2012} e encontrar os melhores profissionais para responder determinada dúvida \cite{li2010}. Diversas informações estão disponíveis para a modelagem de tais redes, tanto diretamente das ferramentas de controle versão quanto em ambientes de desenvolvimento mais sofisticados, como o GitHub\footnote{https://github.com} e o GitLab\footnote{https://gitlab.com}. Assim, de acordo com o contexto de cada pesquisa, é possível selecionar quais tipos de interação e seus atributos serão utilizados como vértices, arestas e pesos das representações.
 
-\section{Modelagem da rede}
+\section{Modelagem da rede}\label{sec:modelagem}
 Uma rede social pode ser representada como um conjunto de nós conectados entre si. O objetivo é refletir nesta estrtura a relação entre os indivíduos e a forma que eles interagem. Dentre os dados disponíveis, existem diferentes óticas nas quais os dados podem ser modelados e analisados, de acordo com as conclusões esperadas. No caso deste trabalho, o interesse recai nas interações entre desenvolvedores no processo de \textit{``pull request''} e de revisão de código. Durante esta etapa do desenvolvimento, o revisor interage com o autor comentando em partes específicas do código buscando sanar dúvidas, melhorar a implementação ou evitar que mudanças fora do padrão de codificação sejam admitidas no repositório. A figura~\ref{fig:comment-codereview} representa tal interação.
 
 \begin{figure}[htbp]
@@ -445,8 +446,12 @@ Uma rede social pode ser representada como um conjunto de nós conectados entre 
 Através da API RESTful\footnote{https://developer.github.com/v3/} do GitHub é possível interagir com o repositório e obter estas informações automaticamente, possibilitando a modelagem da rede.
 
 \subsection{Principais características}
-No modelo proposto, os desenvolvedores são os nós e as arestas direcionadas entre eles representam os comentários de revisão durante o \textit{``pull request''}. Quando um desenvolvedor cria um comentário em uma revisão, um relacionamento entre ele e o autor é criado ou atualizado. Assim, o modelo é um grafo direcionado $ G = (V, E) $ onde $ V ={v_0, v_1, ... , v_n} $ representa o conjunto de $n$ desenvolvedores e $E$ o conjunto de triplas (arestas) $e_i_j = (v_i, v_j, w)$ entre indivíduos $v_i$ e $v_j$. O peso $w$ é formulado para representar como determinado desenvolvedor influencia outro na perspectiva da revisão. Este valor representa o quão influente é um desenvolvedor sob outros em detrimento do conjunto todo. Ele é calculado considerando cada contribuição $k$ do desenvolvedor $v_i$ para o $v_j$ onde $contrib(v_i,v_j,v_k)$. Valores mais altos de $w$ indicam maior influência de $v_i$ em $v_j$.
+No modelo proposto, os desenvolvedores são os nós e as arestas direcionadas entre eles representam os comentários de revisão durante o \textit{``pull request''}. Quando um desenvolvedor cria um comentário em uma revisão, um relacionamento entre ele e o autor é criado ou atualizado. Assim, o modelo é um grafo direcionado $ G = (V, E) $ onde $ V ={v_0, v_1, ... , v_n} $ representa o conjunto de $n$ desenvolvedores e $E$ o conjunto de triplas (arestas) $e_i_j = (v_i, v_j, w)$ entre indivíduos $v_i$ e $v_j$. O peso $w$ é formulado para representar como determinado desenvolvedor influencia outro na perspectiva da revisão. Este valor representa o quão influente é um desenvolvedor sob outros em detrimento do conjunto todo. Ele é calculado considerando cada contribuição $k$ do desenvolvedor $v_i$ para o $v_j$ onde $contrib(v_i,v_j,v_k)$. Valores mais altos de $w$ indicam maior influência de $v_i$ em $v_j$. A figura exemplifica como são representadas as relações entre os desenvolvedores~\ref{fig:relationship}.
 
+\begin{figure}[htbp]
+ \includegraphics[width=.7\textwidth]{relationship}
+ \caption{Representação dos vértices e arestas da rede}\label{fig:relationship}
+\end{figure}
 
 Para evitar que interações antigas de desenvolvedores que podem nem estar ativos mais no projeto enviesem as análises, tais ocorrências são penalizadas de modo a valer menos do que interações mais novas. Essa situação é comum em projetos \textit{``Open Source''}~\cite{fogel2005}, além dos casos onde novos desenvolvedores chegam para ocupar as lacunas deixadas neste processo. A figura mostra como esta situação se dá com o tempo, nos gráficos de contribuições (número de \textit{commits}). Enquanto o maior contribuidor (e criador) do Node.js deixa o projeto em 2014, o segundo maior contribuidor chega e continua até os dias de hoje. O \#3 chegou começa seu interação com o projeto mais tarde, enquanto o \#4 foi conteporâneo do idealizador do projeto mas se desligou pouco tempo após sua saída.
 
@@ -562,7 +567,7 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
 
   Estas exigências se dão devido a natureza da organização e forma de trabalho dos projetos \textit{open source}. Especialmente os experts acabam por participar de diversas frentes de trabalho, devido à mão de obra reduzida. Além disso, a quantidade de grupos pode variar drásticamente de um projeto para outro, inclusve dentro do mesmo projeto mas em momentos diferentes do ciclo de vida de desenvolvimento. A próxima seção detalha o algorimo escolhido e como ele trata as questões levantadas.
 
-  \subsection{NetSCAN}
+  \subsection{NetSCAN}\label{subsec:netscan}
 
   NetSCAN~\cite{horta2018} é um algoritmo de clusterização baseado em densidade, que estende o conhecido DBSCAN \cite{ester1996}. As principais diferenças são que o NetSCAN considera o direcionamento das arestas e a possibilidade de um indivíduo participar de mais de um grupo. Como é esperado encontrar grupos tênues, informais e com divisões de responsabilidades sutis, NetSCAN atende os objetivos. Os indíviduos \textit{core} de cada cluster são identificados, podendo estes também estarem sobrepostos em outros silos.
 
@@ -692,10 +697,10 @@ As avaliações conduzidas apontam que os grupos e \textit{cores} encontrados po
 
 A única restrição do método é que $k$ não deve ser maior que o número total de \textit{cores}; nesse caso o método limita o tamanho do conjunto de recomendação ao tamanho do conjunto destes indivíduos. A função $get_cores()$ varre o grafo buscando estes nós, enquanto a função $random_sample(set, k)$ retorna $k$ elementos aleatórios e não repetidos do conjunto.
 
- A utilização da estrutura $set$ neste e em outros algortimos indica que não existe repetições dentro da coleção. Em caso da tentativa de inserir itens duplicados, a estrutura de dados $set$ mantém seu conteúdo inalterado.
+ A utilização da estrutura $set$ neste e em outros algoritmos indica que não existe repetições dentro da coleção. Em caso da tentativa de inserir itens duplicados, a estrutura de dados $set$ mantém seu conteúdo inalterado.
 
   \subsection{CoreSameCluster}
-  Com intuito de aumentar a relevância dos resultados do algortimo RandomCore, o método \textit{CoreSameCluster} busca recomendar \textit{cores} que são referência dentro do grupo de trabalho do autor do \textit{``pull request''} submetido. O raciocínio se baseia em duas premissas: a) Ao estarem no mesmo grupo, tais desenvolvedores já colaboram e têm mais probabilidade de continuar colaborando na atual atividade, e b) O \textit{core} do mesmo cluster é um especialista no conjunto de tópicos que aquele grupo já trabalha, e por isso poderá ser mais eficiente durante o processo.  O algoritmo~\ref{alg:coresamecluster} mostra como é feita a seleção dos recomendados neste método. Diferentemente do método anterior, esta abordagem depende de quem está realizando o \textit{``pull request''}.
+  Com intuito de aumentar a relevância dos resultados do algoritmo RandomCore, o método \textit{CoreSameCluster} busca recomendar \textit{cores} que são referência dentro do grupo de trabalho do autor do \textit{``pull request''} submetido. O raciocínio se baseia em duas premissas: a) Ao estarem no mesmo grupo, tais desenvolvedores já colaboram e têm mais probabilidade de continuar colaborando na atual atividade, e b) O \textit{core} do mesmo cluster é um especialista no conjunto de tópicos que aquele grupo já trabalha, e por isso poderá ser mais eficiente durante o processo.  O algoritmo~\ref{alg:coresamecluster} mostra como é feita a seleção dos recomendados neste método. Diferentemente do método anterior, esta abordagem depende de quem está realizando o \textit{``pull request''}.
 
 
   \begin{algorithm}
@@ -774,54 +779,163 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
 
 
 \chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
-    Dadas as variáveis relevantes do revisor que potencializam a colaboração discutidas na seção~\ref{sec:metricas_revisor}, este capítulo apresenta a ferramenta de recomendação para o desenvolvimento distribuído de software (DDS). Levando em consideração os modelos atuais de revisão de código exploradas na seção~\ref{sec:code_review} são propostos os seguintes requisitos funcionais da ferramenta:
+    A solução desenvolvida engloba a automação das tarefas de instanciação, download e avaliação dos métodos, bem como a ferramenta de recomendação baseada nos métodos propostos. Levando em consideração os modelos atuais de revisão de código exploradas na seção~\ref{sec:code_review} são propostos os seguintes requisitos funcionais da ferramenta:
 		\begin{itemize}
 			\item Dada uma revisão de código, a ferramenta deve apresentar sugestões de pares técnicos para o o papel de revisor;
-			\item a lista de revisores deve ser estar ordenada por ordem de relevância da indicação;
+			\item o tamanho da lista deve ser escolhido pelo operador da ferramenta;
 			\item os perfis dos indicados devem estar acessíveis (via link).
 		\end{itemize}
 
-		A ferramenta proposta integra com repositórios de código Git, extrair informações de histórico de desenvolvimento e proximidade do \textit{changeset} em análise com a memória do projeto em relação ao canditado a revisor O acesso a esses metadados é efitivado através da biblioteca GitPython\footnote{http://gitpython.readthedocs.io/en/stable/tutorial.html} que fornece uma interface objeto-relacional para a base de dados interna do Git. Os históricos de revisão encontram-se no Github, e são extraídos através das APIs\footnote{https://api.github.com} disponibilizadas para este fim. A figura 2 representa os componentes e suas comunicações.
 
-		\begin{figure}[!htbp]
-		 \includegraphics[width=\textwidth]{diagrama_componentes}\label{fig:diagrama_componentes}
-		 \caption{Diagrama de Componentes da ferramenta}
-	 \end{figure}
+		Os requisitos não funcionais estão relacionados às caracterísitcas técnicas da ferramenta que suportam os requisitos funcionais, como por exemplo disponibilidade, portabilidade e manutenibilidade. Dentre tais aspectos, pode-se destacar como mais relevantes:
+	\begin{itemize}
+		\item Interoperabilidade
+		\begin{itemize}
+			\item A ferramenta proposta deve-se comunicar o repositório de código fonte e ser compatível diferentes IDEs .
+		\end{itemize}
+		\item Manutenibilidade
+		\begin{itemize}
+			\item Existem diversas ferramentas de mercado para revisão, além de ferramentas de repositório de código fonte. Por isso a ferramenta deve ser modelada para permitir evoluções futuras que permitam a agregação de novas integrações que sejam importantes em outros domínios, como por exemplo software proprietário.
+		\end{itemize}
+    \item Portabilidade
+    \begin{itemize}
+      \item A ferramenta deve funcionar em diferentes sistemas operacionais e de forma auto contida, independente de instalação prévia de tecnologias.
+    \end{itemize}
+    \item Usabilidade
+    \begin{itemize}
+      \item As principais funcionalidade de recomendação da ferramenta devem estar disponíveis em interface web para operação sem necessidade conhecimento técnico avançado.
+    \end{itemize}
+	\end{itemize}
 
-   O fluxo de operação da ferramenta foi projetado visando compatibilidade com o processo de revisão, especialmente no modelo \textit{pull based} \cite{gousios2014} introduzido na seção~\ref{sec:pull_based}. A figura 3 representa a comunicação entre o autor do \textit{changeset} (responsável pela escolha dos revisores), o GitHub e o utilitário de recomendação.
+
+    Além dos requisitos funcionais e não funcionais caracterizados para atender os objetivos da pesquisa, é importante observar questões relativas á reprodutibilidade e avaliação do estudo. Ao conduzir as etapas de desenvolvimento e modelagem da arquitetura da ferramenta, é possível aderir a determinadas recomendações da literatura para agregar a capacidade do experimento de ser replicado, corroborado e estentido por pesquisas futuras. A próxima seção apresenta como tais aspectos foram levados em consideração.
+
+    \section{Aspectos de Reprodutibilidade}
+
+    Cada uma das tecnologias apresentadas é encapsulada através da tecnologia de virtualização Docker\footnote{https://www.docker.com/}. esta abordagem é uma resposta às iniciativas de reprodutibilidade na ciência, buscando maior transparência, confiabiliade e possibilidade de extensão nos experimentos \cite{freire2012}. Os três componentes (banco de dados relacional, orientado a grafo e os scripts de extração, transformação e carga) são encapsulados em contâiners distintos, como mostra a figura~\ref{fig:docker-model}.
+
+    \begin{figure}[!htbp]
+     \includegraphics[width=.7\textwidth]{docker-model}
+     \caption{Modelo de contâiners}\label{fig:docker-model}
+    \end{figure}
+
+    Os componentes WEB e API se comunicam para oferecer a interface de operação da ferramenta para os usuários. A fonte de dados para todas as execuções é o Sistema Gerenciador de Banco de Dados Relacional (RDMBS), apoiado pela estrutura orientada a grafos (GDBMS). O contâiner das análises fica responsável executar os métodos de recomendação, otimização, ETL e outros que apoiam a descoberta de conhecimento na plataforma. Mais detalhes sobre cada um dos contâiners e suas funcionalidades estão descritos na seção~\ref{sec:arquitetura} e \ref{sec:funcionalidades}. Estes componentes são orquestrados através do docker-compose\footnote{https://docs.docker.com/compose/}, que configura os parâmetros e acessos necessários para o funcionamento do sistema sem que o usuário precise realizar nenhuma ação extra.
+
+    Com um conjunto grande de dependências, tecnologias e minúncias que estão envolvidas neste tipo de experimento, o código fonte e a descrição ainda que detalhada dos dados não é suficiente para alcançar níveis adequados de reprodutibilidade~\cite{ince2012}. Com auxílio dos containers Docker, é possível criar instâncias executáveis dos experimentos que vão funcionar em diferentes computadores, arquiteturas e situações, sem necessidade de conhecimento técnico por parte do executor das tecnologias utilizadas \cite{boettiger2015}.
+
+    De acordo com Sinha et al. \cite{sinha2016}, a maturidade da reprodutibilidade de um experimento científico computacional pode ser medido de acordo o nível dos seguintes aspectos que foram trabalhados em sua disponibilização. A figura~\ref{fig:espectro_reprodutibilidade} mostra o espectro de reprodutibilidade, que encara esta característica como um constante trabalho de evolução não binário, podendo uma pesquisa se tornar mais ou menos reprodutível ao se utilizar determinadas técnicas. A figura~\ref{fig:escala_reprodutibilidade} mostra o detalhamento de cada aspecto que contribui para que esta característica seja evidenciada.
+
+    \begin{figure}[!htbp]
+     \includegraphics[width=\textwidth]{espectro_reprodutibilidade}
+     \caption{Espectro de Reprodutibilidade}\label{fig:espectro_reprodutibilidade}
+    \end{figure}
+
+    \begin{figure}[!htbp]
+     \includegraphics[width=\textwidth]{escala_reprodutibilidade}
+     \caption{Escala de Maturidade de Reprodutibilidade}\label{fig:escala_reprodutibilidade}
+    \end{figure}
+
+
+    \subsection{Dados - Evidências Primárias/Secundárias} Esta categoria analisa a disponibilidade dos dados utilizados para futuros pesquisadores. Pode variar de simplesmente não dispobilizado até a disponibilização íntegra das informações, valendo-se de meios para uma oferta não repudiável e com garantias de integridade e veracidade. Neste trabalho, todos os dados (em suas diferentes agregações) são disponibilizados para uso futuro. Além disso os mecanismos de extração são automatizados, permitindo buscar outros projetos ou atualizar os dados existentes. Como não há garantias de não repúdio e autenticação dos dados, o estudo se classifica como nível 2 nesta categoria.
+
+    \subsection{Modelo e Parâmetros} Verificação dos modelos e parâmetros utilizados no experimento. São essenciais para a discussão e reprodução do experimento, além de qualquer tentativa de otimização. Varia de não disponibilizado até a disponibilização plena com documentação adequada, interface robusta que trate valores fora do domínio (como nulos) e também prática, facilitando os testes com parâmetros e dados distintos. Os modelos de dados e de execução são detalhados neste trabalho. Além disso, todas as análises são automatizadas e encapusladas através de comandos executáveis dentro de um contâiner Docker. Por conseguinte, o trabalho pode ser classificado como nível 3 nesta categoria
+
+    \subsection{Código Fonte} Disponibilidade do código fonte utilizado nas análises. Pode variar de não disponível (proprietário) até open source com direito de extensão e modificação. Neste projeto todo o código fonte é opensource e disponibilizado sob a permissiva licença MIT~\cite{mit}, categorizando assim o nível 3.
+
+    \subsection{Sistema computacional requerido} Detalhamento das informações de hardware e software necessários, como por exemplo memória, arquitetura, processador, versão e plataforma. O nível ideal é a disponibilização do experimento em ambiente virtualizado em nuvem, em arquitetura que permita tanto a reprodução "as is" quanto extensão e modificação de parâmetros e dados de entrada. Como todo o pipeline deste projeto está disponibilizado na infraestrutura Docker, a única restrição da máquina do pesquisador é ter o Docker instalado. Em adição, serviços de nuvem como a Amazon AWS fornecem infraestutura para execução de containers Docker sem necessidade de configurações extras. Informações do hardware utilizado nos experimentos estão disponibilizadas nas próximas seções. Assim, o projeto pode ser classificado como nível 3 nesta categoria.
+
+    \subsection{Artefatos de apresentação}
+
+    Todos os artefatos de apresentação, tais como artigos, dissertação e posters oriundos deste trabalho foram construídos com o \LaTeX \cite{lamport1994} e o código fonte disponibilizado. Gráficos e tabelas foram produzidos diretamente através de scripts e/ou com ferramentas \textit{Open Source}, como o Gephi\footnote{https://gephi.org/}. Nesta categoria o estudo também se caracteriza como nível 3.
+
+    De acordo com a escala proposta \cite{sinha2016} e com as informações prestadas nesta seção, concluímos que a pesquisa está no nível 2 de maturidade em reprodutibilidade, já que o autor propõe que o trabalho seja classificado de acordo com a menor nível atingido em uma das categorias.
+
+    \section{Arquitetura}\label{sec:arquitetura}
+
+		A ferramenta proposta é estruturada em diferentes componentes, de acordo com sua função e tecnologias escolhidas. A figura~\ref{fig:componentes} mostra essa divisão, onde os quatro principais componentes possuem subcomponentes com tarefas mais específicas autocontidas. As subseções seguintes tratam de cada um dos componentes em particular.
+
+
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=.8\textwidth]{componentes}
+        \caption{Diagrama de Componentes da Ferramenta}\label{fig:componentes}
+    \end{figure}
+
+    \subsection{External DataSource}
+
+    O módulo de dados externo é incorporado pela API do GitHub, fonte dos dados brutos extraídos e armazenados no componente de persistência de dados. A versão estável para integração foi a v3, que implementa o padrão arquitetural RESTful\cite{fielding2002}. Existe a API em recém lançada v4\footnote{https://developer.github.com/v4/}, que utiliza da especificação GraphQL para exposição dos serviços. Esta não foi utilizada devido a documentação ainda recente e pela preferência ao padrão REST.
+
+    \subsection{Data Layer}
+
+    Neste componentes os dados normalizdos oriundos do GitHub são persistidos e tidos como base para as outras funcionalidades existentes. o Diagrama de Entidade Relacionamento (DER) na figura~\ref{fig:der} representa as informações disponíveis. As colunas salvas são as mesmas que a API do GitHub disponibiliza e foram restringidos pensando no espaço, já que só a entidade \textit{``pull request''} tem 37 campos. Todas as tabelas possuem um identificador (id) gerado sequencialmente, além das informações de identificação do próprio GitHub.  O DBMS escolhido para este componente foi o PostgreSQL 10.5, que é \textit{``Open Source''} e implementa as características do padrão ACID~\cite{gilbert2002} de atomicidade, consistência, isolamento e durabilidade.
+
+    \begin{figure}[!htbp]
+     \includegraphics[width=\linewidth]{der}
+     \caption{ Diagrama de Entidade Relacionamento (DER)}\label{fig:der}
+    \end{figure}
+
+    Na figura~\ref{fig:der} é possível ver que a entidade \textit{user} é compartilhada em diferentes projetos, e assume o papel de autor de várias outras. Isso significa que mesmo que um autor contribua em projetos diferentes será representado uma única vez, o que permite análises mais complexas entre projetos distintos. Os \textit{``pull requests''}, outra categoria chave para as análises, possui dois tipos de comentários: aqueles feitos no formato de discussão (\textit{discussion\_comment}) e aqueles que apontam para partes específicas do código (\textit{review\_comment}). A segunda categoria que é utilizada neste trabalho. Estes comentários (e o próprio \textit{``pull request''}) recebem as respectivas reações, utilizadas como representações de sentimentos positivos ou negativos em relação às interações. Os \textit{``pull requests''} se relacionam \textit{n:m} com as \textit{labels}, indicando as categorias nas quais foram classificados. A tabela \textit{requested\_reviewer} representa solicitações de revisores que quando aceitas viram registros na tabela \textit{assignee}. Estes dados não foram utilizados para avaliar a recomendação porque apenas os indivíduos com permissão são referenciados como ``atribuídos'', o que iria enviesar os resultados das recomendações de \textit{cores}.
+
+    O segundo componente da camada de persistência é a rede de desenvolvedores instânciada em um Sistema Gerenciador de Banco de Dados Orientado a Grafos (GDBMS), que disponibiliza os dados relevantes do modelo relacional na visualização de grafos, permitindo as análises e métodos de clusterização serem executados com maior facilidade. A tecnologia escolhida neste caso foi o Neo4j\footnote{https://neo4j.com/} que além de possuir o plugin do NetSCAN permite a integração com o Gephi para produzir filtros, análises e visualizações mais elaboradas. Apenas os dados básicos dos indivíduos e suas relações foram instanciadas nele, enquanto consultas mais elaboradas precisam contar com o suporte do PostgreSQL.
+
+    \subsection{Gitrev}
+
+    Gitrev é o nome da plataforma e do principal componente do sistema, sendo responsável pela interação com os dados durante todo o processo. Todo o componente foi desenvolvido em Python, aproveitando da extensibilidade, ecossitema e flexibilidade da linuagem. A interface com o RDBMS é suportada pela biblioteca SQLAlchemy\footnote{https://www.sqlalchemy.org/}, sendo o pilar da camada de acesso aos dados (\textit{Data access objetcs}, ou DAO). Para a interação com o GDBMS a biblioteca Py2neo\footnote{https://py2neo.org/v4/} provê interface semelhante ao seu par relacional. O módulo \textit{Dump} inicia o processo de extração ao acessar a API do GitHub, com auxílio da biblioteca requests\footnote{https://2.python-requests.org/en/master/}. O algortimo de extração dos dados foi projetado com uma série de cuidados para garantir a integridade e disponibilidade das informações, diante das nuances do repositório e do domínio de dados. Os principais aspectos observados são:
+
+    \subsubsection{Inconsistência nos dados} Para evitar dados inconsistentes, toda a extração é feita dentro de uma transaction relacional do RDBMS, garantindo que todas as ações serão executadas (ou canceladas) de forma atômica. As restrições de chave primária também são a primeira linha de defesa para evitar que informações inconsistentes sejam armazenadas (como por exemplo um comentário relacionado a um \textit{``pull request''} que não existe).
+
+    \subsubsection{Tratamento das exceções da API} O repositório de dados pode se comportar de maneira anormal durante a extração dos projetos, por diversos motivos: indisponibilidade dos serviços, lentidão do cliente, problemas de conexão entre outros. Assim é necessário tratar erros (como 400, 500 e 502) e evitar que o dump seja interrompido. Para isso, as respostas são tratadas, e detectados erros temporários como estes, o request é agendado para se repetir em uma janela de tempo definida.
+
+    \subsubsection{Ratelimit da API} A API do GitHub limita o número de requests a 5000/hora. Por isso, é necessário que o cliente controle o número de requests para que não seja bloqueado. Assim, o componente de extração limita o seu número de requests, entrando em espera quando o número se aproxima ao limite imposto.
+
+    \subsubsection{Unicidade de usuários} Usuários são entidades espalhadas entre os diferentes projetos. Para possibilitar análises globais e estatísticas realísticas de tamanhos de projetos, é necessário que não haja duplicação entre os usuários. O componente de extração também garante que não hajam usuários duplicados.
+
+    O módulo \textit{Load} é responsável por gerar a rede especificada na seção~\ref{sec:modelagem}, a partir dos dados encontrados no RDBMS. Além do peso relatado na definção do grafo, os pesos segregados por \textit{label} necessários para o algoritmo~\ref{alg:labelpartners} de recomendação já são introduzidos. Uma propriedade única é que o peso global de determinada relação é a média ponderada dos pesos por \textit{label}.
+
+    O componente NetSCAN reúne as funcionalidades de criação, avaliação e otimização dos \textit{clusters}. Nele é possível encontrar a combinação de parâmetros que geram a melhor silhueta, como explicado na seção~\ref{subsec:netscan}. Os utilitários que avaliam a qualidade dos grupos detectados e sua relevância semântica em relação ao processo produtivo do projeto também são encapsuladas neste módulo. Muitas vezes tais análises são executadas com auxílio do módulo \textit{Algortimos de Grafos} onde consta um conjunto de métodos para avaliar as redes e os relacionamentos encontrados.
+
+    Na camada \textit{Visualization} é possível encontrar os algortimos que se apóiam nas ferramentas matplotlib\footnote{https://matplotlib.org/index.html} e numpy\footnote{https://www.numpy.org/} para gerar gráficos de distribuição de grau, \textit{boxplot} das silhuetas entre outros.
+
+    No componente \textit{Recommendation} são efetuadas as recomendações tendo como base os métodos propostos. As informações são extraídas e do GDBMS e disponibilizadas para o componente de interface com o usuário. A avaliação das recomendações é feita no módulo \textit{EvaluateRec}, que executa recomendações para revisões dentro de um período escolhido e as analisa de acordo com os parâmetros definidos. Este é também o responsável por avaliar a significância estatística das diferenças entre as abordagens, com apoio da biblioteca ScyPy\footnote{https://www.scipy.org/}.
+
+    \subsection{Web Interface}
+
+    A interface web é destinada à operação cotidiana da ferramenta em busca dos revisores adequados. A aplicação se estrutura em dois componentes. O \textit{backend} é provido pelo Flask\footnote{http://flask.pocoo.org/}, microframework com capacidade de dar suporte à interface RESTful modelada, e é acessado através de um proxy provido pelo servidor web Nginx\footnote{https://www.nginx.com/}. O backend acessa o componente \textit{Recommend} e os \textit{``pull requests''}  persistidos no RDBMS para responder às solicitações do \textit{frontend}. Este componente foi desenvolvido com o apoio do framework reativo Vue.js\footnote{https://vuejs.org/} e é representado na figura~\ref{fig:web-interface}. O componente de seleção dos \textit{``pull requests''} é dinâmico e realiza a busca de acordo com a entrada do usuário. Os links nos usuários levam aos seus perfis no GitHub.
+
+    \begin{figure}[!htbp]
+     \includegraphics[width=\columnwidth]{web-interface}
+     \caption{Funcionalidade de recomendação no projeto Kubernetes}\label{fig:web-interface}
+    \end{figure}
+
+
+
+   \section{Funcionalidades}\label{sec:funcionalidades}
+
+   A utilização da ferramenta pode ser dividida em duas etapas principais: na preparação e na recomendação. A preparação pode ser executada de tempos em tempos, para atualizar a base oriunda do GitHub e testar novos parâmetros. É uma tarefa que pode ser agendada no processo de trabalho da organização e por isso é disparada via linha de comando (CLI). O diagrama de atividades na figura~\ref{fig:atividade} descreve o processo.
 
    \begin{figure}[!htbp]
-    \includegraphics[width=\textwidth]{diagrama_sequencia}\label{fig:diagrama_sequencia}
-    \caption{Diagrama de Sequência da ferramenta}
+    \includegraphics[width=\textwidth]{atividade}
+    \caption{Diagrama Atividades - Preparação}\label{fig:atividade}
+   \end{figure}
+
+   O responsável deve solicitar o \textit{download} de um ou mais projetos, que serão extraídos via API. O RDBMS foi projetado para persistir dados de quantos projetos forem solicitados. Contudo cada instância do Neo4j representa, nesta versão, dados de apenas um projeto. O usuário então pode solicitar a \textit{clusterização} da rede, passo necessário para os algortimos de recomendação~\ref{alg:randomcore} e~\ref{alg:coresamecluster}. Os parâmetros utilizados podem ser obtidos através da otimização, ou salvos para utilização recorrente, caso seja assim preterido. Avaliação dos métodos é um passo opcional que pode ajudar o operador a escolher o melhor método para cada situação. Ao finalizar este fluxo, os usuários estão livres para solicitar as recomendações na plataforma web, o que também é possível através da interface de linha de comando \inlinecode{gitrev PULL\_REQUEST\_ID [k]}. O valor padrão de $k$, se não informado, é 1, indicando que apenas um revisor será recomendado.
+
+   O fluxo de operação cotidiano ferramenta foi projetado visando compatibilidade com o processo de revisão, especialmente no modelo \textit{pull based} \cite{gousios2014} introduzido na seção~\ref{sec:pull_based}. A figura~\ref{fig:sequencia} representa o diagrama de sequência da comunicação entre o autor do \textit{``pull request''} (responsável pela escolha dos revisores), o GitHub e o utilitário de recomendação.
+
+   \begin{figure}[!htbp]
+    \includegraphics[width=\textwidth]{sequencia}\label{fig:sequencia}
+    \caption{Diagrama de Sequência da ferramenta - utilização}
   \end{figure}
 
-  O primeiro passo consiste no autor criar a revisão com os dados relevantes, como por exemplo descrição, link com issues solucionadas, dúvidas e possíveis discussões que estejam relacionadas ao código submetido. A partir daí ele já está em posse do identificador único da revisão, que será utilizada para encontrar o revisor adequado. Ao executar o utilitário, este irá acessar os metadados do Github para encontrar outras revisões de contexto semelhante e extrair informações de revisores que estiveram envolvidos nelas. A partir daí a recomendação é feita e disponibilizada para o revisor, que poderá convidar um subconjunto da lista apresentada para o papel de revisor.
+  O primeiro passo consiste no autor criar a revisão com os dados relevantes, como por exemplo descrição, link com issues solucionadas, dúvidas e possíveis discussões que estejam relacionadas ao código submetido. Ao executar o utilitário, este irá acessar os metadados do Github para encontrar outras revisões de contexto semelhante e extrair informações de revisores que estiveram envolvidos nelas. A partir daí a recomendação é feita e disponibilizada para o revisor, que poderá convidar um subconjunto da lista apresentada para o papel de revisor.
 
-			Os requisitos não funcionais estão relacionados às caracterísitcas técnicas da ferramenta que suportam os requisitos funcionais, como por exemplo disponibilidade, portabilidade e manutenibilidade. Dentre tais aspectos, pode-se destacar como mais relevantes:
-		\begin{itemize}
-			\item Interoperabilidade
-			\begin{itemize}
-				\item A ferramenta proposta deve-se comunicar o repositório de código fonte e à ferramenta de apoio a revisão de forma automática.
-			\end{itemize}
-			\item Manutenibilidade
-			\begin{itemize}
-				\item Existem diversas ferramentas de mercado para revisão, além de ferramentas de repositório de código fonte. Por isso a ferramenta deve ser modelada para permitir evoluções futuras que permitam a agregação de novas integrações que sejam importantes em outros domínios, como por exemplo software proprietário.
-			\end{itemize}
-		\end{itemize}
-		Para manter o padrão Git e possibilitar a integração futura com diversas IDEs de desenvolvimento, a ferramenta desenvolvida possui interface via linha de comando. através do utilitário \inlinecode{gitrec} é possível acessar todas as funcionalidades previstas. A sintaxe do comando é \inlinecode{gitrec [PULL REQUEST ID]} onde o utilizador fornece o identificador númerico único da revisão para a qual deseja a indicação do revisor. Outros parâmetos são:
+  Com a ferramenta dispondo do sistema de recomendação e de avaliação, é possível conduzir um processo para averiguar a pertinência dos resultados  de acordo com os objetivos deste trabalho. O processo de avaliação é descrito no próximo capítulo.
 
-		\begin{lstlisting}
-		--top=n | -t # Indica n potenciais revisores. O padrao e 3.
-		--exclude=username | -u # Exclui um usuario da busca por revisores.
-		--version | -v # Mostra a versao do utilitario.
-		--help | -h # Imprime esta lista de parametros.
-		--verbose | -vv[v] # Modo de debug, imprime todos os logs.
-		\end{lstlisting}
-
-		O utilitário deve ser executado dentro da pasta do projeto. São utilizadas as credenciais de clone/merge do projeto para acesso à API do Github, enquanto o histórico de evolução do código é acessado localmente através da base do Git.
 \chapter{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
 
   \section{Processo de Avaliação}
+    falar das fases e tal, diagrama
+    \subsection{Significância estatística}
 
   \section{Apresentação dos resultados}\label{section:apresentacao}
 
