@@ -476,7 +476,7 @@ W(v_i,v_j)=\frac{P(v_i,v_j)}{\sum\limits_{k=1}^{n}{P(v_j,v_k)}}\label{eq:weight}
 
 \section{Análise exploratória da rede proposta}
   Para avaliar a topologia da rede proposta, é necessário instanciar o modelo utilizando dados de projetos de software reais. Assim é possível compreender se as distribuições, cararacterísticas e comportamentos do grafo são compatíveis com o descrito na literatura e se tal contexto permite conclusões relevantes para os objetivos deste trabalho.
-  \subsection{Escolha dos repositórios}
+  \subsection{Escolha dos repositórios}\label{subsec:escolhaprojetos}
   A escolha dos repositórios influencia na validade das conclusões no contexto estudado e na relevância dos métodos propostos. Por consequência, as seguintes diretrizes foram traçadas para guiar a busca e avaliação dos projetos cujos dados serão território de avaliação e análise desta pesquisa. São elas:
 
   \begin{enumerate}
@@ -932,22 +932,117 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
   Com a ferramenta dispondo do sistema de recomendação e de avaliação, é possível conduzir um processo para averiguar a pertinência dos resultados  de acordo com os objetivos deste trabalho. O processo de avaliação é descrito no próximo capítulo.
 
 \chapter{AVALIAÇÃO DA SOLUÇÃO}\label{chap:resultados}
+    A avaliação da solução proposta passa por três etapas distintas: a extração dos dados, a preparação das estruturas e a apreciação das métricas escolhidas e a significância estatísitica dos resultados. A figura~\ref{fig:avaliacao} mostra o procedimento.
 
-  \section{Processo de Avaliação}
-    falar das fases e tal, diagrama
-    \subsection{Significância estatística}
+     \begin{figure}[!htbp]
+      \includegraphics[width=\textwidth]{avaliacao}\label{fig:avaliacao}
+      \caption{Processo de avaliação}
+    \end{figure}
 
-  \section{Apresentação dos resultados}\label{section:apresentacao}
+    As atividades estão todas contidas na ferramenta, com uma ordem de execução similar ao uso exemplificado na seção~\ref{sec:funcionalidades}. A partir dos dados extraídos relativos aos 4 projetos selecionados na subseção~\ref{subsec:escolhaprojetos}, as respectivas redes são construídas. É possível escolher o intervalo de tempo para limitar quais dados serão utilizados no processo. Tal mecanismo serve para possibilitar que os dados utilizados na avaliação sejam diferentes dos utilizados para criar a rede, diminuindo o risco de viés nas análises, sem ter que acessar novamente a API do GitHub. A otimização dos parâmetros pode ser feita uma única vez e aproveitada para quantas execuções da avaliação por projeto forem conduzidas. A última etapa executa a recomendação para todos os \textit{``pull requests''} dentro de um intervalo de tempo, avalia as métricas selecionadas e ainda realiza os testes estatísticos pertinentes. Esta etapa é foco das duas próximas seções, que descorrem das métricas utilizadas para avaliação e do processo de apreciação da significância estatísitca dos resultados obtidos.
 
-  \section{Discussão dos resultados}\label{section:discussao}
+    \section{Métricas de avaliação}
+
+    Duas categorias de métricas foram escolhidas: aquelas comuns em avaliação de sistemas de recomendação e especialmente no âmbito de recomendação de revisores e aquelas que envolvem a qualidade da participação dos indivíduos indicados no processo de revisão. O desempenho no primeiro grupo não reflete necessariamente os objetivos do trabalho, mas foram incluídas por serem comuns neste ramo de pesquisa <<citar revisão>>. São a porcentagem de precisão e acerto, como explicado na seção~\ref{sec:metricas_revisor}, e doravante referenciadas como ``métricas de proximidade''. Já as métricas do segundo grupo são baseadas nos estudos de Bosu et al. \cite{bosu2015} e Rahman et al. \cite{rahman2017} detalhadas na seção~\ref{sec:avaliacao_review} e doravante denominadas ``métricas de eficiência''. São métricas de avaliação dos comentários e interações dos indivíduos durante o processo de revisão, e por isso atendem melhor aos objetivos do trabalho. Elas são detalhadas nas seguintes subseções.
+
+
+    \subsection{Número de Comentários}
+      Representa o número médio de interações realizadas pelos indivíduos em determinada revisão. Pode mostrar maior atividade e comprometimento dele em relação ao processo. Não são computados comentários do próprio autor do \textit{``pull request''}, já que esse também não é considerado para os algortimos de recomendação. É referenciado pela variável $num\_comments$.
+
+    \subsection{Número de Reações}
+      Mede o número médio de reações (os populares \textit{emojis}) que foram recebidos pelos indivíduos em determinada revisão. É uma representação para reputação e impacto que determinado indivíduo pode causar no processo, sendo este capaz de gerar comentários mais relevantes~\cite{bosu2015}. Não são computados comentários do próprio autor do \textit{``pull request''}, já que esse também não é considerado para os algortimos de recomendação. É referenciado pela variável $num\_reactions$.
+
+    \subsection{Número de repostas}
+      Os comentários podem ser diretamente respondidos, mostrando possível impacto e capacidade de gerar mudanças, características importantes de participações no processo de revisão~\cite{bosu2015}. Neste caso as respostas do autor do \textit{``pull request''} são contabilizadas. É referenciado pela variável $num\_replies$.
+
+    \subsection{Tamanho dos comentários}
+      O tamanho dos comentários tem relação com sua relevância~\cite{rahman2017}. Não são computados comentários do próprio autor do \textit{``pull request''}, já que esse também não é considerado para os algortimos de recomendação. É referenciado pela variável $size\_comments$.
+
+
+    \subsection{Proporção de \textit{``non stop words''}}
+    As \textit{``stop words''} (em tradução livre, palavras de parada) são construções comuns a diversos tipos de texto, e por isso sem relevância específica no contexto em estudo\textit{wilbur1992}.
+    A alta proporção de palavras que não se encaixam nesta descriação podem ser um sinal de um texto com mais substância e significativo, estando associado a relevância do comentário ao processo de revisão~\cite{rahman2017}. É referenciado pela variável $rate\_non\_stop\_words$.
+
+    Outra diferença entre os dois conjuntos de métricas se dá na forma de comparação. As ``métricas de proximidade'' só podem ser apreciada entre duas formas de recomendação distintas pois descrevem o quão parecida foi a recomendação em relação ao efetivamente escolhido pelo autor. Já as ``métricas de eficiência'' são autocontidas, pois podem ser confrontadas entre o comportamento dos indivíduos que foram indicados e os que não foram. Ou seja, é possível aferir se quando os recomendados interagem no \textit{``pull request''} em questão, existe diferença em relação à qualidade das interações realizadas. Estes grupos são diferenciados pelo símbolo $r$ para recomendados e $w$ para não recomendados em cada métrica. Por exemplo $num\_comments_r$ referencia o número médio de comentários dos recomendados em determinada revisão.
+
+
+    \section{Significância estatística}
+
+    Para estabelecer juízo de valor sobre o experimento é necessário, primariamente, avaliar a relevância estatísitica sobre os dados coletados durante sua execução. A literatura acerca deste assunto indica possível subutilização de ferramentas estatísitcas adequadas na Engenharia de Software \cite{miller1997}, o que pode acarretar em trabalhos com resultados questionáveis e sem fundamentação sólida \cite{dybaa2006}.
+
+    As análises dispostas nesta seção foram conduzidas de acordo com o trabalho de Araújo et al.~\cite{araujo2006} e aplicado em Schettino et al.~\cite{schettino2014}, com objetivo de observar se a implantação da prática de \textit{code review} no processo de desenvolvimento da organização alvo surtiu efeitos estatísticamente significativos nas métricas estruturais dos projetos alvo. O nível de significância (valor \textit{p} ou \textit{p-value}) escolhido foi 0,05, muito utilizado na Engenharia de Software e outras ciências naturais.
+
+    Levando em consideração o grande número de amostras analisadas nestra trabalho, não são demonstrados os passos de cada uma das análises, para manter o tamanho do trabalho dentro de um limite razoável. Nesta seção são utilizadas amostras de terceiros para ilustrar os tratamentos estatísticos utilizados, enquanto na seção~\ref{sec:apresentacao} os resultados são apresentados em forma de tabela.
+
+    O primeiro passo é verificar a normalidade dos dados. Como pode-se observar que todas métricas contém menos de 30 amostras, aplica-se o teste de \textit{Shapiro-Wilk}. São consideradas as seguintes hipóteses:
+    \begin{itemize}
+      \item H0 (hipótese nula): as amostras apresentam distribuição normal;
+      \item H1 (hipótese alternativa): as amostras não apresentam distribuição normal.
+    \end{itemize}
+
+    Caso o \textit{p-value} do teste seja maior que 0,05, deve-se aceitar a hipótese nula, uma vez que não há indícios que apontem para a hipótese alternativa. A figura~\ref{fig:normalidade} mostra o resultado deste tipo de teste.
+
+    \begin{figure}[H]
+    \centering
+      \includegraphics[width=\linewidth]{shapiro.png}
+    \caption{Gráfico representando amostra normal segundo o teste de \textit{Shapiro-Wilk} \cite{pensu2017}}
+    \label{fig:normalidade}
+    \end{figure}
+
+    Da mesma forma, verifica-se se as amostras são homocedásticas. Através do teste de \textit{Levene}, observou-se o \textit{p-value} e foram avalaidas duas hipóteses:
+
+    \begin{itemize}
+      \item H0 (hipótese nula): as amostras homocedásticas.
+      \item H1 (hipótese alternativa): as amostras não são homocedásticas;
+    \end{itemize}
+
+    Ao verificar resultado maior que a significância estabelecida de 5\%, aceita-se a hipótese de que os dados são homocedásticos. É o caso da amostra representada pela figura~\ref{fig:homocedasticidade}
+
+    \begin{figure}[H]
+    \centering
+      \includegraphics[width=\linewidth]{levene.png}
+    \caption{Teste de \textit{Levene} apontando amostra homocedástica \cite{wang2009}}
+    \label{fig:homocedasticidade}
+    \end{figure}
+
+
+    Ao garantir que as amostras são normais e homocedásticas, pode-se aplicar um teste paramétrico para verificar se as médias das amostras antes e depois do \textit{code review} são significativamente distintas, do ponto de vista estatístico. Elegeu-se o \textit{Teste T} com os fatores ``antes'' (ACR) e ``depois'' (DCR) da aplicação do \textit{code review}. São as hipóteses:
+
+    \begin{itemize}
+      \item H0 (hipótese nula): não há diferença entre as médias;
+      \item H1 (hipótese alternativa): há diferença entre as médias.
+    \end{itemize}
+
+    Um \textit{p-value} maior que 0,05 indica que deve-se descartar a hipótese nula, como é exemplificado na figura~\ref{fig:test_t}. Caso os dados não sejam normais e homocedásticos, aplica-se testes não paramétricos para chegar a esta conclusão. Para estas situações aplica-se o teste de \textit{Mann-Whitney}, o que pode ser visto na figura~\ref{fig:mannwhitney}.
+
+    \begin{figure}[H]
+    \centering
+      \includegraphics[width=\linewidth]{testt.png}
+    \caption{\textit{Teste T} para asserção da significância estatística da amostra \cite{pensu2017b}}
+    \label{fig:test_t}
+    \end{figure}
+
+    \begin{figure}[H]
+    \centering
+      \includegraphics[width=\linewidth]{mann_whitney.png}
+    \caption{Teste de \textit{Mann-Whitney} para asserção da significância estatística da amostra \cite{frost2013}}
+    \label{fig:mannwhitney}
+    \end{figure}
+
+
+  \section{Execução}
+
+  \section{Apresentação dos resultados}\label{sec:apresentacao}
+
+  \section{Discussão dos resultados}\label{sec:discussao}
 
 \chapter{CONCLUSÃO}\label{chap:conclusao}
 
-  \section{Ameaças}\label{section:ameacas}
+  \section{Ameaças}\label{sec:ameacas}
 
-  \section{Trabalhos futuros}\label{section:trabalhos_futuros}
+  \section{Trabalhos futuros}\label{sec:trabalhos_futuros}
 
-  \section{Considerações finais}\label{section:consideracoes_finais}
+  \section{Considerações finais}\label{sec:consideracoes_finais}
 
 
 
