@@ -968,13 +968,13 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
 
     \section{Significância estatística}
 
-    Para estabelecer juízo de valor sobre o experimento é necessário, primariamente, avaliar a relevância estatísitica sobre os dados coletados durante sua execução. A literatura acerca deste assunto indica possível subutilização de ferramentas estatísitcas adequadas na Engenharia de Software \cite{miller1997}, o que pode acarretar em trabalhos com resultados questionáveis e sem fundamentação sólida \cite{dybaa2006}.
+    Para estabelecer juízo de valor sobre o experimento é necessário, primariamente, avaliar a relevância estatísitica sobre os dados coletados durante sua execução. A literatura acerca deste assunto indica possível subutilização de ferramentas estatísitcas adequadas na Engenharia de Software \cite{miller1997}, o que pode acarretar em trabalhos com resultados questionáveis e sem fundamentação sólida \cite{dybaa2006}. O objetivo é observar se existem diferenças significativas entre o desempenho de cada abordagem, ou se possíveis dissimilitudes são apenas frutos do acaso.
 
-    As análises dispostas nesta seção foram conduzidas de acordo com o trabalho de Araújo et al.~\cite{araujo2006} e aplicado em Schettino et al.~\cite{schettino2014}, com objetivo de observar se a implantação da prática de \textit{code review} no processo de desenvolvimento da organização alvo surtiu efeitos estatísticamente significativos nas métricas estruturais dos projetos alvo. O nível de significância (valor \textit{p} ou \textit{p-value}) escolhido foi 0,05, muito utilizado na Engenharia de Software e outras ciências naturais.
+    As análises dispostas nesta seção foram conduzidas de acordo com o trabalho de Araújo et al.~\cite{araujo2006} e aplicado em Schettino et al.~\cite{schettino2014}, com objetivo de observar se são significantes as diferenças percebidas nas métricas de avaliadas. O nível de significância (valor \textit{p} ou \textit{p-value}) escolhido foi 0,05, muito utilizado na Engenharia de Software e outras ciências naturais. Isso significa que os resultados serão aceitos como diferentes apenas a probabilidade disso ser verdade for maior que 95\%. O universo de avaliação aqui são as recomendações de cada método para o conjunto de  \textit{``pull requests''} escolhido. Nas métricas de proximidade, primeiro é feita a comparação entre os conjuntos recomendados e os efetivamente escolhidos, e depois com os resultados de cada método. Nas métricas de eficiência a comparação é feita entre as interações dos integrantes dos grupos recomendados e as interações dos que não foram. Depois os resultados totais podem ser apreciados frente às saídas dos outros métodos.
 
-    Levando em consideração o grande número de amostras analisadas nestra trabalho, não são demonstrados os passos de cada uma das análises, para manter o tamanho do trabalho dentro de um limite razoável. Nesta seção são utilizadas amostras de terceiros para ilustrar os tratamentos estatísticos utilizados, enquanto na seção~\ref{sec:apresentacao} os resultados são apresentados em forma de tabela.
+    Levando em consideração o grande número de amostras analisadas neste trabalho, não são demonstrados os passos de cada uma das análises, para manter o tamanho do trabalho dentro de um limite razoável. Nesta seção são utilizadas amostras de terceiros para ilustrar os tratamentos estatísticos utilizados, enquanto na seção~\ref{sec:apresentacao} os resultados são apresentados em forma de tabela.
 
-    O primeiro passo é verificar a normalidade dos dados. Como pode-se observar que todas métricas contém menos de 30 amostras, aplica-se o teste de \textit{Shapiro-Wilk}. São consideradas as seguintes hipóteses:
+    O primeiro passo é verificar a normalidade dos dados, ou seja, se eles se distribuem de forma normal, em torno de um valor médio e com a maior parte das amostras a poucos desvios-padrão de distância. Este teste é necessário para definir qual abordagem mais adequada para descobrir se há diferença significativa entre as amostras. Como pode-se observar que todas métricas contém mais de 30 amostras, aplica-se o teste de \textit{Kolmogorov-Smirnov}. São consideradas as seguintes hipóteses:
     \begin{itemize}
       \item H0 (hipótese nula): as amostras apresentam distribuição normal;
       \item H1 (hipótese alternativa): as amostras não apresentam distribuição normal.
@@ -985,7 +985,7 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
     \begin{figure}[H]
     \centering
       \includegraphics[width=\linewidth]{shapiro.png}
-    \caption{Gráfico representando amostra normal segundo o teste de \textit{Shapiro-Wilk} \cite{pensu2017}}
+    \caption{Gráfico representando amostra normal segundo o teste de \textit{Kolmogorov-Smirnov} \cite{pensu2017}}
     \label{fig:normalidade}
     \end{figure}
 
@@ -1031,6 +1031,22 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
 
 
   \section{Execução}
+
+  Para evitar enviesamento das análises, os conjuntos de teste e treinamento da rede são diferentes. Os dados utilizados para montagem da rede variam entre 01/01/2010  e 31/12/2017. Já o conjunto para avaliação está contido entre 01/01/2018 e 31/12/2018. A funcionalidade de avaliação dos resultados salva todas as métricas para cada revisão em cada projeto em arquivos .csv, facilitando análises exploratórias. Dois tipos de avaliação distintos são executadas: para as métricas de proximidade, a comparação é feita entre as três abordagens, agrupados dois a dois. Para as métricas de eficiência a comparação é feita entre os grupos recomendados ($r$) e não recomendados ($w$), para cada método. Em ambos os casos, o valor de $k \in \{1, 3, 5, 10\}$  As figuras mostram, respectivamente, exemplos das saídas para avaliações do primeiro e do segundo grupo.
+
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=\textwidth]{method-evaluation}
+      \caption{Avaliação de Precision no Node.js}\label{fig:method-evaluation}
+  \end{figure}
+
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=\textwidth]{metric-evaluation}
+      \caption{Avaliação das métricas de eficiência do método LabelPartners no Symfony}\label{fig:metric-evaluation}
+  \end{figure}
 
   \section{Apresentação dos resultados}\label{sec:apresentacao}
 
