@@ -1,6 +1,7 @@
 \documentclass[12pt,openany,oneside,a4paper,english,brazil]{abntbibufjf}
 %\documentclass[preprint,review, 12pt]{elsarticle}
-
+\usepackage{subcaption}
+\usepackage{mwe}
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}		%% Para converter automaticamente acentos como digitados. Mude utf8 para latin1 se precisar.
@@ -15,6 +16,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{pstricks}
+\usepackage{multirow}
 \newcommand{\inlinecode}{\texttt}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -526,6 +528,8 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
  \caption{Documentação para dar suporte à contribuição no Tensorflow}\label{fig:community-profile}
 \end{figure}
 
+
+
   \subsection{Resultados}
 
   Os dados foram extraídos através da API do GitHub e carregados em uma instância do Neo4j\footnote{https://neo4j.com/}, um sistema gerenciador de banco de dados orientado a grafos. Para entender como os indivíduos interagem nas redes propostas, algumas análises foram feitas e os principais resultados são detalhados nesta seção.
@@ -555,6 +559,50 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
 
 
   As distribuições encontradas mostram que poucos indivíduos são responsáveis pela maior parte das interações em revisões dos projetos selecionados. Praticamente toda interação ocorre de alguma forma associada aos principais nós da rede. Por exemplo, no Symfony e no Node.js, existem apenas quatro componentes conexas em toda o grafo. Esta estrutura converge com reportado por trabalhos anteriores \cite{bergquist2001}. Estes especialistas que conduzem a maior parte do processo são podem ser responsáveis pelo projeto como um todo, módulos específicos \cite{firefox2018}, ou tecnologias/atribuições mais específicas \cite{debian2018}. A identificação automatizada da semântica que fundamenta tais distribuições pode levar aos melhores revisores em situações específicas, aumentando a colaboração na revisão. É com esse objetivo que foi aplicada uma abordagem de clusterização nos grafos instanciados, que será detalhada na próxima seção e utilizada como base para alguns dos métodos de recomendação propostos.
+
+  Uma das formas de se compreender a rede é avaliar a distribuição das interações nos \textit{``pull requests''}. Quantos aos comentários de revisão, principal foco deste trabalho, é possível observar que de maneira geral poucos revisores participam do processo. São comentários ligados diretamente ao código e por isso mais técnicos, sendo alvo de um grupo reduzido de indivíduos. A figura mostra em formato de histograma a distribuição do número de revisores por \textit{``pull request''}.
+  \includegraphics[width=\textwidth]{resultados/dist-rc-kubernetes}
+
+  \begin{figure}
+     \centering
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/dist-rc-node}
+         \caption[Network2]%
+         {{\small Network 1}}
+         \label{fig:mean and std of net14}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/dist-rc-symfony}
+         \caption[]%
+         {{\small Network 2}}
+         \label{fig:mean and std of net24}
+     \end{subfigure}
+     \vskip\baselineskip
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/dist-rc-kubernetes}
+
+         \caption[]%
+         {{\small Network 3}}
+         \label{fig:mean and std of net34}
+     \end{subfigure}
+     \quad
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/dist-rc-tensorflow}
+         \caption[]%
+         {{\small Network 4}}
+         \label{fig:mean and std of net44}
+     \end{subfigure}
+     \caption[ The average and standard deviation of critical parameters ]
+     {\small The average and standard deviation of critical parameters: Region R4}
+     \label{fig:mean and std of nets}
+ \end{figure}
+
+  É possível observar em todos os projetos que a maior parte dos casos menos de três revisores participam do processo. Existem muitos casos onde não há nenhum tipo de interação de revisão, possivelmente em \textit{``pull requests''} menores ou mais simples. Este comportamento se mostra menos acentuado em alguns projetos quanto o assunto são comentários gerais, de discussões que não necessariamente são técnicas durante o processo. É o que demonstra a figura, análoga às anteriores mas contando o número de autores de comentários de discussão nos \textit{``pull requests''}.
 
 \section{Clusterização}
 
@@ -1049,6 +1097,35 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
   \end{figure}
 
   \section{Apresentação dos resultados}\label{sec:apresentacao}
+  A apresentação dos resultados é dividia em duas partes: nas métricas de proximidade e nas métricas de eficiência. Em cada uma delas há a apresentação dos dados brutos e a comparação entre os grupos de análise levando em consideração a significância estatísticas das saídas.
+
+  \subsection{Métricas de Proximidade}
+
+  As métricas de proximidade foram extraídas para cada projeto separadamente. Os resultados podem ser visualizados nas tabelas
+
+  \begin{table}[htbp]
+  \caption{Projetos e principais características}
+  \begin{center}
+    \begin{tabular}{|l|l|l|l|l}
+    \cline{1-4}
+                                              & \textbf{k} & \textbf{Precision} & \textbf{Hit} &  \\ \cline{1-4}
+    \multirow{4}{*}{\textbf{RandomCore}}      & 1          &                    &              &  \\ \cline{2-4}
+                                              & 3          &                    &              &  \\ \cline{2-4}
+                                              & 5          &                    &              &  \\ \cline{2-4}
+                                              & 10         &                    &              &  \\ \cline{1-4}
+    \multirow{4}{*}{\textbf{CoreSameCluster}} & 1          &                    &              &  \\ \cline{2-4}
+                                              & 3          &                    &              &  \\ \cline{2-4}
+                                              & 5          &                    &              &  \\ \cline{2-4}
+                                              & 10         &                    &              &  \\ \cline{1-4}
+    \multirow{4}{*}{\textbf{LabelPartners}}   & 1          &                    &              &  \\ \cline{2-4}
+                                              & 3          &                    &              &  \\ \cline{2-4}
+                                              & 5          &                    &              &  \\ \cline{2-4}
+                                              & 10         &                    &              &  \\ \cline{1-4}
+    \end{tabular}%\end{tabular}%
+  \label{tab:sizemetrics}
+  \end{center}
+  \end{table}
+
 
   \section{Discussão dos resultados}\label{sec:discussao}
 
