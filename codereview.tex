@@ -560,49 +560,69 @@ Tensorflow é o projeto mais popular dos analisados neste trabalho, além de ter
 
   As distribuições encontradas mostram que poucos indivíduos são responsáveis pela maior parte das interações em revisões dos projetos selecionados. Praticamente toda interação ocorre de alguma forma associada aos principais nós da rede. Por exemplo, no Symfony e no Node.js, existem apenas quatro componentes conexas em toda o grafo. Esta estrutura converge com reportado por trabalhos anteriores \cite{bergquist2001}. Estes especialistas que conduzem a maior parte do processo são podem ser responsáveis pelo projeto como um todo, módulos específicos \cite{firefox2018}, ou tecnologias/atribuições mais específicas \cite{debian2018}. A identificação automatizada da semântica que fundamenta tais distribuições pode levar aos melhores revisores em situações específicas, aumentando a colaboração na revisão. É com esse objetivo que foi aplicada uma abordagem de clusterização nos grafos instanciados, que será detalhada na próxima seção e utilizada como base para alguns dos métodos de recomendação propostos.
 
-  Uma das formas de se compreender a rede é avaliar a distribuição das interações nos \textit{``pull requests''}. Quantos aos comentários de revisão, principal foco deste trabalho, é possível observar que de maneira geral poucos revisores participam do processo. São comentários ligados diretamente ao código e por isso mais técnicos, sendo alvo de um grupo reduzido de indivíduos. A figura mostra em formato de histograma a distribuição do número de revisores por \textit{``pull request''}.
-  \includegraphics[width=\textwidth]{resultados/dist-rc-kubernetes}
+  Uma das formas de se compreender a rede é avaliar a distribuição das interações nos \textit{``pull requests''}. Quantos aos comentários de revisão, principal foco deste trabalho, é possível observar que de maneira geral poucos revisores participam do processo. São comentários ligados diretamente ao código e por isso mais técnicos, sendo alvo de um grupo reduzido de indivíduos. A figura~\ref{fig:dist-rc} mostra em formato de histograma a distribuição do número de revisores por \textit{``pull request''}.
 
-  \begin{figure}
+  \begin{figure}[htbp]
      \centering
      \begin{subfigure}[b]{0.475\textwidth}
          \centering
          \includegraphics[width=\textwidth]{resultados/dist-rc-node}
-         \caption[Network2]%
-         {{\small Network 1}}
-         \label{fig:mean and std of net14}
+         \caption[Node.js]%
+         {{\small Node.js}}
+         \label{fig:dist-rc-node}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.475\textwidth}
          \centering
          \includegraphics[width=\textwidth]{resultados/dist-rc-symfony}
-         \caption[]%
-         {{\small Network 2}}
-         \label{fig:mean and std of net24}
+         \caption[Symfony]%
+         {{\small Symfony}}
+         \label{fig:dist-rc-symfony}
      \end{subfigure}
      \vskip\baselineskip
      \begin{subfigure}[b]{0.475\textwidth}
          \centering
          \includegraphics[width=\textwidth]{resultados/dist-rc-kubernetes}
 
-         \caption[]%
-         {{\small Network 3}}
-         \label{fig:mean and std of net34}
+         \caption[Kubernetes]%
+         {{\small Kubernetes}}
+         \label{fig:dist-rc-kubernetes}
      \end{subfigure}
      \quad
      \begin{subfigure}[b]{0.475\textwidth}
          \centering
          \includegraphics[width=\textwidth]{resultados/dist-rc-tensorflow}
-         \caption[]%
-         {{\small Network 4}}
-         \label{fig:mean and std of net44}
+         \caption[Tensorflow]%
+         {{\small Tensorflow}}
+         \label{fig:dist-rc-tensorflow}
      \end{subfigure}
-     \caption[ The average and standard deviation of critical parameters ]
-     {\small The average and standard deviation of critical parameters: Region R4}
-     \label{fig:mean and std of nets}
+     \caption[]
+     {\small Distribuição de autores de comentários de revisão nos projetos selecionados}
+     \label{fig:dist-rc}
  \end{figure}
 
-  É possível observar em todos os projetos que a maior parte dos casos menos de três revisores participam do processo. Existem muitos casos onde não há nenhum tipo de interação de revisão, possivelmente em \textit{``pull requests''} menores ou mais simples. Este comportamento se mostra menos acentuado em alguns projetos quanto o assunto são comentários gerais, de discussões que não necessariamente são técnicas durante o processo. É o que demonstra a figura, análoga às anteriores mas contando o número de autores de comentários de discussão nos \textit{``pull requests''}.
+  É possível observar em todos os projetos que a maior parte dos casos menos de três revisores participam do processo. Existem muitos casos onde não há nenhum tipo de interação de revisão, possivelmente em \textit{``pull requests''} menores ou mais simples. Este comportamento se mostra menos acentuado em alguns projetos quanto o assunto são comentários gerais, de discussões que não necessariamente são técnicas durante o processo. É o que demonstra a figura~\ref{fig:dist-dc}, análoga às anteriores mas contando o número de autores de comentários de discussão nos \textit{``pull requests''}.
+
+  \begin{figure}[htbp]
+     \centering
+     \begin{subfigure}[b]{\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/dist-dc-node}
+         \caption[Node.js]%
+         {{\small Node.js}}
+         \label{fig:dist-dc-node}
+     \end{subfigure}
+     \vskip
+     \centering
+     \begin{subfigure}[b]{\textwidth}
+         \includegraphics[width=\textwidth]{resultados/dist-dc-symfony}
+         \caption[Kubernetes]%
+         {{\small Kubernetes}}
+         \label{fig:dist-dc-symfony}
+     \end{subfigure}
+     {\small Distribuição autores de comentários de discussão em dois dos projetos selecionados}
+ \end{figure}
+ \label{fig:dist-dc}
 
 \section{Clusterização}
 
@@ -729,8 +749,8 @@ As avaliações conduzidas apontam que os grupos e \textit{cores} encontrados po
 
 
 \begin{algorithm}
-\label{alg:randomcore}
- \caption{Recomendação de revisores através do método RandomCore}
+
+ \caption{Recomendação de revisores através do método RandomCore}\label{alg:randomcore}
 
      \Entrada{int $k$}
      \Saida{$set_k$ de revisores recomendados}
@@ -752,8 +772,8 @@ A única restrição do método é que $k$ não deve ser maior que o número tot
 
 
   \begin{algorithm}
-  \label{alg:coresamecluster}
-   \caption{Recomendação de revisores através do método CoreSameCluster}
+
+   \caption{Recomendação de revisores através do método CoreSameCluster}  \label{alg:coresamecluster}
 
        \Entrada{int $k$}
        \Entrada{string $login$}
@@ -781,9 +801,52 @@ A única restrição do método é que $k$ não deve ser maior que o número tot
   O principal objetivo deste algoritmo é retornar $k$ indivíduos para revisão, que sejam \textit{cores} de clusters que o autor do \textit{``pull request''}. Como muitas vezes o universo destes nós é pequeno, para dar suporte à valores de $k$ mais altos o algoritmo complementa a lista com cores aleatórios, assim como o método \textit{RandomCore} do algoritmo~\ref{alg:randomcore}. Ou seja, o ganho de performance dele é em relação ao método anterior para $k$s menores. Na linha $12$ do algoritmo é excluída a insterseção entre os sets de \textit{cores} e os já indicados. Isso faz com que os nós aleatórios não incluam os já selecionados, evitando que o conjunto final seja menor que o esperado.
 
    Nos casos que o autor nunca submeteu um \textit{``pull request''} antes, ou que não tenha sido influente (ou influenciado) suficiente para ser agrupado, não existem \textit{cores} relacionados a ele para serem indicados. Nesta condição de ``partida fria'', o desempenho deste método é o mesmo do algoritmo~\ref{alg:randomcore}.
-
   \subsection{LabelPartners}
-  Enquanto o \textit{RandomCore} não garante recomendações de pessoas próximas do autor e do escopo de trabalho e o \textit{CoreSameCluster} só diferencia a abordagem para valores de $k$ mais baixos e tem uma severa condição de partida fria, a concepção do \textit{LabelPartners} pretende equilibrar as duas abordagens. Ao invés de indicar apenas os \textit{cores}, este método indica invíduos na seguinte ordem de prioridade:
+  Enquanto o \textit{RandomCore} não garante recomendações de pessoas próximas do autor e do escopo de trabalho e o \textit{CoreSameCluster} só diferencia a abordagem para valores de $k$ mais baixos e tem uma severa condição de partida fria, a concepção do \textit{LabelPartners} pretende equilibrar as duas abordagens. Isso porque é possível observar que apesar de membros com acessos de administrador e centrais para os projetos são responsáveis por grande parte interações nas revisões, mas não sua composição absoluta. A figura~\ref{fig:dist-author-type} mostra os \textit{contributors} chegam a ser responsáveis por 38\% dos comentários, e por isso podem ter plena capacidade técnica de serem revisores adequados, e por isso podem também ser recomendados. Segundo a documentação oficial\footnote{https://developer.github.com/v4/enum/commentauthorassociation/}, os \textit{contributors} já fizeram alguma contribuição ao projeto enquanto os classificados como \textit{none} nunca interagiram antes com o repositório. Os \textit{members} e \textit{collaborators} são pessoas convidadas ou participantes das organizações responsáveis pelo projeto, contando com direitos administrativos, como por exemplo aprovar os \textit{``pull requests''}.
+
+
+
+    \begin{figure}[htbp]
+       \centering
+       \begin{subfigure}[b]{0.475\textwidth}
+           \centering
+           \includegraphics[width=\textwidth]{resultados/dist-author-type-node}
+           \caption[Node.js]%
+           {{\small Node.js}}
+           \label{fig:dist-author-type-node}
+       \end{subfigure}
+       \hfill
+       \begin{subfigure}[b]{0.475\textwidth}
+           \centering
+           \includegraphics[width=\textwidth]{resultados/dist-author-type-symfony}
+           \caption[Symfony]%
+           {{\small Symfony}}
+           \label{fig:dist-author-type-symfony}
+       \end{subfigure}
+       \vskip\baselineskip
+       \begin{subfigure}[b]{0.475\textwidth}
+           \centering
+           \includegraphics[width=\textwidth]{resultados/dist-author-type-kubernetes}
+
+           \caption[Kubernetes]%
+           {{\small Kubernetes}}
+           \label{fig:dist-author-type-kubernetes}
+       \end{subfigure}
+       \quad
+       \begin{subfigure}[b]{0.475\textwidth}
+           \centering
+           \includegraphics[width=\textwidth]{resultados/dist-author-type-tensorflow}
+           \caption[Tensorflow]%
+           {{\small Tensorflow}}
+           \label{fig:dist-author-type-tensorflow}
+       \end{subfigure}
+       \caption[]
+       {\small Categorias de autores responsáveis pelas interações nos projetos observados.}
+       \label{fig:dist-author-type}
+   \end{figure}
+
+
+Assim, ao invés de indicar apenas os \textit{cores}, este método indica indivíduos na seguinte ordem de prioridade:
 
 \begin{enumerate}
   \item Aqueles com maior influência sobre o autor nas \textit{labels} do \textit{``pull request''};
@@ -793,8 +856,8 @@ A única restrição do método é que $k$ não deve ser maior que o número tot
   Ou seja, se $k$ for menor que o tamanho do conjunto dos revisores regidos pelo item 1, apenas desenvolvedores com histórico de interação com o autor e conhecimento nos tópicos necessários serão indicados. Nos casos dos revisados pela primeira vez, os indicados ao menos serão especialistas na categoria na qual o \textit{``pull request''} se insere. A única restrição é que o autor escolha as \textit{labels} antes de solicitar pelos revisores, o que pode ser facilmente adotado como uma política de contribuição dos projetos. O método é descrito através do algoritmo~\ref{alg:labelpartners}. A verificação de influência em determinadas tags utiliza a mesma equação~\ref{eq:penalization} de instanciação da rede, só que retorna pesos distintos para cada uma das \textit{labels} que compõe a relação entre dois nós.
 
   \begin{algorithm}
-  \label{alg:labelpartners}
-   \caption{Recomendação de revisores através do método LabelPartners}
+
+   \caption{Recomendação de revisores através do método LabelPartners}\label{alg:labelpartners}
 
        \Entrada{int $k$}
        \Entrada{string $login$}
@@ -820,7 +883,7 @@ A única restrição do método é que $k$ não deve ser maior que o número tot
           }
   \end{algorithm}
 
-Além de evitar os casos negativos dos algoritmos anteriores, o LabelPartners permite a ordenação das recomendações na saída. Ou seja, é possível que o conjunto que atende o primeiro caso (com interação direta com o autor no passado) seja ordenado por exemplo pela média do peso destas interações. O segundo conjunto também pode ser ordenado, onde o maior especialista nas \textit{labels} viria primeiro. Na linha $14$, o valor retornado corresponde a união dos conjuntos selecionados, sempre de tamanho $k$. Para evitar que indivíduos já indicados o sejam novamente, na linha $10$ é excluída a interção entre os grupos da análise de especialsitas, de maneira análoga ao executado no algoritmo~\ref{alg:coresamecluster}.
+Além de evitar os casos negativos dos algoritmos anteriores, o LabelPartners permite a ordenação das recomendações na saída. Ou seja, é possível que o conjunto que atende o primeiro caso (com interação direta com o autor no passado) seja ordenado por exemplo pela média do peso destas interações. O segundo conjunto também pode ser ordenado, onde o maior especialista nas \textit{labels} viria primeiro. Na linha $14$, o valor retornado corresponde a união dos conjuntos selecionados, sempre de tamanho $k$. Para evitar que indivíduos já indicados o sejam novamente, na linha $10$ é excluída a interseção entre os grupos já indicados e os \textit{cores}, de maneira análoga ao executado no algoritmo~\ref{alg:coresamecluster}.
 
 \subsection{Resumo dos métodos}
 Os métodos foram propostos de acordo com recomendações de trabalhos pregressos em relação ao uso de dados de colaboração e análises de redes sociais (SNA) \cite{fu2017, xia2017} <<citar revisão sistemática>>. Tais diretrizes condizem com os objetivos do trabalho de indicar revisores que aumentem a colaboração no contexto alvo. As abordagens foram concebidas não com a meta de se tornarem concorrentes, mas sim de se complementarem para cobrir particularidades dos projetos, mesmo que inseridos no mesmo contexto. Para avaliação dos métodos, foi desenvolvido um framework para aferir as métricas clássicas da área e especialmente os aspectos que tratam sobre a qualidade da revisão de código, cobertos na seção~\ref{sec:avaliacao_review}. Detalhes da implementação da ferramenta de avaliação e de recomendação são o tema do próximo capítulo.
@@ -971,8 +1034,8 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
    O fluxo de operação cotidiano ferramenta foi projetado visando compatibilidade com o processo de revisão, especialmente no modelo \textit{pull based} \cite{gousios2014} introduzido na seção~\ref{sec:pull_based}. A figura~\ref{fig:sequencia} representa o diagrama de sequência da comunicação entre o autor do \textit{``pull request''} (responsável pela escolha dos revisores), o GitHub e o utilitário de recomendação.
 
    \begin{figure}[!htbp]
-    \includegraphics[width=\textwidth]{sequencia}\label{fig:sequencia}
-    \caption{Diagrama de Sequência da ferramenta - utilização}
+    \includegraphics[width=\textwidth]{sequencia}
+    \caption{Diagrama de Sequência da ferramenta - utilização}\label{fig:sequencia}
   \end{figure}
 
   O primeiro passo consiste no autor criar a revisão com os dados relevantes, como por exemplo descrição, link com issues solucionadas, dúvidas e possíveis discussões que estejam relacionadas ao código submetido. Ao executar o utilitário, este irá acessar os metadados do Github para encontrar outras revisões de contexto semelhante e extrair informações de revisores que estiveram envolvidos nelas. A partir daí a recomendação é feita e disponibilizada para o revisor, que poderá convidar um subconjunto da lista apresentada para o papel de revisor.
@@ -983,8 +1046,8 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
     A avaliação da solução proposta passa por três etapas distintas: a extração dos dados, a preparação das estruturas e a apreciação das métricas escolhidas e a significância estatísitica dos resultados. A figura~\ref{fig:avaliacao} mostra o procedimento.
 
      \begin{figure}[!htbp]
-      \includegraphics[width=\textwidth]{avaliacao}\label{fig:avaliacao}
-      \caption{Processo de avaliação}
+       \includegraphics[width=\textwidth]{avaliacao}
+      \caption{Processo de avaliação}\label{fig:avaliacao}
     \end{figure}
 
     As atividades estão todas contidas na ferramenta, com uma ordem de execução similar ao uso exemplificado na seção~\ref{sec:funcionalidades}. A partir dos dados extraídos relativos aos 4 projetos selecionados na subseção~\ref{subsec:escolhaprojetos}, as respectivas redes são construídas. É possível escolher o intervalo de tempo para limitar quais dados serão utilizados no processo. Tal mecanismo serve para possibilitar que os dados utilizados na avaliação sejam diferentes dos utilizados para criar a rede, diminuindo o risco de viés nas análises, sem ter que acessar novamente a API do GitHub. A otimização dos parâmetros pode ser feita uma única vez e aproveitada para quantas execuções da avaliação por projeto forem conduzidas. A última etapa executa a recomendação para todos os \textit{``pull requests''} dentro de um intervalo de tempo, avalia as métricas selecionadas e ainda realiza os testes estatísticos pertinentes. Esta etapa é foco das duas próximas seções, que descorrem das métricas utilizadas para avaliação e do processo de apreciação da significância estatísitca dos resultados obtidos.
@@ -1014,7 +1077,7 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
     Outra diferença entre os dois conjuntos de métricas se dá na forma de comparação. As ``métricas de proximidade'' só podem ser apreciada entre duas formas de recomendação distintas pois descrevem o quão parecida foi a recomendação em relação ao efetivamente escolhido pelo autor. Já as ``métricas de eficiência'' são autocontidas, pois podem ser confrontadas entre o comportamento dos indivíduos que foram indicados e os que não foram. Ou seja, é possível aferir se quando os recomendados interagem no \textit{``pull request''} em questão, existe diferença em relação à qualidade das interações realizadas. Estes grupos são diferenciados pelo símbolo $r$ para recomendados e $w$ para não recomendados em cada métrica. Por exemplo $num\_comments_r$ referencia o número médio de comentários dos recomendados em determinada revisão.
 
 
-    \section{Significância estatística}
+    \section{Significância estatística}\label{sec:significancia}
 
     Para estabelecer juízo de valor sobre o experimento é necessário, primariamente, avaliar a relevância estatísitica sobre os dados coletados durante sua execução. A literatura acerca deste assunto indica possível subutilização de ferramentas estatísitcas adequadas na Engenharia de Software \cite{miller1997}, o que pode acarretar em trabalhos com resultados questionáveis e sem fundamentação sólida \cite{dybaa2006}. O objetivo é observar se existem diferenças significativas entre o desempenho de cada abordagem, ou se possíveis dissimilitudes são apenas frutos do acaso.
 
@@ -1101,30 +1164,362 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
 
   \subsection{Métricas de Proximidade}
 
-  As métricas de proximidade foram extraídas para cada projeto separadamente. Os resultados podem ser visualizados nas tabelas
+  As métricas de proximidade foram extraídas para cada projeto separadamente. Os resultados Para o projeto Node.js estão nas tabelas~\ref{tab:precision-node} e~\ref{tab:hit-node}. A precisão para $k \in \{1, 3\}$ mostram o método \textit{LabelPartners} ligeiramente melhor, mas com a perda relativa para conjuntos de revisõs maiores. O mesmo acontece com o \textit{hit}, apesar das diferenças para todos valores de $k$ terem sido maiores.
 
   \begin{table}[htbp]
-  \caption{Projetos e principais características}
+  \caption{Resultados da Precisão para o Node.js}
   \begin{center}
-    \begin{tabular}{|l|l|l|l|l}
-    \cline{1-4}
-                                              & \textbf{k} & \textbf{Precision} & \textbf{Hit} &  \\ \cline{1-4}
-    \multirow{4}{*}{\textbf{RandomCore}}      & 1          &                    &              &  \\ \cline{2-4}
-                                              & 3          &                    &              &  \\ \cline{2-4}
-                                              & 5          &                    &              &  \\ \cline{2-4}
-                                              & 10         &                    &              &  \\ \cline{1-4}
-    \multirow{4}{*}{\textbf{CoreSameCluster}} & 1          &                    &              &  \\ \cline{2-4}
-                                              & 3          &                    &              &  \\ \cline{2-4}
-                                              & 5          &                    &              &  \\ \cline{2-4}
-                                              & 10         &                    &              &  \\ \cline{1-4}
-    \multirow{4}{*}{\textbf{LabelPartners}}   & 1          &                    &              &  \\ \cline{2-4}
-                                              & 3          &                    &              &  \\ \cline{2-4}
-                                              & 5          &                    &              &  \\ \cline{2-4}
-                                              & 10         &                    &              &  \\ \cline{1-4}
-    \end{tabular}%\end{tabular}%
-  \label{tab:sizemetrics}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+    1  & 4\%     & 4\%          & 6\%        \\
+    3  & 12\%    & 14\%         & 17\%       \\
+    5  & 21\%    & 21\%         & 23\%       \\
+    10 & 42\%    & 41\%         & 32\%       \\
+  \hline
+  \end{tabular}
+  \label{tab:precision-node}
   \end{center}
   \end{table}
+
+
+  \begin{table}[htbp]
+  \caption{Resultados do \textit{hit} para o Node.js}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+  1   & 9\%     & 9\%          & 13\%       \\
+  3   & 22\%    & 23\%         & 30\%       \\
+  5   & 36\%    & 37\%         & 37\%       \\
+  10  & 61\%    & 59\%         & 46\%       \\
+  \hline
+  \end{tabular}
+  \label{tab:hit-node}
+  \end{center}
+  \end{table}
+
+Os resultados das métricas de proximidade para o Symfony foram melhores, para todos os métodos. Os resultados de \textit{hit} apresentados na tabela~\ref{tab:hit-symfony} mostram uma eficiência em até 81\% dos casos. Os resultados de precisão na tabela~\ref{tab:precision-symfony} mostram maior discrepância entre os valores mais baixos de $k$ com o \textit{LabelPartners} em vantagem substancial. O desempenho dos métodos \textit{RandomCore} e \textit{CoreSameCluster} foi similar em todos os casos estudados, superiores ou próximos ao terceiro método para $k$s mais altos.
+
+  \begin{table}[htbp]
+  \caption{Resultados da Precisão para o Symfony}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+    1  & 8\%        & 9\%             & 23\%          \\
+    3  & 21\%       & 21\%            & 40\%          \\
+    5  & 33\%       & 35\%            & 50\%          \\
+    10 & 65\%       & 59\%            & 62\%         \\
+  \hline
+  \end{tabular}
+  \label{tab:precision-symfony}
+  \end{center}
+  \end{table}
+
+
+  \begin{table}[htbp]
+  \caption{Resultados da \textit{hit} para o Symfony}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+  1  & 14\%       & 17\%            & 39\%          \\
+  3  & 35\%       & 37\%            & 59\%          \\
+  5  & 53\%       & 55\%            & 67\%          \\
+  10 & 81\%       & 78\%            & 76\%      \\
+  \hline
+  \end{tabular}
+  \label{tab:hit-symfony}
+  \end{center}
+  \end{table}
+
+No projeto Kubernetes é possível ver maior diferença entre os métodos \textit{RandomCore} e \textit{CoreSameCluster} para as médias da precisão (tabela~\ref{tab:precision-kubernetes}) e \textit{hit}(tabela~\ref{tab:hit-kubernetes}). É também o único caso da superioridade do \textit{LabelPartners} para $k \in \{5, 10\}$
+
+  \begin{table}[htbp]
+  \caption{Resultados da Precisão para o Kubernetes}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+  1  & 2\%        & 5\%             & 11\%          \\
+  3  & 6\%        & 8\%             & 21\%          \\
+  5  & 9\%        & 13\%            & 26\%          \\
+  10 & 18\%       & 21\%            & 32\%          \\
+  \hline
+  \end{tabular}
+  \label{tab:precision-kubernetes}
+  \end{center}
+  \end{table}
+
+
+  \begin{table}[htbp]
+  \caption{Resultados da \textit{hit} para o Kubernetes}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+  1  & 3\%        & 7\%             & 18\%          \\
+  3  & 10\%       & 14\%            & 21\%          \\
+  5  & 14\%       & 20\%            & 37\%          \\
+  10 & 28\%       & 31\%            & 42\%          \\
+  \hline
+  \end{tabular}
+  \label{tab:hit-kubernetes}
+  \end{center}
+  \end{table}
+
+  Os resultados da precisão (tabela~\ref{tab:precision-tensorflow}) e \textit{hit} (tabela~\ref{tab:hit-tensorflow}) do projeto Tensorflow mostram superioridade leve do \textit{LabelPartners}, além de uma diferença maior entre os métodos \textit{RandomCore} e \textit{CoreSameCluster}, com o segundo sendo mais eficiente para valores de $k$ mais baixos.
+
+
+  \begin{table}[htbp]
+  \caption{Resultados da Precisão para o Tensorflow}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+  1  & 2\%        & 4\%             & 9\%           \\
+  3  & 11\%       & 12\%            & 15\%          \\
+  5  & 16\%       & 18\%            & 27\%          \\
+  10 & 35\%       & 35\%            & 42\%          \\
+  \hline
+  \end{tabular}
+  \label{tab:precision-tensorflow}
+  \end{center}
+  \end{table}
+
+  \begin{table}[htbp]
+  \caption{Resultados da \textit{hit} para o Tensorflow}
+  \begin{center}
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  \textbf{} & \textbf{RandomCore} & \textbf{CoreSameCluster}& \textbf{LabelPartners} \\
+  \hline
+    1  & 2\%        & 4\%             & 10\%          \\
+    3  & 13\%       & 13\%            & 16\%          \\
+    5  & 18\%       & 21\%            & 29\%          \\
+    10 & 38\%       & 39\%            & 46\%          \\
+  \hline
+  \end{tabular}
+  \label{tab:hit-tensorflow}
+  \end{center}
+  \end{table}
+
+
+Apesar de um domínio aparente do \textit{LabelPartners} para valores de $k$ mais baixos, outro comportamento pode ser observado nas figuras~\ref{fig:perf-precision} e~\ref{fig:perf-hit}, que comparam a precisão e o \textit{hit} dos métodos. Em dois casos a eficiência para $k$ mais altos fica próxima para todos os métodos, enquanto em dois outros casos se observa uma escalabilidade maior dos métodos baseados em \textit{cores}, linear, enquanto o \textit{LabelPartners} não acompanha a mesma tendência. A aproximação dos métodos se dá em conjuntos de recomendações maiores pois quando não há mais \textit{cores} do mesmo grupo ou parceiros de revisão suficientes para indicação, todos os métodos recorrem a lista completa de \textit{cores} do repositório. Assim a tendência é que para $k$s mais altos o grupo recomendado seja muito parecido, levando ao resultado próximo. Além disso, como  grande parte das revisões possui apenas um revisor (como mostrado na figura~\ref{fig:dist-rc}), o valor das duas métricas tende a ficar mais próximo.
+
+
+  \begin{figure}[htbp]
+     \centering
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-precision-node}
+         \caption[Node.js]%
+         {{\small Node.js}}
+         \label{fig:perf-precision-node}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-precision-symfony}
+         \caption[Symfony]%
+         {{\small Symfony}}
+         \label{fig:perf-precision-symfony}
+     \end{subfigure}
+     \vskip\baselineskip
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-precision-kubernetes}
+
+         \caption[Kubernetes]%
+         {{\small Kubernetes}}
+         \label{fig:perf-precision-kubernetes}
+     \end{subfigure}
+     \quad
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-precision-tensorflow}
+         \caption[Tensorflow]%
+         {{\small Tensorflow}}
+         \label{fig:perf-precision-tensorflow}
+     \end{subfigure}
+     \caption[]
+     {\small Comparação da precisão entre os diferentes métodos.}
+     \label{fig:perf-precision}
+ \end{figure}
+
+O maior desempenho dos algoritmos 1 e 2 para $k$s elevados pode ser justificada pela quantidade indicação de indivíduos centrais no projeto, que tem a responsabilidade (e nível de permissão) para aceitar o \textit{``pull request''}. Apesar de potencializar os resultados nas métricas de proximidade, ainda é preciso avaliar se estes indivíduos tem a disponibilidade e as habilidades interpessoais para realizar boas revisões, segundo as métricas de eficiência escolhidas.
+
+
+
+  \begin{figure}[htbp]
+     \centering
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-hit-node}
+         \caption[Node.js]%
+         {{\small Node.js}}
+         \label{fig:perf-hit-node}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-hit-symfony}
+         \caption[Symfony]%
+         {{\small Symfony}}
+         \label{fig:perf-hit-symfony}
+     \end{subfigure}
+     \vskip\baselineskip
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-hit-kubernetes}
+
+         \caption[Kubernetes]%
+         {{\small Kubernetes}}
+         \label{fig:perf-hit-kubernetes}
+     \end{subfigure}
+     \quad
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/perf-hit-tensorflow}
+         \caption[Tensorflow]%
+         {{\small Tensorflow}}
+         \label{fig:perf-hit-tensorflow}
+     \end{subfigure}
+     \caption[]
+     {\small Comparação da precisão entre os diferentes métodos.}
+     \label{fig:perf-hit}
+ \end{figure}
+
+ Apesar da análise visual dos comportamentos dos métodos perante a variação do conjunto recomendado, é necessário avaliar em quais casos houve diferença significativa entre as performances observadas. Como explicado na seção~\ref{sec:significancia}, os métodos são comparados dois a dois. São definidas as seguintes hipóteses para a precisão:
+
+ \begin{itemize}
+   \item H0 (hipótese nula): os métodos possuem precisão igual;
+   \item H1 (hipótese alternativa): os métodos possuem precisões diferentes.
+ \end{itemize}
+
+ Já para o \textit{hit} as seguintes hipóteses são levantadas:
+
+  \begin{itemize}
+    \item H0 (hipótese nula): os métodos possuem desempenho igual;
+    \item H1 (hipótese alternativa): os métodos possuem desempenho distinto.
+  \end{itemize}
+
+ As amostras com resultados dos testes paramétricos ou não paramétricos executados (de acordo com o protocolo apresentado na seção~\ref{sec:significancia}) onde $ p < 0.05 $ são considerados estatisticamente relevantes, e apresentados na tabelas~\ref{tab:resultados-precisao} e~\ref{tab:resultados-hit}.
+
+ \begin{table}[htbp]
+ \caption{Comparação da precisão apontando para diferenças estatisticamente relevantes}
+ \begin{center}
+   \resizebox{\textwidth}{!}{%
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+     \hline
+   \textbf{Projeto} & \textbf{k} & \textbf{Método A} & \textbf{Método B} & \textbf{Média A} & \textbf{Média B} & \textbf{Tipo de Teste} & \textbf{p-value} & \textbf{Proporção} \\
+   \hline
+
+   Node.js          & 1          & RandomCore        & LabelPartners     & 0.04             & 0.06              & Não Paramétrico        & 0.006            & 72\%               \\
+   Node.js          & 1          & CoreSameCluster   & LabelPartners     & 0.04             & 0.06              & Não Paramétrico        & 0.001            & 72\%               \\
+   Node.js          & 3          & RandomCore        & LabelPartners     & 0.12             & 0.17             & Não Paramétrico        & 0.00002          & 71\%               \\
+   Node.js          & 3          & CoreSameCluster   & LabelPartners     & 0.14             & 0.17             & Não Paramétrico        & 0.00058          & 79\%               \\
+   Node.js          & 10         & RandomCore        & LabelPartners     & 0.42             & 0.32             & Não Paramétrico        & 0.00000          & 130\%              \\
+   Node.js          & 10         & CoreSameCluster   & LabelPartners     & 0.40             & 0.32             & Não Paramétrico        & 0.00000          & 127\%              \\
+   Symfony          & 1          & RandomCore        & LabelPartners     & 0.08             & 0.23             & Não Paramétrico        & 0.00000          & 33\%               \\
+   Symfony          & 1          & CoreSameCluster   & LabelPartners     & 0.09             & 0.23             & Não Paramétrico        & 0.00000          & 38\%               \\
+   Symfony          & 3          & RandomCore        & LabelPartners     & 0.21             & 0.40             & Não Paramétrico        & 0.00000          & 52\%               \\
+   Symfony          & 3          & CoreSameCluster   & LabelPartners     & 0.21             & 0.40             & Não Paramétrico        & 0.00000          & 52\%               \\
+   Symfony          & 5          & RandomCore        & LabelPartners     & 0.33             & 0.50             & Não Paramétrico        & 0.00000          & 65\%               \\
+   Symfony          & 5          & CoreSameCluster   & LabelPartners     & 0.35             & 0.50             & Não Paramétrico        & 0.00000          & 68\%               \\
+   Symfony          & 10         & RandomCore        & CoreSameCluster   & 0.65             & 0.59             & Não Paramétrico        & 0.00826          & 109\%              \\
+   Kubernetes       & 1          & RandomCore        & CoreSameCluster   & 0.02             & 0.05             & Não Paramétrico        & 0.00000          & 37\%               \\
+   Kubernetes       & 1          & RandomCore        & LabelPartners     & 0.02             & 0.11             & Não Paramétrico        & 0.00000          & 15\%               \\
+   Kubernetes       & 1          & CoreSameCluster   & LabelPartners     & 0.05             & 0.11             & Não Paramétrico        & 0.00000          & 40\%               \\
+   Kubernetes       & 3          & RandomCore        & CoreSameCluster   & 0.06             & 0.08             & Não Paramétrico        & 0.00004          & 69\%               \\
+   Kubernetes       & 3          & RandomCore        & LabelPartners     & 0.06             & 0.35             & Não Paramétrico        & 0.00000          & 27\%               \\
+   Kubernetes       & 3          & CoreSameCluster   & LabelPartners     & 0.08             & 0.35             & Não Paramétrico        & 0.00000          & 39\%               \\
+   Kubernetes       & 5          & RandomCore        & CoreSameCluster   & 0.09             & 0.13             & Não Paramétrico        & 0.00000          & 70\%               \\
+   Kubernetes       & 5          & RandomCore        & LabelPartners     & 0.09             & 0.26             & Não Paramétrico        & 0.00000          & 34\%               \\
+   Kubernetes       & 5          & CoreSameCluster   & LabelPartners     & 0.13             & 0.26             & Não Paramétrico        & 0.00000          & 48\%               \\
+   Kubernetes       & 10         & RandomCore        & CoreSameCluster   & 0.18             & 0.21             & Não Paramétrico        & 0.00801          & 88\%               \\
+   Kubernetes       & 10         & RandomCore        & LabelPartners     & 0.18             & 0.32             & Não Paramétrico        & 0.00000          & 56\%               \\
+   Kubernetes       & 10         & CoreSameCluster   & LabelPartners     & 0.21             & 0.32             & Não Paramétrico        & 0.00000          & 64\%               \\
+   Tensorflow       & 1          & RandomCore        & CoreSameCluster   & 0.02             & 0.04             & Não Paramétrico        & 0.02871          & 41\%               \\
+   Tensorflow       & 1          & RandomCore        & LabelPartners     & 0.02             & 0.09             & Não Paramétrico        & 0.00000          & 18\%               \\
+   Tensorflow       & 1          & CoreSameCluster   & LabelPartners     & 0.04             & 0.09             & Não Paramétrico        & 0.00286          & 44\%               \\
+   Tensorflow       & 5          & RandomCore        & LabelPartners     & 0.16             & 0.27             & Não Paramétrico        & 0.00020          & 33\%               \\
+   Tensorflow       & 5          & CoreSameCluster   & LabelPartners     & 0.18             & 0.27             & Não Paramétrico        & 0.00261          & 38\%               \\
+   Tensorflow       & 10         & RandomCore        & LabelPartners     & 0.35             & 0.42             & Não Paramétrico        & 0.01961          & 83\%               \\
+   Tensorflow       & 10         & CoreSameCluster   & LabelPartners     & 0.35             & 0.42             & Não Paramétrico        & 0.02402          & 83\%               \\
+   \end{tabular}%
+   }
+   \hline
+
+ \label{tab:resultados-precisao}
+ \end{center}
+ \end{table}
+
+
+ É possível observar que em todos os casos as amostras não eram homocedásticas e normais, e por isso foram aplicados testes não paramêtricos. Foram poucos os casos onde existiu diferença significativa entre os métodos \textit{RandomCore} e \textit{CoreSameCluster}, notoriamente no projeto Kubernetes. A maior parte das comparações significativas mostra o método \textit{LabelPartners} como mais preciso, salvo em casos de $k = 10$ no Node.js.
+
+
+ \begin{table}[htbp]
+ \caption{Comparação do \textit{hit} apontando para diferenças estatisticamente relevantes}
+ \begin{center}
+   \resizebox{\textwidth}{!}{%
+   \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+     \hline
+   \textbf{Projeto} & \textbf{k} & \textbf{Método A} & \textbf{Método B} & \textbf{Média A} & \textbf{Média B} & \textbf{Tipo de Teste} & \textbf{p-value} & \textbf{Proporção} \\
+\hline
+   Node.js          & 1          & RandomCore        & LabelPartners     & 0.09             & 0.13             & Não Paramétrico        & 0.00572          & 72\%               \\
+   Node.js          & 1          & CoreSameCluster   & LabelPartners     & 0.9              & 0.13             & Não Paramétrico        & 0.00175          & 68\%               \\
+   Node.js          & 3          & RandomCore        & LabelPartners     & 0.22             & 0.30             & Não Paramétrico        & 0.0002           & 72\%               \\
+   Node.js          & 3          & CoreSameCluster   & LabelPartners     & 0.23             & 0.30             & Não Paramétrico        & 0.0037           & 77\%               \\
+   Node.js          & 10         & RandomCore        & LabelPartners     & 0.61             & 0.46             & Não Paramétrico        & 0.00000          & 133\%              \\
+   Node.js          & 10         & CoreSameCluster   & LabelPartners     & 0.59             & 0.46             & Não Paramétrico        & 0.00000          & 129\%              \\
+   Symfony          & 1          & RandomCore        & LabelPartners     & 0.14             & 0.39             & Não Paramétrico        & 0.00000          & 34\%               \\
+   Symfony          & 1          & CoreSameCluster   & LabelPartners     & 0.17             & 0.39             & Não Paramétrico        & 0.00000          & 42\%               \\
+   Symfony          & 3          & RandomCore        & LabelPartners     & 0.35             & 0.49             & Não Paramétrico        & 0.00000          & 59\%               \\
+   Symfony          & 3          & CoreSameCluster   & LabelPartners     & 0.37             & 0.49             & Não Paramétrico        & 0.00000          & 62\%               \\
+   Symfony          & 5          & RandomCore        & LabelPartners     & 0.53             & 0.67             & Não Paramétrico        & 0.00000          & 79\%               \\
+   Symfony          & 5          & CoreSameCluster   & LabelPartners     & 0.55             & 0.67             & Não Paramétrico        & 0.00002          & 82\%               \\
+   Symfony          & 10         & RandomCore        & LabelPartners     & 0.81             & 0.79             & Não Paramétrico        & 0.01013          & 107\%              \\
+   Kubernetes       & 1          & RandomCore        & CoreSameCluster   & 0.03             & 0.07             & Não Paramétrico        & 0.00000          & 39\%               \\
+   Kubernetes       & 1          & RandomCore        & LabelPartners     & 0.03             & 0.18             & Não Paramétrico        & 0.00000          & 15\%               \\
+   Kubernetes       & 1          & CoreSameCluster   & LabelPartners     & 0.07             & 0.18             & Não Paramétrico        & 0.00000          & 39\%               \\
+   Kubernetes       & 3          & RandomCore        & CoreSameCluster   & 0.10             & 0.14             & Não Paramétrico        & 0.00005          & 73\%               \\
+   Kubernetes       & 3          & RandomCore        & LabelPartners     & 0.10             & 0.31             & Não Paramétrico        & 0.00000          & 32\%               \\
+   Kubernetes       & 3          & CoreSameCluster   & LabelPartners     & 0.14             & 0.31             & Não Paramétrico        & 0.00000          & 43\%               \\
+   Kubernetes       & 5          & RandomCore        & CoreSameCluster   & 0.14             & 0.20             & Não Paramétrico        & 0.00000          & 72\%               \\
+   Kubernetes       & 5          & RandomCore        & LabelPartners     & 0.14             & 0.37             & Não Paramétrico        & 0.00000          & 39\%               \\
+   Kubernetes       & 5          & CoreSameCluster   & LabelPartners     & 0.20             & 0.37             & Não Paramétrico        & 0.00000          & 54\%               \\
+   Kubernetes       & 10         & RandomCore        & CoreSameCluster   & 0.28             & 0.31             & Não Paramétrico        & 0.01013          & 89\%               \\
+   Kubernetes       & 10         & RandomCore        & LabelPartners     & 0.28             & 0.42             & Não Paramétrico        & 0.00000          & 65\%               \\
+   Kubernetes       & 10         & CoreSameCluster   & LabelPartners     & 0.31             & 0.42             & Não Paramétrico        & 0.00000          & 72\%               \\
+   Tensorflow       & 1          & RandomCore        & CoreSameCluster   & 0.02             & 0.04             & Não Paramétrico        & 0.02834          & 43\%               \\
+   Tensorflow       & 1          & RandomCore        & LabelPartners     & 0.02             & 0.10             & Não Paramétrico        & 0.00000          & 20\%               \\
+   Tensorflow       & 1          & CoreSameCluster   & LabelPartners     & 0.04             & 0.10             & Não Paramétrico        & 0.00290          & 45\%               \\
+   Tensorflow       & 5          & RandomCore        & LabelPartners     & 0.18             & 0.29             & Não Paramétrico        & 0.00022          & 61\%               \\
+   Tensorflow       & 5          & CoreSameCluster   & LabelPartners     & 0.21             & 0.29             & Não Paramétrico        & 0.00283          & 69\%               \\
+   Tensorflow       & 10         & RandomCore        & LabelPartners     & 0.38             & 0.46             & Não Paramétrico        & 0.02034          & 83\%               \\
+   Tensorflow       & 10         & CoreSameCluster   & LabelPartners     & 0.39             & 0.46             & Não Paramétrico        & 0.02915          & 84\%
+   \end{tabular}%
+   }
+   \hline
+
+
+ \label{tab:resultados-hit}
+ \end{center}
+ \end{table}
+
+ O comportamento das medições significativas do \textit{hit} é muito próximo da precisão. Em apenas um dos casos de comparação com $p < 0.05$ (Symfony, $k = 10$) não houve diferença relevante no mesmo caso para ambas as métricas de proximidade.
+
+
+\subsection{Métricas de eficiência}
 
 
   \section{Discussão dos resultados}\label{sec:discussao}
