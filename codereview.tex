@@ -17,6 +17,7 @@
 \usepackage{color}
 \usepackage{pstricks}
 \usepackage{multirow}
+\usepackage{longtable}
 \newcommand{\inlinecode}{\texttt}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -1072,7 +1073,7 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
 
     \subsection{Proporção de \textit{``non stop words''}}
     As \textit{``stop words''} (em tradução livre, palavras de parada) são construções comuns a diversos tipos de texto, e por isso sem relevância específica no contexto em estudo\textit{wilbur1992}.
-    A alta proporção de palavras que não se encaixam nesta descriação podem ser um sinal de um texto com mais substância e significativo, estando associado a relevância do comentário ao processo de revisão~\cite{rahman2017}. É referenciado pela variável $rate\_non\_stop\_words$.
+    A alta proporção de palavras que não se encaixam nesta descriação podem ser um sinal de um texto com mais substância e significativo, estando associado a relevância do comentário ao processo de revisão~\cite{rahman2017}. É referenciado pela variável $rate\_non\_stop\_words$. O cálculo é feito através da biblioteca de buscas textuais do PostgreSQL\footnote{https://www.postgresql.org/docs/11/functions-textsearch.html}, especialmente com a função $to\_tsvector()$ que converte o corpo do comentário para um array de palavaras relevantes.
 
     Outra diferença entre os dois conjuntos de métricas se dá na forma de comparação. As ``métricas de proximidade'' só podem ser apreciada entre duas formas de recomendação distintas pois descrevem o quão parecida foi a recomendação em relação ao efetivamente escolhido pelo autor. Já as ``métricas de eficiência'' são autocontidas, pois podem ser confrontadas entre o comportamento dos indivíduos que foram indicados e os que não foram. Ou seja, é possível aferir se quando os recomendados interagem no \textit{``pull request''} em questão, existe diferença em relação à qualidade das interações realizadas. Estes grupos são diferenciados pelo símbolo $r$ para recomendados e $w$ para não recomendados em cada métrica. Por exemplo $num\_comments_r$ referencia o número médio de comentários dos recomendados em determinada revisão.
 
@@ -1547,16 +1548,16 @@ As métricas de eficiência se aproximam mais dos objetivos do presente trabalho
 \end{center}
 \end{table}
 
-A análise é feita para cada um dos projetos, com o tamanho dos grupos recomendados $k \in \{1, 3, 5, 10\}$ já aplicados anteriormente, de forma a facilitar posteriores comparações. Os resultados são apresentados em tabelas distintas.
+A análise é feita para cada um dos projetos, com o tamanho dos grupos recomendados $k \in \{1, 3, 5, 10\}$ já aplicados anteriormente, de forma a facilitar posteriores comparações. Para cada método são executados 80 combinações diferentes de projetos, $k$s e métricas de avaliação. Os resultados são apresentados em tabelas distintas. Para o \textit{RandomCore}, como apresenta a tabela~\ref{tab:resultados-randomcore}, foram poucos os casos testados onde pode ser observada diferença significativa entre os grupos de recomendados e não recomendados. Neles, a maioria expressa uma diferença pequena entre os groupos ou ainda situações onde os indivíduos recomendados se saem pior do que os não recomendados.
 
-\begin{table}[]
+\begin{table}[htbp]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
 \textbf{Projeto} & \textbf{k} & \textbf{Métrica}       & \textbf{Média Recomendados} & \textbf{Média Não Recomendados} & \textbf{Tipo de Teste} & \textbf{p-value} & \textbf{Proporção} \\
 \hline
-Node.js    & 1  & num\_comments          & 2.39               & 2.39                   & Não Paramétrico & 0.03016 & 100\%     \\
+Node.js    & 1  & num\_comments          & 2.39               & 2.36                   & Não Paramétrico & 0.03016 & 101\%     \\
 Node.js    & 1  & num\_replies           & 1.20               & 1.34                   & Não Paramétrico & 0.00638 & 90\%      \\
 Node.js    & 3  & rate\_non\_stop\_words & 1.23               & 1.29                   & Não Paramétrico & 0.01321 & 95\%      \\
 Symfony    & 5  & size\_comments         & 258.90             & 297.70                 & Não Paramétrico & 0.00384 & 87\%      \\
@@ -1569,9 +1570,106 @@ Tensorflow & 10 & num\_reactions         & 0.35               & 0.10            
 \end{tabular}%
 }
 \hline
-\caption{}
-\label{tab:my-table}
+\caption{Casos com diferença significativa para o método \textit{RandomCore}}
+\label{tab:resultados-randomcore}
 \end{table}
+
+É possível observar que não há um comportamento diretamente relacionado com o tamanho do conjunto recomendado, o que desassocia os resultados das métricas de proximidade. De maneira geral o número de respostas e o número de comentários foram as métricas de pior desempenho deste método, enquanto a maior diferença ficou com a número de reações, que em todos os casos significativos, mostra uma vantagem do grupo recomendado. No projeto Node.js é possível observar que nos casos significativos houve apenas um caso com uma ligeira vantagem do grupo recomendado, e nos outros este grupo se sai pior. No Kubernetes há apenas um caso significativo, onde o tamanho dos comentários é maior dentre os autores indicados.
+
+A tabela~\ref{tab:resultados-coresamecluster} apresenta os casos para o método \textit{CoreSameCluster} onde foram verificadas diferenças significativas entre os dois grupos. É um conjunto maior que o encontrado para o método \textit{CoreSameCluster}, além de mais consistente em métricas como a proporação de \textit{non stop words} e do número de respostas. O número de comentários também foi claramente maior para o conjunto dos recomendados. Diferente do primeiro método, apenas em um dos casos é possível observar um desempenho pior no grupo recomendado: Para o projeto Tensorflow, o número de respostas recebidas pelo grupo indicado quando $k = 3$ foi apenas 71\% do total recebido pelo grupo não recomendado.
+
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Projeto} & \textbf{k} & \textbf{Métrica}       & \textbf{Média Recomendados} & \textbf{Média Não Recomendados} & \textbf{Tipo de Teste} & \textbf{p-value} & \textbf{Proporção} \\
+\hline
+Node.js          & 1          & num\_reactions         & 0.5                         & 0.47                            & Não Paramétrico                       & 0.02897          & 106\%              \\
+Symfony          & 1          & num\_replies           & 1.97                        & 1.31                            &          Não Paramétrico              & 0.01197          & 150\%              \\
+Symfony          & 3          & num\_comments          & 2.95                        & 2.25                            &   Não Paramétrico                     & 0.00922          & 131\%              \\
+Symfony          & 3          & num\_replies           & 1.73                        & 1.29                            &   Não Paramétrico                     & 0.01639          & 134\%              \\
+Symfony          & 3          & rate\_non\_stop\_words & 1.58                        & 1.22                            &    Não Paramétrico                    & 0.01175          & 130\%              \\
+Symfony          & 5          & num\_replies           & 1.58                        & 1.24                            &    Não Paramétrico                    & 0.00283          & 127\%              \\
+Symfony          & 10         & num\_comments          & 2.59                        & 2.33                            &    Não Paramétrico                    & 0.02054          & 111\%              \\
+Symfony          & 10         & num\_replies           & 1.57                        & 1.27                            &    Não Paramétrico                    & 0.00279          & 124\%              \\
+Symfony          & 10         & rate\_non\_stop\_words & 1.4                         & 1.27                            &    Não Paramétrico                    & 0.03665          & 110\%              \\
+Tensorflow       & 3          & num\_replies           & 1.53                        & 2.15                            &    Não Paramétrico                    & 0.04805          & 71\%               \\
+Tensorflow       & 10         & num\_reactions         & 0.31                        & 0.1                             &    Não Paramétrico                    & 0.00656          & 310\%              \\
+Kubernetes       & 3          & num\_comments          & 4.15                        & 3.1                             &     Não Paramétrico                   & 0.00338          & 134\%              \\
+Kubernetes       & 3          & rate\_non\_stop\_words & 2.29                        & 1.72                            &     Não Paramétrico                   & 0.01102          & 133\%              \\
+Kubernetes       & 10         & num\_comments          & 3.72                        & 3.11                            &     Não Paramétrico                   & 0.00524          & 120\%              \\
+Kubernetes       & 10         & rate\_non\_stop\_words & 2.04                        & 1.73                            &    Não Paramétrico                    & 0.01274          & 118\%
+\end{tabular}%
+}
+\hline
+\caption{Casos com diferença significativa para o método \textit{CoreSameCluster}}
+\label{tab:resultados-coresamecluster}
+\end{table}
+
+É possível observar para o segundo método que o tamanho de $k$ não teve impacto direto na comparação entre os grupos. Para o número de reações no Tensorflow ($k = 10$), foi registrada a maior discrepância entre os grupos: os recomendados em média receberam o triplo de reações do que seus pares não recomendados. O pior desempenho do método é associado ao projeto Node.js, no qual em apenas um caso o número de reações foi levemente maior para o grupo indicado (106\%).
+
+O \textit{LabelPartners} apresentou o resultado mais consistente, como apresenta a tabela~\ref{tab:resultados-labelpartners}. Isso porque os resultados foram constantes em todos os projetos, com diferentes valores de $k$. Todas as métricas foram significativas em pelo menos um projeto, e no geral a diferença prevaleceu para todos os tamanhos de conjuntos recomendados. O método é também o detentor de maior número de casos onde a diferença de desempenho dos dois grupos é estatisticamente significativa. Em 44 ocasiões o método apresentou grupos com desempenho significativamente distintos em relação aos indivíduos não recomendados, e apenas em uma delas o resultado do segundo conjunto foi ligeiramente melhor.
+
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Projeto} & \textbf{k} & \textbf{Métrica}       & \textbf{Média Recomendados} & \textbf{Média Não Recomendados} & \textbf{Tipo de Teste} & \textbf{p-value} & \textbf{Proporção} \\
+\hline
+Node.js    & 1  & num\_comments          & 3.42               & 2.35                   & Não Paramétrico & 0.00964 & 146\%     \\
+Node.js    & 1  & num\_replies           & 2.14               & 1.31                   & Não Paramétrico & 0.00995 & 163\%     \\
+Node.js    & 1  & size\_comments         & 483.62             & 309.8                  & Não Paramétrico & 0.00463 & 156\%     \\
+Node.js    & 1  & rate\_non\_stop\_words & 1.89               & 1.27                   & Não Paramétrico & 0.0308  & 149\%     \\
+Node.js    & 3  & size\_comments         & 385.53             & 313.36                 & Não Paramétrico & 0.00399 & 123\%     \\
+Node.js    & 5  & num\_replies           & 1.69               & 1.33                   & Não Paramétrico & 0.0358  & 127\%     \\
+Node.js    & 5  & size\_comments         & 369.76             & 316.03                 & Não Paramétrico & 0.00348 & 117\%     \\
+Node.js    & 10 & num\_comments          & 2.55               & 2.38                   & Não Paramétrico & 0.02944 & 107\%     \\
+Node.js    & 10 & num\_replies           & 1.61               & 1.31                   & Não Paramétrico & 0.02298 & 123\%     \\
+Node.js    & 10 & size\_comments         & 369.43             & 300.3                  & Não Paramétrico & 0.00008 & 123\%     \\
+Symfony    & 1  & num\_comments          & 3.03               & 2.26                   & Não Paramétrico & 0.00789 & 134\%     \\
+Symfony    & 1  & rate\_non\_stop\_words & 1.68               & 1.21                   & Não Paramétrico & 0.01234 & 139\%     \\
+Symfony    & 3  & num\_comments          & 2.67               & 2.23                   & Não Paramétrico & 0.01991 & 120\%     \\
+Symfony    & 3  & num\_reactions         & 0.28               & 0.3                    & Não Paramétrico & 0.04138 & 96\%      \\
+Symfony    & 3  & rate\_non\_stop\_words & 1.48               & 1.2                    & Não Paramétrico & 0.01863 & 123\%     \\
+Symfony    & 5  & num\_comments          & 2.56               & 2.3                    & Não Paramétrico & 0.02954 & 111\%     \\
+Symfony    & 5  & rate\_non\_stop\_words & 1.4                & 1.24                   & Não Paramétrico & 0.03355 & 113\%     \\
+Symfony    & 10 & rate\_non\_stop\_words & 1.36               & 1.22                   & Não Paramétrico & 0.04724 & 111\%     \\
+Tensorflow & 1  & num\_comments          & 5.74               & 3.71                   & Não Paramétrico & 0.00202 & 155\%     \\
+Tensorflow & 1  & num\_reactions         & 0.8                & 0.11                   & Não Paramétrico & 0.00139 & 727\%     \\
+Tensorflow & 1  & num\_replies           & 3.43               & 1.93                   & Não Paramétrico & 0.0054  & 178\%     \\
+Tensorflow & 1  & size\_comments         & 1118.74            & 444.74                 & Não Paramétrico & 0.00156 & 252\%     \\
+Tensorflow & 1  & rate\_non\_stop\_words & 3.05               & 2.27                   & Não Paramétrico & 0.00554 & 134\%     \\
+Tensorflow & 3  & num\_comments          & 4.47               & 3.79                   & Não Paramétrico & 0.00219 & 118\%     \\
+Tensorflow & 3  & num\_reactions         & 0.55               & 0.1                    & Não Paramétrico & 0.01798 & 550\%     \\
+Tensorflow & 3  & num\_replies           & 2.77               & 1.95                   & Não Paramétrico & 0.01184 & 142\%     \\
+Tensorflow & 3  & size\_comments         & 784.84             & 456.97                 & Não Paramétrico & 0.01579 & 172\%     \\
+Tensorflow & 3  & rate\_non\_stop\_words & 2.41               & 2.32                   & Não Paramétrico & 0.00379 & 104\%     \\
+Kubernetes & 1  & num\_comments          & 3.94               & 3.11                   & Não Paramétrico & 0.00127 & 127\%     \\
+Kubernetes & 1  & num\_replies           & 2.65               & 1.89                   & Não Paramétrico & 0.02029 & 140\%     \\
+Kubernetes & 1  & size\_comments         & 550.93             & 415.52                 & Não Paramétrico & 0.02411 & 133\%     \\
+Kubernetes & 1  & rate\_non\_stop\_words & 2.19               & 1.72                   & Não Paramétrico & 0.00453 & 127\%     \\
+Kubernetes & 3  & num\_comments          & 3.81               & 3.06                   & Não Paramétrico & 0.00014 & 125\%     \\
+Kubernetes & 3  & num\_replies           & 2.52               & 1.86                   & Não Paramétrico & 0.00206 & 135\%     \\
+Kubernetes & 3  & size\_comments         & 538.81             & 410.01                 & Não Paramétrico & 0.00889 & 131\%     \\
+Kubernetes & 3  & rate\_non\_stop\_words & 2.06               & 1.7                    & Não Paramétrico & 0.00164 & 121\%     \\
+Kubernetes & 5  & num\_comments          & 3.71               & 3.03                   & Não Paramétrico & 0.00009 & 122\%     \\
+Kubernetes & 5  & num\_replies           & 2.44               & 1.84                   & Não Paramétrico & 0.00013 & 133\%     \\
+Kubernetes & 5  & size\_comments         & 513.72             & 405.75                 & Não Paramétrico & 0.00758 & 127\%     \\
+Kubernetes & 5  & rate\_non\_stop\_words & 2.03               & 1.68                   & Não Paramétrico & 0.00116 & 121\%     \\
+Kubernetes & 10 & num\_comments          & 3.59               & 3.02                   & Não Paramétrico & 0.00003 & 119\%     \\
+Kubernetes & 10 & num\_replies           & 2.36               & 1.81                   & Não Paramétrico & 0.00003 & 130\%     \\
+Kubernetes & 10 & size\_comments         & 485.31             & 406.54                 & Não Paramétrico & 0.0354  & 119\%     \\
+Kubernetes & 10 & rate\_non\_stop\_words & 1.96               & 1.68                   & Não Paramétrico & 0.00022 & 117\%
+\end{tabular}%
+}
+\hline
+\caption{Casos com diferença significativa para o método \textit{LabelPartners}}
+\label{tab:resultados-labelpartners}
+\end{table}
+
+A métrica de \textit{non stop words} foi o principal destaque em relação aos outros métodos, tendo sido significativamente melhor em vários casos. A quantidade de reações praticamente não foi relevante em nenhum caso, e quando foi mostrou diferenças pequenas. O método também foi o único a se destacar nos projetos Node.js e Kubernetes, sendo neste segundo responsável por indicar grupos mais eficientes em quatro das cinco métricas em todos os casos. Este comportamento também pode ser observado no Tensorflow, mas apenas para valores de $k$ mais baixos. 
 
   \section{Discussão dos resultados}\label{sec:discussao}
 
