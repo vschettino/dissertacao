@@ -1067,7 +1067,7 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
       Os comentários podem ser diretamente respondidos, mostrando possível impacto e capacidade de gerar mudanças, características importantes de participações no processo de revisão~\cite{bosu2015}. Neste caso as respostas do autor do \textit{``pull request''} são contabilizadas. É referenciado pela variável $num\_replies$.
 
     \subsection{Tamanho dos comentários}
-      O tamanho dos comentários tem relação com sua relevância~\cite{rahman2017}. Não são computados comentários do próprio autor do \textit{``pull request''}, já que esse também não é considerado para os algortimos de recomendação. É referenciado pela variável $size\_comments$.
+      O tamanho dos comentários tem relação com sua relevância~\cite{rahman2017}. Não são computados comentários do próprio autor do \textit{``pull request''}, já que esse também não é considerado para os algortimos de recomendação. É referenciado pela variável $size\_comments$, e equivale ao número de caracteres do corpo do comentário.
 
 
     \subsection{Proporção de \textit{``non stop words''}}
@@ -1521,6 +1521,57 @@ O maior desempenho dos algoritmos 1 e 2 para $k$s elevados pode ser justificada 
 
 \subsection{Métricas de eficiência}
 
+As métricas de eficiência se aproximam mais dos objetivos do presente trabalho, uma vez que através delas busca-se traduzir se os métodos apresentados potencializam a colaboração no contexto estudado. Para isso é necessário comparar dois grupos distintos de revisores: aqueles que foram recomendados pelos métodos e aqueles que não foram. A diferença no desempenho destes conjuntos pode indicar em quais casos os métodos são responsáveis por indicar indivíduos aptos à um grau maior de colaboração, interação e convergência com os objetivos da revisão de código no desenvolvimento distribuído, amplamente apresentados e discutidos neste trabalho. Diferente das métricas de proximidade, apenas os resultados significativos serão apresentados aqui, em decorrência do espaço necessário para análise de um grupo maior de métricas. Como descrito anteriormente, é necessário definir a hipótese nula e alternativa para cada métrica. São apresentados os casos onde $p < 0.05$. A tabela~\ref{tab:metricas-eficiencia-hipoteses} descreve as métricas, sua simbologia e as hipóteses referentes a cada uma delas.
+
+\begin{table}[htbp]
+\caption{Métricas de proximidade e as respectivas hipóteses }
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}%
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|C|C|C|C|C|}
+  \hline
+  Métrica                       & Variável               & Descrição                                                                             & H0 (hipótese nula)                                                                               & H1 (hipótese alternativa) \\
+  \hline
+  Número de Comentários         & $num\_comments$          & \multicolumn{1}{p{5cm}|}{\raggedright Média da quantidade de comentários que cada revisor fez por revisão}                   & \multicolumn{1}{p{7cm}|}{\raggedright Os recomendados pelo método proposto fazem comentários do mesmo tamanho que os não recomendados} & \multicolumn{1}{p{7cm}|}{\raggedright  Os  recomendados pelo método proposto fazem comentários de tamanho distinto em relação aos não recomendados} \\
+  Número de Reações             & $num\_reactions$         & \multicolumn{1}{p{5cm}|}{\raggedright Média de reações que cada revisor recebeu por revisão}                                 & \multicolumn{1}{p{7cm}|}{\raggedright Os recomendados pelo método proposto recebem a mesma quantidade de reações que os não recomendados}                      & \multicolumn{1}{p{7cm}|}{\raggedright Os recomendados pelo método proposto recebem quantidades distintas de reações em relação aos não recomendados}                    \\
+  Número de repostas            & $num\_replies$           & \multicolumn{1}{p{5cm}|}{\raggedright Média de respostas que cada revisor recebeu por revisão}                               & \multicolumn{1}{p{7cm}|}{\raggedright Os recomendados pelo método proposto recebem a mesma quantidade de respostas que os não recomendados}                    & \multicolumn{1}{p{7cm}|}{\raggedright Os recomendados pelo método proposto recebem quantidades distintas de respostas em relação aos não recomendados}                  \\
+  Tamanho dos comentários       & $size\_comments$         & \multicolumn{1}{p{5cm}|}{\raggedright Tamanho médio dos comentários que cada revisor fez por revisão}                        & \multicolumn{1}{p{7cm}|}{\raggedright Os recomendados pelo método proposto escrevem comentários do mesmo tamanho que os não recomendados}                      & \multicolumn{1}{p{7cm}|}{\raggedright Os recomendados pelo método proposto escrevem comentários de tamanho distintinto em relação aos não recomendados}                 \\
+  Proporção de \textit{non stop words} & $rate\_non\_stop\_words$ & \multicolumn{1}{p{5cm}|}{\raggedright Média da proporção de \textit{non stop words} dos comentários que cada revisor fez por revisão} & \multicolumn{1}{p{7cm}|}{\raggedrights Os comentários dos recomendados pelo método proposto apresentam a mesma proporção de \textit{non stop words} que os não recomendados} & \multicolumn{1}{p{7cm}|}{\raggedright Os comentários dos recomendados pelo método proposto apresentam proporção de \textit{non stop words} distinta em relação aos não recomendados}
+                                                                                               &
+  \end{tabular}%\end{tabular}
+  }
+  \hline
+  \egroup
+\label{tab:metricas-eficiencia-hipoteses}
+\end{center}
+\end{table}
+
+A análise é feita para cada um dos projetos, com o tamanho dos grupos recomendados $k \in \{1, 3, 5, 10\}$ já aplicados anteriormente, de forma a facilitar posteriores comparações. Os resultados são apresentados em tabelas distintas.
+
+\begin{table}[]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Projeto} & \textbf{k} & \textbf{Métrica}       & \textbf{Média Recomendados} & \textbf{Média Não Recomendados} & \textbf{Tipo de Teste} & \textbf{p-value} & \textbf{Proporção} \\
+\hline
+Node.js    & 1  & num\_comments          & 2.39               & 2.39                   & Não Paramétrico & 0.03016 & 100\%     \\
+Node.js    & 1  & num\_replies           & 1.20               & 1.34                   & Não Paramétrico & 0.00638 & 90\%      \\
+Node.js    & 3  & rate\_non\_stop\_words & 1.23               & 1.29                   & Não Paramétrico & 0.01321 & 95\%      \\
+Symfony    & 5  & size\_comments         & 258.90             & 297.70                 & Não Paramétrico & 0.00384 & 87\%      \\
+Symfony    & 10 & num\_reactions         & 0.31               & 0.29                   & Não Paramétrico & 0.02873 & 107\%     \\
+Symfony    & 10 & num\_replies           & 1.50               & 1.30                   & Não Paramétrico & 0.00750 & 115\%     \\
+Symfony    & 10 & rate\_non\_stop\_words & 1.35               & 1.28                   & Não Paramétrico & 0.03289 & 105\%     \\
+Kubernetes & 3  & size\_comments         & 472.64             & 418.93                 & Não Paramétrico & 0.00150 & 113\%     \\
+Tensorflow & 3  & num\_replies           & 1.27               & 2.19                   & Não Paramétrico & 0.04128 & 58\%      \\
+Tensorflow & 10 & num\_reactions         & 0.35               & 0.10                   & Não Paramétrico & 0.04107 & 350\%
+\end{tabular}%
+}
+\hline
+\caption{}
+\label{tab:my-table}
+\end{table}
 
   \section{Discussão dos resultados}\label{sec:discussao}
 
