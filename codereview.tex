@@ -1574,7 +1574,48 @@ Tensorflow & 10 & num\_reactions         & 0.35               & 0.10            
 \label{tab:resultados-randomcore}
 \end{table}
 
-É possível observar que não há um comportamento diretamente relacionado com o tamanho do conjunto recomendado, o que desassocia os resultados das métricas de proximidade. De maneira geral o número de respostas e o número de comentários foram as métricas de pior desempenho deste método, enquanto a maior diferença ficou com a número de reações, que em todos os casos significativos, mostra uma vantagem do grupo recomendado. No projeto Node.js é possível observar que nos casos significativos houve apenas um caso com uma ligeira vantagem do grupo recomendado, e nos outros este grupo se sai pior. No Kubernetes há apenas um caso significativo, onde o tamanho dos comentários é maior dentre os autores indicados.
+É possível observar que não há um comportamento diretamente relacionado com o tamanho do conjunto recomendado, o que desassocia os resultados das métricas de proximidade. De maneira geral o número de respostas e o número de comentários foram as métricas de pior desempenho deste método, enquanto a maior diferença ficou com a número de reações, que em todos os casos significativos, mostra uma vantagem do grupo recomendado. No projeto Node.js é possível observar que nos casos significativos houve apenas um caso com uma ligeira vantagem do grupo recomendado, e nos outros este grupo se sai pior. No Kubernetes há apenas um caso significativo, onde o tamanho dos comentários é maior dentre os autores indicados. A figura~\ref{fig:randomcore_highlights} destaca alguns dos casos mais relevantes encontrados. É possível perceber performances distintas especialmente na quantidade de respostas, onde no Symfony poucos são os casos que os recomendados não obtiveram nenhuma interação do tipo, frente ao desempenho do grupo não recomendado.
+
+  \begin{figure}[htbp]
+     \centering
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/randomcore_highlight_symfony_size_5}
+         \caption[Symfony ($size\_comments, k = 5$)]%
+         {{\small Symfony ($size\_comments, k = 5$)}}
+         \label{fig:randomcore_highlight_symfony_size_5}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/randomcore_highlight_symfony_replies_10}
+         \caption[Symfony ($num\_replies, k = 10$)]%
+         {{\small Symfony ($num\_replies, k = 10$)}}
+         \label{fig:randomcore_highlight_symfony_replies_10}
+     \end{subfigure}
+     \vskip\baselineskip
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/randomcore_highlight_kubernetes_size_3}
+         \caption[Kubernetes ($size\_comments, k = 3$)]%
+         {{\small Kubernetes ($size\_comments, k = 3$)}}
+         \label{fig:randomcore_highlight_kubernetes_size_3}
+     \end{subfigure}
+     \quad
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/randomcore_highlight_tensorflow_replies_3}
+         \caption[Tensorflow ($num\_replies, k = 3$)]%
+         {{\small Tensorflow ($num\_replies, k = 3$)}}
+         \label{fig:randomcore_highlight_tensorflow_replies_3}
+     \end{subfigure}
+     \caption[]
+     {\small Destaques para o método \textit{RandomCore}}
+     \label{fig:randomcore_highlights}
+ \end{figure}
+
+
+Já no Tensorflow (figura~\ref{fig:randomcore_highlight_tensorflow_replies_3}), apesar dos \textit{outliers} que receberam muitas respostas, a maioria dos recomendados teve um desempenho significativamente maior que os não recomendados. Já a média do tamanho dos comentários no Symfony (figura~\ref{fig:randomcore_highlight_symfony_size_5}) é influenciada pela presença de uma amostra com mais de 5000 mil caracteres, muito maior que o normal.
 
 A tabela~\ref{tab:resultados-coresamecluster} apresenta os casos para o método \textit{CoreSameCluster} onde foram verificadas diferenças significativas entre os dois grupos. É um conjunto maior que o encontrado para o método \textit{CoreSameCluster}, além de mais consistente em métricas como a proporação de \textit{non stop words} e do número de respostas. O número de comentários também foi claramente maior para o conjunto dos recomendados. Diferente do primeiro método, apenas em um dos casos é possível observar um desempenho pior no grupo recomendado: Para o projeto Tensorflow, o número de respostas recebidas pelo grupo indicado quando $k = 3$ foi apenas 71\% do total recebido pelo grupo não recomendado.
 
@@ -1607,7 +1648,47 @@ Kubernetes       & 10         & rate\_non\_stop\_words & 2.04                   
 \label{tab:resultados-coresamecluster}
 \end{table}
 
-É possível observar para o segundo método que o tamanho de $k$ não teve impacto direto na comparação entre os grupos. Para o número de reações no Tensorflow ($k = 10$), foi registrada a maior discrepância entre os grupos: os recomendados em média receberam o triplo de reações do que seus pares não recomendados. O pior desempenho do método é associado ao projeto Node.js, no qual em apenas um caso o número de reações foi levemente maior para o grupo indicado (106\%).
+É possível observar para o segundo método que o tamanho de $k$ não teve impacto direto na comparação entre os grupos. Para o número de reações no Tensorflow ($k = 10$), foi registrada a maior discrepância entre os grupos: os recomendados em média receberam o triplo de reações do que seus pares não recomendados. O pior desempenho do método é associado ao projeto Node.js, no qual em apenas um caso o número de reações foi levemente maior para o grupo indicado (106\%). A figura~\ref{fig:coresamecluster_highlights} ilustra com mais detalhes a comparação entre os grupos. O destaque fica para a quantidade de respostas, que foi maior em diversos projetos e tamanhos de grupos indicados. A mediana dos grupos recomendados é significativamente maior nos casos apresentados.
+
+  \begin{figure}[htbp]
+     \centering
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/coresamecluster_highlight_symfony_replies_1}
+         \caption[Symfony ($num\_replies, k = 1$)]%
+         {{\small Symfony ($num\_replies, k = 1$)}}
+         \label{fig:coresamecluster_highlight_symfony_replies_1}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/coresamecluster_highlight_symfony_non_stop_words_10}
+         \caption[Symfony ($non\_stop\_words, k = 10$)]%
+         {{\small Symfony ($non\_stop\_words, k = 10$)}}
+         \label{fig:coresamecluster_highlight_symfony_non_stop_words_10}
+     \end{subfigure}
+     \vskip\baselineskip
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/coresamecluster_highlight_tensorflow_replies_10}
+         \caption[Tensorflow ($num\_replies, k = 10$)]%
+         {{\small Tensorflow ($num\_replies, k = 10$)}}
+         \label{fig:coresamecluster_highlight_tensorflow_replies_10}
+     \end{subfigure}
+     \quad
+     \begin{subfigure}[b]{0.475\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{resultados/boxplot/coresamecluster_highlight_tensorflow_replies_3}
+         \caption[Tensorflow ($num\_replies, k = 3$)]%
+         {{\small Tensorflow ($num\_replies, k = 3$)}}
+         \label{fig:coresamecluster_highlight_tensorflow_replies_3}
+     \end{subfigure}
+     \caption[]
+     {\small Destaques para o método \textit{CoreSameCluster}}
+     \label{fig:coresamecluster_highlights}
+ \end{figure}
+
+A proporção de \textit{non stop words} é outro destaque no projeto Symfony, como mostra a figura~\ref{fig:coresamecluster_highlight_symfony_non_stop_words_10}. É possível observar que nenhum dos comentários do grupo recomendado contém apenas palavras de parada, realidade distinta a do grupo não recomendado: todo o primeiro quartil do conjunto de indicados está acima da distribuição análoga do grupo de comparação.
 
 O \textit{LabelPartners} apresentou o resultado mais consistente, como apresenta a tabela~\ref{tab:resultados-labelpartners}. Isso porque os resultados foram constantes em todos os projetos, com diferentes valores de $k$. Todas as métricas foram significativas em pelo menos um projeto, e no geral a diferença prevaleceu para todos os tamanhos de conjuntos recomendados. O método é também o detentor de maior número de casos onde a diferença de desempenho dos dois grupos é estatisticamente significativa. Em 44 ocasiões o método apresentou grupos com desempenho significativamente distintos em relação aos indivíduos não recomendados, e apenas em uma delas o resultado do segundo conjunto foi ligeiramente melhor.
 
@@ -1669,9 +1750,72 @@ Kubernetes & 10 & rate\_non\_stop\_words & 1.96               & 1.68            
 \label{tab:resultados-labelpartners}
 \end{table}
 
-A métrica de \textit{non stop words} foi o principal destaque em relação aos outros métodos, tendo sido significativamente melhor em vários casos. A quantidade de reações praticamente não foi relevante em nenhum caso, e quando foi mostrou diferenças pequenas. O método também foi o único a se destacar nos projetos Node.js e Kubernetes, sendo neste segundo responsável por indicar grupos mais eficientes em quatro das cinco métricas em todos os casos. Este comportamento também pode ser observado no Tensorflow, mas apenas para valores de $k$ mais baixos. 
+A métrica de \textit{non stop words} foi o principal destaque em relação aos outros métodos, tendo sido significativamente melhor em vários casos. A quantidade de reações praticamente não foi relevante em nenhum caso, e quando foi mostrou diferenças pequenas. O método também foi o único a se destacar nos projetos Node.js e Kubernetes, sendo neste segundo responsável por indicar grupos mais eficientes em quatro das cinco métricas em todos os casos. Este comportamento também pode ser observado no Tensorflow, mas apenas para valores de $k$ mais baixos. Com os destaques deste método (apresentados na figura~\ref{fig:labelpartners_highlights}) é possível analisar o número de reações, métrica pouco significativa nos outros métodos mas que foi mais relevante nestas amostras. É um conjunto de avaliações esparso, visto que a maior parte dos comentários não parece receber nenhuma reação.
 
-  \section{Discussão dos resultados}\label{sec:discussao}
+\begin{figure}[htbp]
+   \centering
+   \begin{subfigure}[b]{0.475\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{resultados/boxplot/labelpartners_highlight_node_size_10}
+       \caption[Node.js ($size\_comment, k = 10$)]%
+       {{\small Node.js ($size\_comment, k = 10$)}}
+       \label{fig:labelpartners_highlight_node_size_10}
+   \end{subfigure}
+   \hfill
+   \begin{subfigure}[b]{0.475\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{resultados/boxplot/labelpartners_highlight_node_comments_5}
+       \caption[Node.js ($num\_comments, k = 5$)]%
+       {{\small Node.js ($num\_comments, k = 5$)}}
+       \label{fig:labelpartners_highlight_node_comments_5}
+   \end{subfigure}
+   \vskip\baselineskip
+   \begin{subfigure}[b]{0.475\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{resultados/boxplot/labelpartners_highlight_symfony_reations_3}
+       \caption[Symfony ($num\_reactions, k = 3$)]%
+       {{\small Symfony ($num\_reactions, k = 3$)}}
+       \label{fig:labelpartners_highlight_symfony_reations_3}
+   \end{subfigure}
+   \quad
+   \begin{subfigure}[b]{0.475\textwidth}
+       \centering
+       \includegraphics[width=\textwidth]{resultados/boxplot/labelpartners_highlight_symfony_non_stop_word_10}
+       \caption[Symfony ($non\_stop\_words, k = 10$)]%
+       {{\small Symfony ($non\_stop\_words, k = 10$)}}
+       \label{fig:labelpartners_highlight_symfony_non_stop_word_10}
+   \end{subfigure}
+   \caption[]
+   {\small Destaques para o método \textit{LabelPartners}}
+   \label{fig:labelpartners_highlights}
+\end{figure}
+
+O tamanho dos comentários é outra métrica importante, podendo indicar que determinado grupo tem o hábito de dar respostas mais completas e relevantes ás discussões. O método \textit{LabelPartners} apresenta o maior número de casos onde a diferença no tamanho dos comentários foi significativa, tendo pelo menos um representante em cada um dos projetos avaliados.
+
+\section{Discussão dos resultados}\label{sec:discussao}
+
+Os resultados da sessão anterior descrevem o desempenho dos métodos propostos de acordo com as métricas estabelecidas, condizentes com os objetivos do trabalho. Os projetos foram escolhidos para validar os métodos de acordo com a sua relevância no contexto estudado. A avaliação foi feita utilizando a base histórica dos respositórios, separando em um grupo para prepração das redes de desenvolvedores modeladas e outro para medir o desempenho dos métodos. Os indicadores foram dividos em duas categorias. As métricas de proximidade são condizentes com a literatura relacionada, especialmente de sistemas de recomendação.
+
+Neste grupo é possível perceber que, especialmente em conjuntos de recomendação menores, o método \textit{LabelPartners} foi mais eficiente que o \textit{RandomCore} e \textit{CoreSameCluster}. Estes dois últimos tiveram resultados próximos e mais lineares de acordo com a variação de $k$, fenômeno que não ocorreu no primeiro. A tendência de aproximação dos resultados para os três métodos em valore de $k$ maiores se dá pelas condições próximas dos três para quando o grupo preferencial de revisores não é grande o suficiente para cobrir o número de recomendações solicitado: todos preenchem o restante com \textit{cores} aleatórios.
+
+Nos casos onde o autor do \textit{``pull request''} nunca havia contribuído ou não possuía uma relação forte suficiente para ser classificado em um dos grupos, os algortimos \textit{RandomCore} e \textit{CoreSameCluster} sofriam maior revés. Isso porque qualquer tipo de relacionamento em determinado tópico, fraco ou forte, é suficiente para as indicações do método \textit{LabelPartners}.
+
+Apesar de comuns na literatura, os indicadores de proximidade não são suficientes para avaliar os métodos de acordo com a proposta deste trabalho. Isso porque os grupos de comparação são formados pelos indivíduos escolhidos pelo autor do projeto e pelos moderadores envolvidos. Ou seja, podem não ser a representação do grupo ideal, dada a dificuldade de obter e processar manualmente todos os fatores que influenciam na capacidade de um desenvolvedor ser um bom revisor: disponibilidade, habilidade, conhecimento do tema, entre outras, como apresentado nas seções preliminares deste estudo.
+
+Por isso o grupo de métricas de eficiência foi elaborado, tendo como base a literatura relacionada. O objetivo é avaliar o desempenho dos indicados em relação aos que não foram, de acordo com resultados associados a qualidade e proveito das interações no âmbito da revisão. Neste contexto, os resultados apontam que o \textit{LabelPartners} foi mais eficiente em todas as variáveis apresentadas na seção anterior, com mais casos de diferenças significativas entre o grupo de recomendados e os grupos recomendados e não recomendados. Além do número de casos significativamente melhores ter sido maior, estes também foram os mais dispersos entre os diferentes projetos e tamanhos dos grupos recomendados. Por exemplo foi  o único método a mostrar melhoras significativas no Node.js. Os casos onde os resultados dos métodos \textit{RandomCore} e \textit{CoreSameCluster} são significativos são minoria, com diversas ocorrências de resultados onde o grupo recomendado foi menos eficiente.
+
+Também é possível perceber que não há uma correlação direta entre as métricas de eficiência e proximidade. Não é possível observar maior desempenho das métricas de eficiência quando o valor de $k$ aumenta, enquanto o crescimento da precisão e do \textit{hit} aumentam consistentemente quanto maior é o grupo recomendado. Ao mesmo tempo, casos onde por exemplo o \textit{CoreSameCluster} foi 27\% mais preciso que o \textit{LabelPartners} (Node.js, $k = 10$) apresentaram três métricas de eficiência positivas para o segundo método, enquanto o primeiro não conseguiu nenhuma.
+
+Com o \textit{LabelPartners}, indicadores como o tamanho e a quantidade de comentários foram significativamente maiores em todos os projetos. Em geral os valores para os grupos recomendados foram respectivamente 126\% e 145\% dos índices para os grupos não recomendados. O mesmo comportamento se repete para o índice de \textit{non stop words}, que chega a ser 25\% maior nos grupos recomendados pelo método.
+
+Quanto às métricas escolhidas, apenas o número de reações está distribuído de forma que dificulta a análise dos seus resultados. Isso porque para os 265714 comentários analisados, existem apenas 8471 reações. Isso significa que em média cada interação do tipo recebe apenas 0,031 reações. E a distribuição da figura~\ref{fig:dist-rc-reaction} mostra que a mais de 80\% dos comentários não recebe nenhuma reação.
+
+\begin{figure}[!htbp]
+ \includegraphics[width=\textwidth]{dist-rc-reaction}
+ \caption{Distribuição de reações por comentário de revisão}\label{fig:dist-rc-reaction}
+\end{figure}
+
+A distribuição esparsa deste recurso é um desafio para sua análise, e por isso as técnicas utilizadas para as outras variáveis podem não se aplicar tão bem em seu entendiemento.
 
 \chapter{CONCLUSÃO}\label{chap:conclusao}
 
