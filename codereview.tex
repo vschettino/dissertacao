@@ -1825,11 +1825,21 @@ Como descrito no capítulo introdutório, a hipótese levantada pelo presente tr
 
 Assim, a abordagem escolhida foi propor não um, mas três métodos baseados em linhas de pesquisa já conhecidas e indicadas por trabalhos anteriores, com foco na interação entre os indivíduos envolvidos no processo de revisão. Os métodos foram baseados em diferentes aspectos da relação entre os desenvolvedores e, de acordo com os dados disponíveis e objetivos, podem ser melhor aplicados em determinados casos. As métricas escolhidas para a avaliação também foram escolhidas de acordo com a hipótese central, já que traduzem comportamentos relevantes para a qualidade da revisão.
 
-Os resultados indicam que o método \textit{LabelPartners} foi capaz de indicar revisores mais propensos
+Os resultados indicam que o método \textit{LabelPartners} foi capaz de indicar revisores mais propensos à colaboração e a contribuir com comentários convergentes com os objetivos do processo de revisão de código.
 
 \chapter{CONCLUSÃO}\label{chap:conclusao}
 
-O \textit{code review} é uma das principais práticas da engenharia de software que visam aumentar a qualidade de código e a detecção precoce de defeitos.
+O \textit{code review} é uma das principais práticas da engenharia de software que visam aumentar a qualidade de código e a detecção precoce de defeitos. Diversos autores mostraram a capacidade desta técnica em gerar interações valiosas entre autores e a implantação de soluções melhores.
+
+Intrínsecamente colaborativa, os resultados do processo são penalizados diretamente pelas diferentes ameaças inerentes ao desenvolvimento distribuído e seus desdobramentos. A prática ganha contornos ainda mais importantes no contexto \textit{open source} quando se posiciona como uma espécie de \textit{gateway} , onde os membros responsáveis pelos direcionamentos de um projeto buscam garantir os requisitos de qualidade e segurança necessários e aderência aos objetivos traçados.
+
+Apesar de ganhar importância no contexto distribuído, a prática de revisão sofre com particularidades inerentes a esse paradigma. o  processo de revisão pode se tornar lento e ineficiente quando a colaboração é afetada, devido aos baixos níveis de participação e cobertura. Este cenário se consolida com os desafios de comunicação, horários, disponibilidade, diferenças culturais e idiomáticas, barreiras tecnológicas e outros aspectos que a distância geográfica projeta no desenvolvimento de software. O mesmo vale para a disseminação do conhecimento, que fica prejudicada.
+
+A prática de revisão evoluiu junto com as tecnologias e abordagens do desenvolvimento de software. Hoje é geralmente aplicada através de ferramentas computacionais e na presença de idiossincrasias que influenciam no seu desempenho. Um dos contextos particulares que se baseiam fortemente na técnica é o no modelo de desenvolvimento ``\textit{pull based}'', presente em ferramentas como o GitHub e o GitLab e centrais para o desenvolvimento \textit{Open Source}, uma das diversas categorias que explora o fluxo de trabalho descentralizado na produção de software.
+
+Tendo tais aspectos em mente, o presente trabalho direciona os esforços numa particularidade da revisão de código em contextos distribuídos: a escolha do revisor adequado. É uma fase crucial do processo, uma vez que vários autores já evidenciaram a influência do perfil do revisor no impacto da abordagem. No desenvolvimento distribuído, tal fase é ainda mais complexa: os autores dos \textit{changesets} e os mantenedores dos projetos precisam escolher em uma longa lista de potenciais revisores quais seriam os mais adequados àquele caso. Com um vasto número de opções e pouca informação disponível sobre aspectos técnicos e gerenciais (e.g. tempo disponível) dos pares (já que não há contato co-localizado entre eles) a natureza distribuída deste tipo de desenvolvimento dificulta a escolha do revisor.
+
+
 
   \section{Ameaças}\label{sec:ameacas}
 
