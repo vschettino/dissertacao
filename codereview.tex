@@ -56,7 +56,7 @@
 \local{Juiz de Fora}
 \data{2018} %%Alterar o ano se precisar
 \orientador[Orientador:]{Marco Antônio Pereira Araújo} %%Se precisar, troque [Orientador:] por [Orientadora:]
-% \coorientador[Coorientador:]{Nome do coorientador } %% Retirar o primeiro ``%'' desta linha se tiver coorientador. Se precisar, troque por [Cooorientadora:].
+% \coorientador[Coorientador:]{Victor Ströele} %% Retirar o primeiro ``%'' desta linha se tiver coorientador. Se precisar, troque por [Cooorientadora:].
 \instituicao{Universidade Federal de Juiz de Fora}
 \faculdade{Instituto de Ciências Exatas} %%Alterar, dentro de chaves {}, se precisar.
 \programa{Programa de Pós-graduação em Ciência da Computação} %%Alterar, dentro de chaves {}, se precisar.
@@ -66,7 +66,7 @@
 
 %% Abaixo, prencher com os dados da parte final da ficha catalografica
 
-\finalcatalog{1. Palavra-chave. 2. Palavra-chave. 3. Palavra-chave. I. Pereira Araújo, Marco Antônio, orient. II. T\'itulo.} %% Aqui fica escrito a palavra ``T\'itulo'' mesmo, nao o do trabalho. Se tiver coorientador, os dados ficam depois dos dados
+\finalcatalog{1. revisão de código. 2. desenvolvimento distribuido. 3. sistemas de recomendação. I. Pereira Araújo, Marco Antônio, orient. II. T\'itulo.} %% Aqui fica escrito a palavra ``T\'itulo'' mesmo, nao o do trabalho. Se tiver coorientador, os dados ficam depois dos dados
 % do orientador (II. Sobrenome, Nome do coorientador, coorient.) e antes de ``II. T\'itulo'', o qual passa a ``III. T\'itulo''.
 
 %% ---
@@ -127,29 +127,23 @@
 %\end{folhadeaprovacao}
 
 
-%% Dedicatoria. OPCIONAL. Retirar o ``%'' de cada das 4 linhas abaixo, caso queira.
-% \begin{dedicatoria} \vspace*{\fill} \centering \noindent
-%   \textit{ Dedico este trabalho ... (opcional)}
-%   \vspace*{\fill}
-% \end{dedicatoria}
+% Dedicatoria. OPCIONAL. Retirar o ``%'' de cada das 4 linhas abaixo, caso queira.
+ \begin{dedicatoria} \vspace*{\fill} \centering \noindent
+   \textit{ Dedico este trabalho a todos que, direta ou indiretamente, contribuíram com o meu aprendizado e vivência profissional.}
+   \vspace*{\fill}
+ \end{dedicatoria}
 
 
-%% Agradecimentos. OPCIONAL. CASO SEJA BOLSISTA, INSERIR OS DEVIDOS AGRADECIMENTOS.
-\begin{agradecimentos}
-
-%De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 14724 (2011, p. 1) Agradecimentos
-%\'e o ``texto em que o autor faz agradecimentos dirigidos \`aqueles que contribu\'iram de maneira relevante \`a elabora\c{c}\~ao %do trabalho.''
-
-\end{agradecimentos}
 
 %% Epigrafe. OPCIONAL
 \begin{epigrafe}
     \vspace*{\fill}
 	\begin{flushright}
-		``Texto em que o autor apresenta uma cita\c{c}\~ao, seguida de autoria, relacionada com a
-mat\'eria tratada no corpo do trabalho'' \\
-(ASSOCIA\c{C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS, 2011, p. 2) \\
-A ep\'igrafe elaborada conforme NBR 10520 (Ep\'igrafe - Opcional)
+    \textit{Não quero lhe falar meu grande amor \\
+    Das coisas que aprendi nos discos \\
+    Quero lhe contar como eu vivi \\
+    E tudo o que aconteceu comigo...\\}
+    (Belchior, Como Nossos Pais 1976)
 	\end{flushright}
 \end{epigrafe}
 
@@ -160,12 +154,9 @@ A ep\'igrafe elaborada conforme NBR 10520 (Ep\'igrafe - Opcional)
 %% Resumo em Portugu^es. OBRIGATORIO.
 \setlength{\absparsep}{18pt}
 \begin{resumo}
-De acordo com a Associa\c{c}\~ao Brasileira de Normas T\'ecnicas - 6028 (2003, p. 2) ``o resumo deve ressaltar
-o objetivo, m\'etodo e as conclus\~oes do documento (...) Deve ser composto de uma sequ\^encia de frases
-concisas, afirmativas e n\~ao de enumera\c{c}\~ao de t\'opicos. Recomenda-se o uso de par\'agrafo \'unico.''
-O resumo deve ter de 150 a 500 palavras.
+A revisão de código é uma das principais técnicas de diminuição de defeitos de software.
 
-Palavras-chave: Palavra-chave. Palavra-chave. Palavra-chave. %finalizadas por ponto e inicializadas por letra maiuscula.
+Palavras-chave: Revisão de código. Desenvolvimento distribuído. Sistemas de Recomendação. %finalizadas por ponto e inicializadas por letra maiuscula.
 
 \end{resumo}
 
@@ -196,6 +187,7 @@ Key-words: ...
 \begin{siglas} %%ALTERAR OS EXEMPLOS ABAIXO, CONFORME A NECESSIDADE%
   \item[UFJF] Universidade Federal de Juiz de Fora
   \item[DDS]  Desenvolvimento Distribuído de Software
+  \item[GSD] \textit{Global Software Development}
 \end{siglas}
 
 %% Sumario
@@ -287,7 +279,7 @@ Key-words: ...
 
 \chapter{REFERENCIAL TEÓRICO}\label{chap:trabalhos_relacionados}
 
-Levando em consideração a complexidade e a importância da recomendação de revisores de código, associados com a grande variedade de métodos já propostos para tal fim, foram conduzidas uma revisão e um mapeamento da literatura relacionada <<citar aqui>>. No presente trabalho os principais aspectos e resultados deste estudo serão apresentados, com ênfase naqueles particularmente relevantes aqui. De acordo com parâmetros e diretrizes estabelecidos, \cite{kitchenham2004} o objetivo é apresentar o estado da arte das ferramentas, métodos e potenciais funcionalidades que suportem a escolha de revisores de código. Conhecendo o comportamento histórico do campo, podemos nutrir o desenvolvimento de novas soluções embasadas nas contribuições mais recentes com foco nas lacunas existentes e capazes de contribuir com a evolução das pesquisas relacionadas.
+Levando em consideração a complexidade e a importância da recomendação de revisores de código, associados com a grande variedade de métodos já propostos para tal fim, foram conduzidas uma revisão e um mapeamento da literatura relacionada~\cite{schettino2019b}\footnote{disponivel em https://github.com/vschettino/gitrev/raw/master/mapeamento.pdf}. No presente trabalho os principais aspectos e resultados deste estudo serão apresentados, com ênfase naqueles particularmente relevantes aqui. De acordo com parâmetros e diretrizes estabelecidos, \cite{kitchenham2004} o objetivo é apresentar o estado da arte das ferramentas, métodos e potenciais funcionalidades que suportem a escolha de revisores de código. Conhecendo o comportamento histórico do campo, podemos nutrir o desenvolvimento de novas soluções embasadas nas contribuições mais recentes com foco nas lacunas existentes e capazes de contribuir com a evolução das pesquisas relacionadas.
 
 De acordo com estes objetivos, buscamos apresentar em quais contextos a técnica de recomendação automatizada é mais relevante, e quais são as métricas que os pesquisadores utilizam para avaliar e comparar as abordagens propostas. Estas análises podem auxiliar a criar uma estrutura sólida para que novos métodos possam ter sua eficiência avaliada de maneira direta e reprodutível.
 
@@ -436,7 +428,7 @@ Em convergência com as diretrizes basilares lançadas nos capítulos anteriores
 
 \section{Redes de desenvolvedores}
 
-Interações durante do desenvolvimento de software caracterizam o surgimento de redes sociais de desenvolvedores, denominadas \textit{``social networks''} ou \textit{``developer networks''} \cite{lopez2004}. Observar tais estruturas como grafos é o ponto de partida de diversas aplicações deste tipo de análise, como previsão de defeitos \cite{meneely2008}, triagem de tarefas de manutenção \cite{zhang2012} e encontrar os melhores profissionais para responder determinada dúvida \cite{li2010}. Diversas informações estão disponíveis para a modelagem de tais redes, tanto diretamente das ferramentas de controle versão quanto em ambientes de desenvolvimento mais sofisticados, como o GitHub\footnote{https://github.com} e o GitLab\footnote{https://gitlab.com}. Assim, de acordo com o contexto de cada pesquisa, é possível selecionar quais tipos de interação e seus atributos serão utilizados como vértices, arestas e pesos das representações.
+Interações durante do desenvolvimento de software caracterizam o surgimento de redes sociais de desenvolvedores, denominadas \textit{``social networks''} ou \textit{``developer networks''} \cite{lopez2004}. Observar tais estruturas como grafos é o ponto de partida de diversas aplicações deste tipo de análise, como previsão de defeitos \cite{meneely2008}, triagem de tarefas de manutenção \cite{zhang2012} e encontrar os melhores profissionais para responder determinada dúvida \cite{li2010, horta2019}. Diversas informações estão disponíveis para a modelagem de tais redes, tanto diretamente das ferramentas de controle versão quanto em ambientes de desenvolvimento mais sofisticados, como o GitHub\footnote{https://github.com} e o GitLab\footnote{https://gitlab.com}. Assim, de acordo com o contexto de cada pesquisa, é possível selecionar quais tipos de interação e seus atributos serão utilizados como vértices, arestas e pesos das representações \cite{schettino2019a}.
 
 \section{Modelagem da rede}\label{sec:modelagem}
 Uma rede social pode ser representada como um conjunto de nós conectados entre si. O objetivo é refletir nesta estrtura a relação entre os indivíduos e a forma que eles interagem. Dentre os dados disponíveis, existem diferentes óticas nas quais os dados podem ser modelados e analisados, de acordo com as conclusões esperadas. No caso deste trabalho, o interesse recai nas interações entre desenvolvedores no processo de \textit{``pull request''} e de revisão de código. Durante esta etapa do desenvolvimento, o revisor interage com o autor comentando em partes específicas do código buscando sanar dúvidas, melhorar a implementação ou evitar que mudanças fora do padrão de codificação sejam admitidas no repositório. A figura~\ref{fig:comment-codereview} representa tal interação.
@@ -887,7 +879,7 @@ Assim, ao invés de indicar apenas os \textit{cores}, este método indica indiv�
 Além de evitar os casos negativos dos algoritmos anteriores, o LabelPartners permite a ordenação das recomendações na saída. Ou seja, é possível que o conjunto que atende o primeiro caso (com interação direta com o autor no passado) seja ordenado por exemplo pela média do peso destas interações. O segundo conjunto também pode ser ordenado, onde o maior especialista nas \textit{labels} viria primeiro. Na linha $14$, o valor retornado corresponde a união dos conjuntos selecionados, sempre de tamanho $k$. Para evitar que indivíduos já indicados o sejam novamente, na linha $10$ é excluída a interseção entre os grupos já indicados e os \textit{cores}, de maneira análoga ao executado no algoritmo~\ref{alg:coresamecluster}.
 
 \subsection{Resumo dos métodos}
-Os métodos foram propostos de acordo com recomendações de trabalhos pregressos em relação ao uso de dados de colaboração e análises de redes sociais (SNA) \cite{fu2017, xia2017} <<citar revisão sistemática>>. Tais diretrizes condizem com os objetivos do trabalho de indicar revisores que aumentem a colaboração no contexto alvo. As abordagens foram concebidas não com a meta de se tornarem concorrentes, mas sim de se complementarem para cobrir particularidades dos projetos, mesmo que inseridos no mesmo contexto. Para avaliação dos métodos, foi desenvolvido um framework para aferir as métricas clássicas da área e especialmente os aspectos que tratam sobre a qualidade da revisão de código, cobertos na seção~\ref{sec:avaliacao_review}. Detalhes da implementação da ferramenta de avaliação e de recomendação são o tema do próximo capítulo.
+Os métodos foram propostos de acordo com recomendações de trabalhos pregressos em relação ao uso de dados de colaboração e análises de redes sociais (SNA) \cite{fu2017, xia2017, schettino2019b}. Tais diretrizes condizem com os objetivos do trabalho de indicar revisores que aumentem a colaboração no contexto alvo. As abordagens foram concebidas não com a meta de se tornarem concorrentes, mas sim de se complementarem para cobrir particularidades dos projetos, mesmo que inseridos no mesmo contexto. Para avaliação dos métodos, foi desenvolvido um framework para aferir as métricas clássicas da área e especialmente os aspectos que tratam sobre a qualidade da revisão de código, cobertos na seção~\ref{sec:avaliacao_review}. Detalhes da implementação da ferramenta de avaliação e de recomendação são o tema do próximo capítulo.
 
 
 \chapter{SOLUÇÃO DESENVOLVIDA}\label{chap:solucao}
@@ -1055,7 +1047,7 @@ Os métodos foram propostos de acordo com recomendações de trabalhos pregresso
 
     \section{Métricas de avaliação}
 
-    Duas categorias de métricas foram escolhidas: aquelas comuns em avaliação de sistemas de recomendação e especialmente no âmbito de recomendação de revisores e aquelas que envolvem a qualidade da participação dos indivíduos indicados no processo de revisão. O desempenho no primeiro grupo não reflete necessariamente os objetivos do trabalho, mas foram incluídas por serem comuns neste ramo de pesquisa <<citar revisão>>. São a porcentagem de precisão e acerto, como explicado na seção~\ref{sec:metricas_revisor}, e doravante referenciadas como ``métricas de proximidade''. Já as métricas do segundo grupo são baseadas nos estudos de Bosu et al. \cite{bosu2015} e Rahman et al. \cite{rahman2017} detalhadas na seção~\ref{sec:avaliacao_review} e doravante denominadas ``métricas de eficiência''. São métricas de avaliação dos comentários e interações dos indivíduos durante o processo de revisão, e por isso atendem melhor aos objetivos do trabalho. Elas são detalhadas nas seguintes subseções.
+    Duas categorias de métricas foram escolhidas: aquelas comuns em avaliação de sistemas de recomendação e especialmente no âmbito de recomendação de revisores e aquelas que envolvem a qualidade da participação dos indivíduos indicados no processo de revisão. O desempenho no primeiro grupo não reflete necessariamente os objetivos do trabalho, mas foram incluídas por serem comuns neste ramo de pesquisa\cite{schettino2019b}. São a porcentagem de precisão e acerto, como explicado na seção~\ref{sec:metricas_revisor}, e doravante referenciadas como ``métricas de proximidade''. Já as métricas do segundo grupo são baseadas nos estudos de Bosu et al. \cite{bosu2015} e Rahman et al. \cite{rahman2017} detalhadas na seção~\ref{sec:avaliacao_review} e doravante denominadas ``métricas de eficiência''. São métricas de avaliação dos comentários e interações dos indivíduos durante o processo de revisão, e por isso atendem melhor aos objetivos do trabalho. Elas são detalhadas nas seguintes subseções.
 
 
     \subsection{Número de Comentários}
@@ -1804,6 +1796,8 @@ Apesar de comuns na literatura, os indicadores de proximidade não são suficien
 
 Por isso o grupo de métricas de eficiência foi elaborado, tendo como base a literatura relacionada. O objetivo é avaliar o desempenho dos indicados em relação aos que não foram, de acordo com resultados associados a qualidade e proveito das interações no âmbito da revisão. Neste contexto, os resultados apontam que o \textit{LabelPartners} foi mais eficiente em todas as variáveis apresentadas na seção anterior, com mais casos de diferenças significativas entre o grupo de recomendados e os grupos recomendados e não recomendados. Além do número de casos significativamente melhores ter sido maior, estes também foram os mais dispersos entre os diferentes projetos e tamanhos dos grupos recomendados. Por exemplo foi  o único método a mostrar melhoras significativas no Node.js. Os casos onde os resultados dos métodos \textit{RandomCore} e \textit{CoreSameCluster} são significativos são minoria, com diversas ocorrências de resultados onde o grupo recomendado foi menos eficiente.
 
+Especialmente em grupos recomendados menores, é possível observar que os indivíduos influentes são mais eficientes nas revisões quando os autores são provenientes do mesmo \textit{cluster}. Isso indica a relevância do relacionamento prévio entre os pares na qualidade do processo. Estes resultados podem indicar que a influência exercida sobre alguns dos \textit{cores} é compartimentarizada no projeto, sendo a proximidade com determinado tópico de conhecimento ou responsabilidade dentro do fluxo de trablho fator determinante para a participação no processo de revisão.
+
 Também é possível perceber que não há uma correlação direta entre as métricas de eficiência e proximidade. Não é possível observar maior desempenho das métricas de eficiência quando o valor de $k$ aumenta, enquanto o crescimento da precisão e do \textit{hit} aumentam consistentemente quanto maior é o grupo recomendado. Ao mesmo tempo, casos onde por exemplo o \textit{CoreSameCluster} foi 27\% mais preciso que o \textit{LabelPartners} (Node.js, $k = 10$) apresentaram três métricas de eficiência positivas para o segundo método, enquanto o primeiro não conseguiu nenhuma.
 
 Com o \textit{LabelPartners}, indicadores como o tamanho e a quantidade de comentários foram significativamente maiores em todos os projetos. Em geral os valores para os grupos recomendados foram respectivamente 126\% e 145\% dos índices para os grupos não recomendados. O mesmo comportamento se repete para o índice de \textit{non stop words}, que chega a ser 25\% maior nos grupos recomendados pelo método.
@@ -1837,16 +1831,29 @@ Apesar de ganhar importância no contexto distribuído, a prática de revisão s
 
 A prática de revisão evoluiu junto com as tecnologias e abordagens do desenvolvimento de software. Hoje é geralmente aplicada através de ferramentas computacionais e na presença de idiossincrasias que influenciam no seu desempenho. Um dos contextos particulares que se baseiam fortemente na técnica é o no modelo de desenvolvimento ``\textit{pull based}'', presente em ferramentas como o GitHub e o GitLab e centrais para o desenvolvimento \textit{Open Source}, uma das diversas categorias que explora o fluxo de trabalho descentralizado na produção de software.
 
-Tendo tais aspectos em mente, o presente trabalho direciona os esforços numa particularidade da revisão de código em contextos distribuídos: a escolha do revisor adequado. É uma fase crucial do processo, uma vez que vários autores já evidenciaram a influência do perfil do revisor no impacto da abordagem. No desenvolvimento distribuído, tal fase é ainda mais complexa: os autores dos \textit{changesets} e os mantenedores dos projetos precisam escolher em uma longa lista de potenciais revisores quais seriam os mais adequados àquele caso. Com um vasto número de opções e pouca informação disponível sobre aspectos técnicos e gerenciais (e.g. tempo disponível) dos pares (já que não há contato co-localizado entre eles) a natureza distribuída deste tipo de desenvolvimento dificulta a escolha do revisor.
+Tendo tais aspectos estabelecidos, o presente trabalho direciona os esforços numa particularidade da revisão de código em contextos distribuídos: a escolha do revisor adequado. É uma fase crucial do processo, uma vez que vários autores já evidenciaram a influência do perfil do revisor no impacto da abordagem. No desenvolvimento distribuído, tal fase é ainda mais complexa: os autores dos \textit{changesets} e os mantenedores dos projetos precisam escolher em uma longa lista de potenciais revisores quais seriam os mais adequados àquele caso. Com um vasto número de opções e pouca informação disponível sobre aspectos técnicos e gerenciais (e.g. tempo disponível) dos pares (já que não há contato co-localizado entre eles) a natureza distribuída deste tipo de desenvolvimento dificulta a escolha do revisor.
 
+Com a hipótese traçada, foram desenvolvidos métodos recomendação de revisores para encontrar indivíduos capazes de influenciar positivamente o processo de revisão de código em ambientes distribuídos. As abordagens se baseam em características particulares deste tipo de desenvolvimento e direcionamentos de trabalhos anteriores na área. Foram empregadas técnicas de análise de redes sociais e clusterização para explorar o relacionamento entre os indivíduos e gerar saídas que condizem com os objetivos da revisão de código.
 
+Dois dos métodos consistem em indicar membros centrais do projeto para o processo de revisão. O primeiro (\textit{RandomCore}) indica estes membros sem distinção da proveniência do autor. Já o segundo, \textit{CoreSameCluster}, busca \textit{cores} no contexto do círculo de relacionamento do criador \textit{``pull request''}. É possível notar que o segundo é mais eficiente sob os parâmetros que norteiam este trabalho, indicando a relevância do relacionamento pregresso entre os indivíduos na qualidade da revisão. O terceiro método é pautado nessa asserção, e utiliza das relações diretas entre os desenvolvedores com o discernimento dos tópicos de conhecimento para encontrar os potenciais revisores. Os resultados mostram que esta abordagem é ainda mais convergente com os objetivos do estudo, ao indicar grupos de revisores que em mais casos se mostram significativamente mais propensos a fomentar um ambiente colaborativo no processo de revisão.
 
   \section{Ameaças}\label{sec:ameacas}
 
+  Existem ameaças à validade dos resultados aqui obtidos, que devem ser cuidadosamente observadas e ponderadas para utilização destes dados em aplicações industriais ou como base para trabalhos futuros. A maior parte destas ressalvas está relacionada ao ambiente real no qual foi conduzido o experimento, como qualquer trabalho de Engenharia de Software experimental \cite{Sjoberg2002}. Apesar dos os esforços contrários relatados neste trabalho, os resultados podem ter sido influenciados, positiva ou negativamente, por variáveis alheias ao experimento, não mapeadas e relacionadas ao contexto da organização e dos projetos, como escopo, planejamento e distribuição de recursos. Nesta seção iremos discutir algumas delas.
+
+  As ameaças à generalização dos resultados aqui obtidos são caracterizadas como ameaças externas \cite{wohlin2012}. Nesta categoria podemos elencar o contexto distribuído do desenvolvimento, a categorização \textit{open source} dos projetos e da plataforma única de estudo (GitHub). Apesar dos esforços para abranger diferentes abordagens e mapear as particularidades destes componentes, estes fatores são ameaças à generalidade dos resultados obtidos.
+
+  Wholin et al. \cite{wohlin2012} descrevem os riscos das influência de variáveis não controladas e desconhecidas como ameaças internas a validade dos resultados. Neste aspecto podemos destacar o pequeno conjunto de projetos,  o que deixa os resultados mais sensíveis a particularidades de cada repositório, como formas de utilização das ferramentas e políticas de desenvolvimento e processo de trabalho, alheios ao escopo do trabalho. A transformação do processo durante o tempo de observação e coleta dos dados também podem impactar os resultados apresentados.
+
+
   \section{Trabalhos futuros}\label{sec:trabalhos_futuros}
+  Como trabalhos futuros, os resultados objetidos podem ser comparados e análisados sob diferentes óticas com objetivo de aumentar o escopo e contexto de aplicação dos métodos apresentados. É possível englobar outros projetos, métricas, análises e hipóteses à estrutura desenvolvida ao longo da elaboração do presente documento. Dados provenientes dos repositórios, alheios ao escopo deste trabalho, podem ser utilizados para enriquecer os métodos e as formas de avaliação propostas.
+
+  Além deste aprofundamento, outros objetivos da revisão de código, como por exemplo aprendizado e treinamento de novos profissionais também podem ser levados em consideração na avaliação e aprimoramento das abordagens desenvolvidas. Neste sentido, estudos mais aprofundados em formação de grupos e recomendação de equipes podem potencializar os indícios encontrados. Para revisão com finalidades específicas, como auditoria e segurança, podem ser avaliadas outras métricas e particularidades para potencializar os efeitos das métodos propostos.
+
 
   \section{Considerações finais}\label{sec:consideracoes_finais}
-
+  Como desfecho presente trabalho, recomenda-se a utilização das estruturas e ferramentas confecionadas para extração, execução e análise dos experimentos para outros estudos que utilizam dados de repositórios de software e contexto de desenvolvimento distribuído. Tais componentes foram modelados e implmentados visando a extensão e reprodução dos experimentos propostos.
 
 
 
@@ -1856,7 +1863,7 @@ Tendo tais aspectos em mente, o presente trabalho direciona os esforços numa pa
 
 \postextual
 
-\bibliographystyle{abntex2-num}
+\bibliographystyle{abntex2-alf}
 \bibliography{../bibrefs/refs.bib}
 
 
